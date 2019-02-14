@@ -1,0 +1,11 @@
+numpy
+msgpack
+stempeg
+museval
+tqdm
+soundfile
+librosa
+ipdb
+#tensorflow
+#keras
+flask

@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
+  <a class="navbar-brand" href="/">
+    <span class="navbar-logo">
+      <img src="{{ url_for('static', filename='img/logo_wave.png') }}" width="50" height="30" class="d-inline-block align-top" alt="">
+      Karaoke
+    </span>
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav active">
+      <li class="nav-item">
+        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/karaokey">Try It</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/help">Help</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="about-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          About
+        </a>
+        <div class="dropdown-menu" aria-labelledby="about-dropdown">
+          <a class="dropdown-item" href="/about">About</a>
+          <a class="dropdown-item" href="/about#disclaimer">Disclaimer</a>
+          <a class="dropdown-item" href="/about#deep-learning">Deep Learning</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
