@@ -1,11 +1,11 @@
-.dist/
-.idea/
-application/audio
-application/__pycache__
-config/__pycache__
-dataset/__pycache__
-preprocess/__pycache__
-train/__pycache__
+/.dist/
+/.idea/
+application/audio/
+application/__pycache__/
+config/__pycache__/
+dataset/__pycache__/
+preprocess/__pycache__/
+train/__pycache__/
 venv/
 
 
