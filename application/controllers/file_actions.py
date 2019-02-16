@@ -19,7 +19,7 @@ def create_unique_dir():
         token_is_unique = False if os.path.exists(new_dir) and os.path.isdir() else True
         if token_is_unique:
             session['token'] = rnd_token
-            os.mkdir(new_dir, mode=0o700)
+            os.mkdir(new_dir)
             generated = True
         else:
             generated = False
