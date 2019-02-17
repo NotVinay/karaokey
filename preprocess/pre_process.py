@@ -62,16 +62,19 @@ if __name__ == '__main__':
         data_mix = track.mixture.data
 
         # generate STFT of time series data
-        x_tf = transform.stft(data_mix.T)
+        x_mix_tf = transform.stft(data_mix.T)
 
         # get spectrogram of STFT i.e., |Xi|**2
-        x_stft = np.abs(x_tf) ** 2
+        x_mix_stft = np.abs(x_mix_tf) ** 2
 
         # convert stereo spectrogram to mono
-        x_stft_mono = np.sum(x_stft, axis=-1)
+        x_mix_stft_mono = np.sum(x_mix_stft, axis=-1)
+
+        print(np.max(x_mix_stft_mono))
+        print(np.min(x_mix_stft_mono))
 
         # scaling the values to 0 to 1
-        X_mix = scaler.scale(x_stft_mono)
+        X_mix = scaler.scale(x_mix_stft_mono)
 
         # scaling the values to 0 to 1
         track_boundary = scaler.boundary
@@ -81,9 +84,26 @@ if __name__ == '__main__':
         print(np.max(X_mix))
         np.save(mix_path, X_mix)
 
+
         for label in track.sources:
+            # time series data for source
             data_src = track.sources[label].data
-            X_src = preprocess(data_src, transform, scaler, track_boundary)
+
+            # generate STFT of time series data
+            x_src_tf = transform.stft(data_src.T)
+
+            # get spectrogram of STFT i.e., |Xi|**2
+            x_src_stft = np.abs(x_src_tf) ** 2
+
+            # convert stereo spectrogram to mono
+            x_src_stft_mono = np.sum(x_src_stft, axis=-1)
+
+            print(np.max(x_src_stft_mono))
+            print(np.min(x_src_stft_mono))
+
+            # scaling the values to 0 to 1
+            X_src = scaler.scale(x_src_stft_mono, track_boundary)
+
             src_path = os.path.join(track_dir, str(label) + '.npy')
             print(np.max(X_src))
             np.save(src_path, X_src)

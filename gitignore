@@ -1,5 +1,5 @@
-/.dist/
-/.idea/
+.dist/
+.idea/
 application/audio/
 application/__pycache__/
 config/__pycache__/
