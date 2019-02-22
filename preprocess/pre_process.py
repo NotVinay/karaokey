@@ -5,32 +5,32 @@ import numpy as np
 import os
 
 
-def preprocess(data, transform, scaler, track_boundary=None):
-    """
-    Preprocess the time series data into a scaled spectrogram representation
-
-    Parameters
-    ----------
-    data : ndarray, [shape=(n, 1) or (2, n)]
-
-
-    Returns
-    -------
-
-    """
-    # generate STFT of time series data
-    x_tf = transform.stft(data.T)
-
-    # get spectrogram of STFT i.e., |Xi|**2
-    x_stft = np.abs(x_tf)**2
-
-    # convert stereo spectrogram to mono
-    x_stft_mono = np.sum(x_stft, axis=-1)
-
-    # scaling the values to 0 to 1
-    x_scaled = scaler.scale(x_stft_mono, boundary=track_boundary)
-
-    return x_scaled
+# def preprocess(data, transform, scaler, track_boundary=None):
+#     """
+#     Preprocess the time series data into a scaled spectrogram representation
+#
+#     Parameters
+#     ----------
+#     data : ndarray, [shape=(n, 1) or (2, n)]
+#
+#
+#     Returns
+#     -------
+#
+#     """
+#     # generate STFT of time series data
+#     x_tf = transform.stft(data.T)
+#
+#     # get spectrogram of STFT i.e., |Xi|**2
+#     x_stft = np.abs(x_tf)**2
+#
+#     # convert stereo spectrogram to mono
+#     x_stft_mono = np.sum(x_stft, axis=-1)
+#
+#     # scaling the values to 0 to 1
+#     x_scaled = scaler.scale(x_stft_mono, boundary=track_boundary)
+#
+#     return x_scaled
 
 
 if __name__ == '__main__':

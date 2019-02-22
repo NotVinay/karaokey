@@ -16,7 +16,7 @@ def read(path=None,
         data, sr = sf.read(path, always_2d=stereo)
     else:
         data, sr = lb.load(path, sr=None, mono=not stereo)
-
+        data = data.T
     return data, sr
 
 

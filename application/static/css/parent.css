@@ -37,7 +37,7 @@ body {
     animation: GradientAnimation 20s ease-in-out infinite;
 }
 
-/*-----------------------------------------------------HOME CSS--------------------------------------------------*/
+/*-----------------------------------------------------KARAOKEY CSS--------------------------------------------------*/
 
 .box {
     font-size: 1.25rem;
@@ -48,7 +48,6 @@ body {
     transition: outline-offset .10s ease-in-out, background-color .15s linear;
 }
 
-.box-uploading,
 .box-error {
   display: none;
 }
@@ -64,4 +63,13 @@ body {
 
 .upload-icon {
     font-size: 60px;
+}
+
+input[type=checkbox]
+{
+  -ms-transform: scale(2);
+  -moz-transform: scale(2);
+  -webkit-transform: scale(2);
+  -o-transform: scale(2);
+  padding: 10px;
 }

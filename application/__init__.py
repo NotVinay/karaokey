@@ -25,6 +25,13 @@ def karaokey_page():
     page = 'karaokey'
     return render_template('karaokey.html')
 
+@app.route('/results')
+def reults_page():
+    """
+        Renders Results of Process page
+    """
+    page = 'results'
+    return render_template('results.html')
 
 @app.route('/help')
 def help_page():
@@ -53,30 +60,29 @@ def about_page():
 @app.route('/separate', methods=['GET', 'POST'])
 def separate():
     if 'music' not in request.files:
-        flash('No Music File')
-        return 'No Music File'
+        #flash('No Music File')
+        return jsonify({'error': 'No Music File'})
     audio_file = request.files['music']
 
     # if no file is selected
 
     if audio_file.filename == '':
-        flash('No selected file')
-        return 'No File Selected'
+        #flash('No selected file')
+        return jsonify({'error': 'No File Selected'})
 
     if audio_file and not file_actions.supported_file(audio_file.filename):
-        flash('File Not Supported')
-        return 'File Not Supported'
+        #flash('File Not Supported')
+        return jsonify({'error': 'File Not Supported'})
 
     elif audio_file and file_actions.supported_file(audio_file.filename):
         saved = file_actions.save_file()
         if saved:
             # TODO : Call Predict Function
-            flash('Saved File')
+            #flash('Saved File')
+            return jsonify({'token': session['token']})
         else:
-            flash('Error in saving the file')
-            return 'Error in saving the file'
-
-    return jsonify(session['token'])
+            #('Error in saving the file')
+            return jsonify({'error': 'Error in saving the file'})
 
 
 @app.route('/download', methods=['GET'])
@@ -85,7 +91,7 @@ def download():
 
     req_file = request.args.get('file_name')
     if req_file and req_file is not None:
-        file_path = file_actions.get_file_path()
+        file_path = file_actions.get_audio_file_path(req_file)
         if file_path:
             try:
                 return send_file(file_path, attachment_filename=req_file)
@@ -93,8 +99,12 @@ def download():
                 return jsonify(e)
     else:
         ret = {'error': True, 'description': "Error in request parameters"}
-
     return jsonify(ret)
+
+@app.route('/clear-session', methods=['GET'])
+def clearSession():
+    pass
+    # TODO ADD Clear Session Script
 
 
 """
