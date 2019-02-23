@@ -20,7 +20,7 @@ def read(path=None,
     return data, sr
 
 
-def to_mono(self, data):
+def to_mono(data):
     """
     Transforms a stereo track into mono track.
 

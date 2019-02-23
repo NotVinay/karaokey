@@ -1,7 +1,7 @@
 import os
 from preprocess.track_classes import Track, Audio
 
-class data(object):
+class Data(object):
     """
         Data object to retrieve tracks
     """

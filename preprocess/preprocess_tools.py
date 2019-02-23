@@ -97,7 +97,7 @@ class Scaler(object):
             log scaler of magnitude of stft
         """
         # make sure there is no zero or neg values
-        X = np.maximum(EPS, X)
+        X = np.log(np.maximum(EPS, X))
 
         if boundary is None:
             self._boundary = self.calc_boundry(X)
@@ -110,9 +110,9 @@ class Scaler(object):
 
     def unscale(self, X, boundry=None):
         if boundry is None:
-            return X * (self._boundary[1] - self._boundary[0]) + self._boundary[0]
+            return np.exp(X * (self._boundary[1] - self._boundary[0]) + self._boundary[0])
         else:
-            return X * (boundry[1] - boundry[0]) + boundry[0]
+            return np.exp(X * (boundry[1] - boundry[0]) + boundry[0])
 
     def calc_boundry(self, X, min=40):
         return np.percentile(X, (min, 100))

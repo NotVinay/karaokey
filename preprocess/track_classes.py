@@ -49,6 +49,7 @@ class Audio(object):
             # lazy load the data when needed
             if os.path.exists(self.path) and os.path.isfile(self.path):
                 data, sr = sp.read(self.path, stereo=True)  # always gives stereo track.
+                self._sr = sr
                 self._data = data
                 return self._data
             else:
@@ -73,6 +74,7 @@ class Audio(object):
         else:
             if os.path.exists(self.path):
                 data, sr = sp.read(self.path, stereo=True)
+                self._data = data
                 self._sr = sr
                 return sr
             else:

@@ -1,43 +1,17 @@
 from config.model_config import DATASET_CONFIG, PREPROCESS_CONFIG
-from preprocess.data import data
+from preprocess.data import Data
 from preprocess.preprocess_tools import STFT, Scaler
+import preprocess.utility as sp
 import numpy as np
 import os
 
 
-# def preprocess(data, transform, scaler, track_boundary=None):
-#     """
-#     Preprocess the time series data into a scaled spectrogram representation
-#
-#     Parameters
-#     ----------
-#     data : ndarray, [shape=(n, 1) or (2, n)]
-#
-#
-#     Returns
-#     -------
-#
-#     """
-#     # generate STFT of time series data
-#     x_tf = transform.stft(data.T)
-#
-#     # get spectrogram of STFT i.e., |Xi|**2
-#     x_stft = np.abs(x_tf)**2
-#
-#     # convert stereo spectrogram to mono
-#     x_stft_mono = np.sum(x_stft, axis=-1)
-#
-#     # scaling the values to 0 to 1
-#     x_scaled = scaler.scale(x_stft_mono, boundary=track_boundary)
-#
-#     return x_scaled
-
-
 if __name__ == '__main__':
-    set = 'train'
-    data = data(dataset_path=DATASET_CONFIG.PATH)
-    tracks = data.load_tracks(set=set, labels={'vocals', 'accompaniment'})
-    set_path = os.path.join(PREPROCESS_CONFIG.PATH, set)
+    SET = 'train'
+    MONO = True
+    data = Data(dataset_path=DATASET_CONFIG.PATH)
+    tracks = data.load_tracks(set=SET, labels={'vocals', 'accompaniment'})
+    set_path = os.path.join(PREPROCESS_CONFIG.PATH, SET)
     if not os.path.exists(PREPROCESS_CONFIG.PATH):
         os.mkdir(PREPROCESS_CONFIG.PATH)
 
@@ -60,50 +34,57 @@ if __name__ == '__main__':
 
         # time series data of mixture
         data_mix = track.mixture.data
+        print("mixture: ", data_mix.shape)
+
+        # convert to mono
+        if MONO:
+            data_mix = sp.to_mono(data_mix)
+            print("mixture mono: ", data_mix.shape)
 
         # generate STFT of time series data
         x_mix_tf = transform.stft(data_mix.T)
 
-        # get spectrogram of STFT i.e., |Xi|**2
-        x_mix_stft = np.abs(x_mix_tf) ** 2
+        # get spectrogram of STFT i.e., |Xi|
+        x_mix_stft = np.abs(x_mix_tf)
 
         # convert stereo spectrogram to mono
-        x_mix_stft_mono = np.sum(x_mix_stft, axis=-1)
-
-        print(np.max(x_mix_stft_mono))
-        print(np.min(x_mix_stft_mono))
+        # x_mix_stft_mono = np.sum(x_mix_stft, axis=-1)
 
         # scaling the values to 0 to 1
-        X_mix = scaler.scale(x_mix_stft_mono)
+        X_mix = scaler.scale(x_mix_stft)
+
+        print("mix mean", np.mean(X_mix))
 
         # scaling the values to 0 to 1
         track_boundary = scaler.boundary
-        print(track_boundary)
 
         mix_path = os.path.join(track_dir, str(track.mixture) + '.npy')
-        print(np.max(X_mix))
-        np.save(mix_path, X_mix)
+        # np.save(mix_path, X_mix)
 
 
         for label in track.sources:
             # time series data for source
             data_src = track.sources[label].data
 
+            # convert to mono
+            if MONO:
+                data_src = sp.to_mono(data_src)
+            print(data_src.shape)
+
             # generate STFT of time series data
             x_src_tf = transform.stft(data_src.T)
 
-            # get spectrogram of STFT i.e., |Xi|**2
-            x_src_stft = np.abs(x_src_tf) ** 2
+            # get spectrogram of STFT i.e., |Xi|
+            x_src_stft = np.abs(x_src_tf)
 
             # convert stereo spectrogram to mono
-            x_src_stft_mono = np.sum(x_src_stft, axis=-1)
-
-            print(np.max(x_src_stft_mono))
-            print(np.min(x_src_stft_mono))
+            # x_src_stft_mono = np.sum(x_src_stft, axis=-1)
 
             # scaling the values to 0 to 1
-            X_src = scaler.scale(x_src_stft_mono, track_boundary)
+            X_src = scaler.scale(x_src_stft, track_boundary)
+
+            print("src mean", np.mean(X_src))
 
             src_path = os.path.join(track_dir, str(label) + '.npy')
-            print(np.max(X_src))
-            np.save(src_path, X_src)
+            # np.save(src_path, X_src)
+        print("---------------------------------------------")
