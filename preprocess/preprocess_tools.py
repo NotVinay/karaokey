@@ -1,6 +1,8 @@
 import numpy as np
 from scipy.signal import stft, istft
-from config.model_config import EPS
+#from config.model_config import EPS
+
+EPS = np.finfo(np.float).eps
 
 class STFT(object):
     """

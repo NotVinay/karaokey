@@ -1,14 +1,10 @@
-/.dist
-/.idea
+/venv
+.idea/*
+.dist/*
 /application/audio
 /application/__pycache__
-/application/audio
 /application/controllers/__pycache__
 /config/__pycache__
 /dataset/__pycache__
 /preprocess/__pycache__
 /train/__pycache__
-/venv/*
-
-
-

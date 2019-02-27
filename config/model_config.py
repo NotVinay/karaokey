@@ -5,10 +5,10 @@ import numpy as np
 EPS = np.finfo(np.float).eps
 
 class PREPROCESS_CONFIG:
-    PATH = r"C:\Users\w1572032\Desktop\pro_dataset"
+    PATH = r"C:\Users\w1572032.INTRANET.000\Desktop\pro_dataset"
 
 class DATASET_CONFIG:
-    PATH = r"C:\Users\w1572032\Desktop\dataset_wav"
+    PATH = r"C:\Users\w1572032.INTRANET.000\Desktop\dataset_wav"
     SR = 44100
     N_PER_SEG = 4096
     N_HOP_SIZE = N_PER_SEG/2

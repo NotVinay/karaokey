@@ -1,7 +1,7 @@
 from config.model_config import DATASET_CONFIG, PREPROCESS_CONFIG
 from preprocess.data import Data
-from preprocess.preprocess_tools import STFT, Scaler
-import preprocess.utility as sp
+from application.controllers.preprocess_tools import STFT, Scaler
+import application.controllers.utility as sp
 import numpy as np
 import os
 
@@ -52,7 +52,6 @@ if __name__ == '__main__':
 
         # scaling the values to 0 to 1
         X_mix = scaler.scale(x_mix_stft)
-
         print("mix mean", np.mean(X_mix))
 
         # scaling the values to 0 to 1

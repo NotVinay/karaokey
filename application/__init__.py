@@ -77,6 +77,8 @@ def separate():
     elif audio_file and file_actions.supported_file(audio_file.filename):
         saved = file_actions.save_file()
         if saved:
+            dir_path = os.path.join(app.config['AUDIO_DIR'], session['token'])
+            predict.predict(dir_path)
             # TODO : Call Predict Function
             #flash('Saved File')
             return jsonify({'token': session['token']})
