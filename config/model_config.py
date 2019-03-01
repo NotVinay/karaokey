@@ -5,7 +5,7 @@ import numpy as np
 EPS = np.finfo(np.float).eps
 
 class PREPROCESS_CONFIG:
-    PATH = r"C:\Users\w1572032.INTRANET.000\Desktop\pro_dataset"
+    PATH = r"C:\Users\w1572032.INTRANET.000\Desktop\pro_dataset_test"
 
 class DATASET_CONFIG:
     PATH = r"C:\Users\w1572032.INTRANET.000\Desktop\dataset_wav"

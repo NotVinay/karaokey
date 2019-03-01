@@ -1,8 +1,6 @@
 import os
 import numpy as np
-import sklearn
 from sklearn.preprocessing import StandardScaler
-print(sklearn.__path__)
 class Dataset(object):
     """
 
@@ -24,16 +22,23 @@ class Dataset(object):
 
         self.lazy_load = lazy_load
 
-        self.input_scaler = StandardScaler()
-        self.output_scaler = StandardScaler()
-
         if not self.lazy_load:
             self._mixtures, self._labels = self.load_all_tracks()
 
-        for i in range(len(self)):
-            X, Y = self[i]
-            self.input_scaler.partial_fit(np.squeeze(X))
-            self.output_scaler.partial_fit(np.squeeze(Y))
+        # load metadata
+        metadata_path = os.path.join(dir_path, set+'_metadata')
+        if os.path.exists(os.path.join(metadata_path, 'mixture_scaler.npy')) and os.path.exists(os.path.join(metadata_path, source_label + '_scaler.npy')):
+            self.mixture_scaler = np.load(os.path.join(metadata_path, 'mixture_scaler.npy')).item()
+            self.label_scaler = np.load(os.path.join(metadata_path, source_label + '_scaler.npy')).item()
+        else:
+            self.mixture_scaler = StandardScaler()
+            self.label_scaler = StandardScaler()
+            for i in range(len(self)):
+                mixture, label = self[i]
+                self.mixture_scaler.partial_fit(np.squeeze(mixture))
+                self.label_scaler.partial_fit(np.squeeze(label))
+
+
 
 
     def __len__(self):
