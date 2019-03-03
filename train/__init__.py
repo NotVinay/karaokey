@@ -10,6 +10,11 @@ from tensorboardX import SummaryWriter
 from config.model_config import TRAIN_CONFIG
 from dataset import Dataset
 
+__author__ = "Vinay Patel"
+__version__ = "0.1.0"
+__maintainer__ = "Vinay Patel"
+__email__ = "w1572032@my.westminster.ac.uk"
+__status__ = "Development"
 
 def random_sampler(
     dataset, nb_frames=128
@@ -35,19 +40,19 @@ if __name__ == '__main__':
     else:
         device = torch.device("cpu")
 
-    dataset = Dataset(dir_path=r"C:\Users\w1572032\Desktop\short_pro_dataset",
-                      set="train",
+    dataset = Dataset(dir_path=r"C:\Users\w1572032.INTRANET.000\Desktop\pro_dataset",
+                      sub_set="train",
                       source_label="vocals",
                       lazy_load=True)
-    print(dataset.input_scaler.mean_.shape)
-    print(dataset.input_scaler.scale_.shape)
+    print(dataset.mixture_scaler.mean_.shape)
+    print(dataset.mixture_scaler.scale_.shape)
     model = LSTM_Model(
         nb_features=TRAIN_CONFIG.NB_BINS,
         nb_frames=TRAIN_CONFIG.NB_SAMPLES,
         hidden_size=TRAIN_CONFIG.HIDDEN_SIZE,
-        input_mean=dataset.input_scaler.mean_,
-        input_scale=dataset.input_scaler.scale_,
-        output_mean=dataset.output_scaler.mean_,
+        input_mean=dataset.mixture_scaler.mean_,
+        input_scale=dataset.mixture_scaler.scale_,
+        output_mean=dataset.label_scaler.mean_,
     ).to(device)
 
     optimizer = optimizer.RMSprop(model.parameters(), lr=0.001)
@@ -67,7 +72,7 @@ if __name__ == '__main__':
     # add batch dimension 1
     X = np.zeros((TRAIN_CONFIG.NB_BATCHES, TRAIN_CONFIG.NB_SAMPLES, TRAIN_CONFIG.NB_BINS))
     Y = np.zeros((TRAIN_CONFIG.NB_BATCHES, TRAIN_CONFIG.NB_SAMPLES, TRAIN_CONFIG.NB_BINS))
-    for i in tqdm.tqdm(range(1000)):
+    for i in tqdm.tqdm(range(TRAIN_CONFIG.STEPS)):
 
         # assemble batch
         for k in range(TRAIN_CONFIG.NB_BATCHES):

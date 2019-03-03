@@ -1,30 +1,72 @@
+"""
+Loads the Data from the .wav music files, preprocesses it and saves it as numpy array.
+
+Main Pre processing Steps:
+1: Loading the individual track in time domain using `Data` object.
+2: Converting the loaded track to mono.
+3: Transforming it to frequency domain using `STFT` object which does Short Time Fourier Transformation.
+4: Normalises it by scaling it between 0 to 1 giving 0 to lowest values and 1 to highest values.
+5: Repeats the steps 1 to 3 for sources and than for scaling it scales the sources relative to the mixture.
+"""
+
 from config.model_config import DATASET_CONFIG, PREPROCESS_CONFIG
 from preprocess.data import Data
-from application.controllers.preprocess_tools import STFT, Scaler
+from preprocess.preprocess_tools import STFT, Scaler
 from sklearn.preprocessing import StandardScaler
-import application.controllers.utility as sp
+import preprocess.utility as sp
 import numpy as np
 import os
-print("working")
 
-if __name__ == '__main__':
-    SET = 'train'
-    MONO = True
+__author__ = "Vinay Patel"
+__version__ = "0.1.0"
+__maintainer__ = "Vinay Patel"
+__email__ = "w1572032@my.westminster.ac.uk"
+__status__ = "Development"
+
+def main():
+    """
+    Main method of pre-processing the data and saving it as numpy files
+    """
+    # set to preprocess
+    sub_set = None
+    while True:
+        sub_set = input("Enter the set for preprocessing?(train/test) ->")
+        if sub_set in ['train', 'test']:
+            break
+        else:
+            print("please enter a valid set")
+        # END OF WHILE for sub_set input
+    while True:
+        mono_in = input("Process track as mono?(y/n) ->")
+
+        if mono_in in ['y', 'Y', 'n', 'N']:
+            MONO = True if mono_in in ['y', 'Y'] else False
+            break
+        else:
+            print("please enter a valid set")
+        # END OF WHILE for MONO input
+    print("choosen set: ", sub_set)
+    print("Is mono: ", MONO)
+
+    # load .wav tracks using the data class
     data = Data(dataset_path=DATASET_CONFIG.PATH)
-    tracks = data.load_tracks(set=SET, labels={'vocals', 'accompaniment'})
-    set_path = os.path.join(PREPROCESS_CONFIG.PATH, SET)
+    tracks = data.get_tracks(sub_set=sub_set, labels={'vocals', 'accompaniment'})
+    set_path = os.path.join(PREPROCESS_CONFIG.PATH, sub_set)
+
+    # create directories for storing processed dataset
     if not os.path.exists(PREPROCESS_CONFIG.PATH):
         os.mkdir(PREPROCESS_CONFIG.PATH)
-
     if not os.path.exists(set_path):
         os.mkdir(set_path)
 
+    # create scaler object for cross tracks
     mixture_scaler = StandardScaler()
-
     sources_scaler = {}
 
+    # iterate over the tracks
     for i, track in enumerate(tracks):
-        print(i)
+        print("iteration number", i)
+
         # transformation object
         transform = STFT(sr=DATASET_CONFIG.SR,
                          n_per_seg=DATASET_CONFIG.N_PER_SEG,
@@ -38,10 +80,10 @@ if __name__ == '__main__':
         if not os.path.exists(track_dir):
             os.mkdir(track_dir)
 
-        # time series data of mixture
+        # get time series data of mixture
         data_mix = track.mixture.data
 
-        # convert to mono
+        # convert track to mono track
         if MONO:
             data_mix = sp.to_mono(data_mix)
 
@@ -63,10 +105,12 @@ if __name__ == '__main__':
         # save track boundary
         np.save(os.path.join(track_dir, 'boundary.npy'), track_boundary)
 
-        # add to cross track scaler computation
+        # add track data to cross track scaler computation
         mixture_scaler.partial_fit(np.squeeze(X_mix))
 
+        # repeat the process for individual tracks
         for label in track.sources:
+
             # time series data for source
             data_src = track.sources[label].data
 
@@ -83,23 +127,31 @@ if __name__ == '__main__':
             # scaling the values to 0 to 1
             X_src = scaler.scale(x_src_stft, track_boundary)
 
+            # save the scaled spectrogram data as numpy array
             src_path = os.path.join(track_dir, str(label) + '.npy')
             np.save(src_path, X_src)
 
-            # add to cross track scaler computation
+            # add track data to cross track scaler computation corresponding to this source
             if label in sources_scaler:
                 sources_scaler[label].partial_fit(np.squeeze(X_src))
             else:
+                # create scaler object if doesn't exist already
                 sources_scaler[label] = StandardScaler()
                 sources_scaler[label].partial_fit(np.squeeze(X_src))
-            # end of source loop
-        # end of the track loop
+            # END OF FOR LOOP of source
+        # END OF FOR LOOP of the track
 
-    # save cross track scaler computation as npy
-    metadata_path = os.path.join(PREPROCESS_CONFIG.PATH, SET+'_metadata')
+    # create directory for storing subset metadata
+    metadata_path = os.path.join(PREPROCESS_CONFIG.PATH, sub_set + '_metadata')
     if not os.path.exists(metadata_path):
         os.mkdir(metadata_path)
+    # save cross track scaler computation as numpy file
     np.save(os.path.join(metadata_path, 'mixture_scaler.npy'), mixture_scaler)
     for label in sources_scaler:
-        source_scaler_path = os.path.join(metadata_path, label+'_scaler.npy')
+        source_scaler_path = os.path.join(metadata_path, label + '_scaler.npy')
         np.save(source_scaler_path, sources_scaler[label])
+
+
+if __name__ == '__main__':
+    # run main method if this is ran as alone an script
+    main()

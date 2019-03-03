@@ -7,6 +7,8 @@ librosa
 git+https://github.com/sigsep/norbert#egg=norbert
 flask
 ipdb
+tensorboard
+tensorboardX
 
 # pytorch for cpu (python 3.7)
 https://download.pytorch.org/whl/cpu/torch-1.0.1-cp36-cp36m-win_amd64.whl

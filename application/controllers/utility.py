@@ -5,14 +5,14 @@ import os
 
 
 def read(path=None,
-         wav=True,
+         is_wav=True,
          stereo=True):
     data, sr = None, None
 
     if not os.path.isfile(path):
         return data, sr
 
-    if wav:
+    if is_wav:
         data, sr = sf.read(path, always_2d=stereo)
     else:
         data, sr = lb.load(path, sr=None, mono=not stereo)

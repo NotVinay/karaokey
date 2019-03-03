@@ -1,9 +1,10 @@
 import os
-import application.controllers.utility as sp
+import preprocess.utility as sp
 
-class Audio(object):
+
+class Audio:
     """
-    Represents an audio file source
+    Represents an audio i.e, either mixture or sources
 
     Attributes
     ----------
@@ -11,20 +12,30 @@ class Audio(object):
         Audio file name
     path : str
         Absolute path audio file
-    data : ndarray shape(nb_samples, nb_channels)
+    _data : ndarray
+        shape(nb_samples, nb_channels)
         Data of the audio files in time domain.
-    sr : int
+    _sr : int
         sampling rate of the audio
     ext : str
         extension of the audio
     """
 
-    def __init__(
-            self,
-            name,
-            path=None,
-            ext=None
-    ):
+    def __init__(self,
+                 name,
+                 path=None,
+                 ext=None):
+        """
+        Initialising the Audio Object
+
+        Parameters
+        ----------
+        name : str
+        path : str
+            Absolute path audio file
+        ext : str
+            extension of the audio
+        """
         self.name = name
         self.ext = ext
         self.path = os.path.abspath(path)
@@ -38,25 +49,29 @@ class Audio(object):
 
         Returns
         -------
-        ndarray: shape(nb_samples, nb_channels)
-            Data of the audio files in time domain.
+        ndarray
+            shape(nb_samples, nb_channels)
+            Data of the audio files in time series.
 
         """
-        # if already loaded
         if self._data is not None:
+            # return cached
             return self._data
         else:
-            # lazy load the data when needed
+            # lazy load the data if not cached
             if os.path.exists(self.path) and os.path.isfile(self.path):
-                data, sr = sp.read(self.path, stereo=True)  # always gives stereo track.
+                # reading sound file
+                data, sr = sp.read(self.path,
+                                   is_wav=True,
+                                   stereo=True)
                 self._sr = sr
                 self._data = data
                 return self._data
             else:
+                # file doesn't exist error
                 self._sr = None
                 self._data = None
-                raise ValueError("Path : %s doesn't exist or not a valid file" % self.path)
-                return self._data
+                raise ValueError("Path : %s is doesn't exist" % self.path)
 
     @property
     def sr(self):
@@ -65,19 +80,25 @@ class Audio(object):
 
         Returns
         -------
-        int: sampling rate of audio in Hertz (Hz)
+        int
+            sampling rate of audio in Hertz (Hz)
         """
         # if already loaded
         if self._sr is not None:
+            # return cached
             return self._sr
-        # load audio to set rate
         else:
+            # lazy load the data if not cached
             if os.path.exists(self.path):
-                data, sr = sp.read(self.path, stereo=True)
+                # reading sound file
+                data, sr = sp.read(self.path,
+                                   is_wav=True,
+                                   stereo=True)
                 self._data = data
                 self._sr = sr
                 return sr
             else:
+                # file doesn't exist error
                 self._sr = None
                 self._data = None
                 raise ValueError("Path : %s doesn't exist or not a valid file" % self.path)
@@ -85,25 +106,25 @@ class Audio(object):
     @property
     def duration(self):
         """
-        Get duration of the audio file
+        Get duration of the audio file.
 
         Returns
         -------
-        int : track duration in seconds
-
+        int
+            track duration in seconds
         """
         return self._data.shape[0] / self._sr
 
     @data.setter
     def data(self, x):
         """
-        Sets the data of the audio file
+        Sets the time series data of the audio file.
 
         Parameters
         ----------
-        ndarray: shape(nb_samples, nb_channels)
+        x : ndarray
+            shape(nb_samples, nb_channels)
             Data of the audio files in time domain.
-
         """
         self._data = x
 
@@ -115,51 +136,63 @@ class Audio(object):
         Parameters
         ----------
         sampling_rate : int
-            sample rate of the audio sigmal
+            sample rate of the audio signal
         """
         self._sr = sampling_rate
 
     def __str__(self):
+        """
+        Returns string representation of Audio
+
+        Returns
+        -------
+        str
+            String representation of Audio
+        """
         return self.name
 
     def __repr__(self):
+        """
+        Returns string representation of Audio
+
+        Returns
+        -------
+        str
+            String representation of Audio
+        """
         return self.__str__()
 
-class Track(object):
+
+class Track:
     """
-        represents an audio track
+    Represents an audio track sample i.e., a composition of mixture and its sources
 
-        Attributes
-        ----------
-        title : str
-            Track title
-
-        dir_path : str
-            track directory path
-        _mixture : Audio
-            misture audio of the track
-        _sources : dict[Audio]
-            sources of the track
-
+    Attributes
+    ----------
+    title : str
+        Track title
+    dir_path : str
+        Track directory path
+    _mixture : Audio
+        Mixture audio of the track
+    _sources : dict[Audio]
+        Sources of the track
     """
-
     def __init__(self,
                  title=None,
                  dir_path=None,
-                 labels={'vocals'}
-                 ):
+                 labels={'vocals'}):
         """
-            Constructor of the Track object
+        Constructor of the Track object
 
-            Parameters
-            ----------
-            title : str
-                title of track
-            dir_path : str
-                track directory path
-            labels : dict
-                labels of the track
-
+        Parameters
+        ----------
+        title : str
+            title of track
+        dir_path : str
+            track directory path
+        labels : dict
+            labels to retrieve from the track
         """
         self.title = title
         self.dir_path = os.path.abspath(dir_path)
@@ -178,16 +211,21 @@ class Track(object):
             mixture of audio of track
         """
         if self._mixture is not None:
+            # return cached
             return self._mixture
         else:
+            # lazy load the data if not cached
             mix_path = os.path.join(self.dir_path, 'mixture.wav')
+            # load mixture
             if os.path.exists(mix_path):
                 self._mixture = Audio(name='mixture',
                                       path=mix_path,
                                       ext=".wav")
                 return self._mixture
             else:
-                raise ValueError("path for mixture does not exist")
+                # mixture doesn't exist
+                self._mixture = None
+                raise ValueError("Mixture Path: % doesn't exist", mix_path)
 
     @property
     def sources(self):
@@ -200,9 +238,12 @@ class Track(object):
             list of audio sources
         """
         if self._sources is not None:
+            # return cached
             return self._sources
         else:
+            # lazy load the data if not cached
             self._sources = {}
+            # load sources for each label
             for label in self.labels:
                 file_path = os.path.join(self.dir_path, label + '.wav')
                 if os.path.exists(file_path):
@@ -210,8 +251,10 @@ class Track(object):
                                                  path=file_path,
                                                  ext=".wav")
                 else:
+                    # source doesn't exist
                     self._sources[label] = None
-                    raise ValueError("path for mixture does not exist")
+                    raise ValueError("Source Path: % doesn't exist", file_path)
+                # END OF FOR LOOP of labels
             return self._sources
 
     @mixture.setter
@@ -237,21 +280,24 @@ class Track(object):
         """
         self._sources = s
 
-    # @labels.setter
-    # def labels(self, l):
-    #     """
-    #     Sets the labels of the Track
-    #
-    #     Parameters
-    #     ----------
-    #     l : dict
-    #         labels of the track
-    #     """
-    #     self.labels = l
-
     def __str__(self):
+        """
+        Returns string representation of Track
+
+        Returns
+        -------
+        str
+            String representation of Track
+        """
         return self.title
 
-
     def __repr__(self):
+        """
+        Returns string representation of Track
+
+        Returns
+        -------
+        str
+            String representation of Track
+        """
         return self.__str__()

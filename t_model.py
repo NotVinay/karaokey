@@ -54,6 +54,7 @@ if __name__ == '__main__':
         device = torch.device("cuda")
     else:
         device = torch.device("cpu")
+
     # load app
     path = '/var/www/karaokey/karaokey/controllers/models/lstm.pt'
     model = torch.load(r'H:\FYP\application\controllers\models\lstm.pt', map_location='cpu')

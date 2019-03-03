@@ -1,3 +1,6 @@
+"""
+Contains the configuration of the Flask app and other constants
+"""
 import os
 from datetime import timedelta
 
@@ -12,19 +15,13 @@ AUDIO_DIR = os.path.join(ROOT, 'audio/')
 MODEL_PATH = os.path.join(ROOT, 'controllers/models/lstm.pt')
 
 SUPPORTED_EXTENSIONS = [".aac",
-        ".aif",
-        ".au",
-        ".flac",
-        ".gsm",
-        ".mp3",
-        ".ogg",
-        ".ra",
-        ".wav",
-        ".wma",
-        ".wav"]
-
-# SUPPORTED_EXTENSIONS_SOUNDFILE = set([".aif",
-#                             ".au",
-#                             ".flac",
-#                             ".ogg",
-#                             ".wav"])
+                        ".aif",
+                        ".au",
+                        ".flac",
+                        ".gsm",
+                        ".mp3",
+                        ".ogg",
+                        ".ra",
+                        ".wav",
+                        ".wma",
+                        ".wav"]

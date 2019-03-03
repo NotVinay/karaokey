@@ -1,5 +1,4 @@
 from flask import Flask, flash, render_template, request, jsonify, session, send_file
-from werkzeug.utils import secure_filename
 import os
 from .controllers import file_actions, predict
 
@@ -7,6 +6,7 @@ app = Flask(__name__)
 app.config.from_pyfile('config.py')
 
 page = 'home'
+
 
 @app.route('/')
 def home_page():
@@ -59,19 +59,25 @@ def about_page():
 
 @app.route('/separate', methods=['GET', 'POST'])
 def separate():
+    """
+    Handles the separation http request from user.
+
+    Returns
+    -------
+    dict
+        containing `token` for separation if separation is successful.
+        or containing `error` if separation fails.
+    """
     if 'music' not in request.files:
-        #flash('No Music File')
         return jsonify({'error': 'No Music File'})
     audio_file = request.files['music']
 
     # if no file is selected
 
     if audio_file.filename == '':
-        #flash('No selected file')
         return jsonify({'error': 'No File Selected'})
 
     if audio_file and not file_actions.supported_file(audio_file.filename):
-        #flash('File Not Supported')
         return jsonify({'error': 'File Not Supported'})
 
     elif audio_file and file_actions.supported_file(audio_file.filename):
@@ -79,18 +85,21 @@ def separate():
         if saved:
             dir_path = os.path.join(app.config['AUDIO_DIR'], session['token'])
             predict.predict(dir_path)
-            # TODO : Call Predict Function
-            #flash('Saved File')
             return jsonify({'token': session['token']})
         else:
-            #('Error in saving the file')
             return jsonify({'error': 'Error in saving the file'})
 
 
 @app.route('/download', methods=['GET'])
 def download():
-    ret = None
+    """
+    Sends requested file for the `token` in `session`.
+    Token authentication ensures that file is only accessed by the user which it belongs to.
+    Returns
+    -------
 
+    """
+    ret = None
     req_file = request.args.get('file_name')
     if req_file and req_file is not None:
         file_path = file_actions.get_audio_file_path(req_file)
@@ -105,6 +114,9 @@ def download():
 
 @app.route('/clear-session', methods=['GET'])
 def clearSession():
+    """
+    Clears the session
+    """
     pass
     # TODO ADD Clear Session Script
 

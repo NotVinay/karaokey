@@ -7,6 +7,8 @@ librosa
 git+https://github.com/sigsep/norbert#egg=norbert
 flask
 ipdb
+tensorboard
+tensorboardX
 
 # pytorch for gpu (CUDA10 and python 3.7)
 https://download.pytorch.org/whl/cu100/torch-1.0.1-cp37-cp37m-win_amd64.whl
