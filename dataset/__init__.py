@@ -41,11 +41,11 @@ class Dataset(object):
             Lazy load the data i.e, load on the fly to reduces the memory limits and loading times
         """
         self.data_type = data_type
-        self.set = sub_set
+        self.sub_set = sub_set
         self.source_label = source_label
         self.dir_path = os.path.expanduser(dir_path)
         self.lazy_load = lazy_load
-        self.tracks = self.get_track_dir_paths(self.set)
+        self.tracks = self.get_track_dir_paths(self.sub_set)
         self.lazy_load = lazy_load
 
         # pre load all mixture if not lazy load
@@ -149,6 +149,18 @@ class Dataset(object):
             track_dirs.append(track_folder)
 
         return track_dirs
+
+    def get_track_name(self, index):
+        """
+        Get name of track sampl
+
+        Returns
+        -------
+        str:
+            Name of the track
+        """
+        track_name = os.path.basename(self.tracks[index])
+        return track_name
 
     def load_metadata(self):
         """

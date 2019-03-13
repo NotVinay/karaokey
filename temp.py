@@ -27,8 +27,7 @@ from sklearn.preprocessing import StandardScaler
 #             y_batch.append(y[i:i + nb_frames])
 #     return np.array(x_batch), np.array(y_batch)
 
-
-dataset = Dataset(dir_path=r"C:\Users\w1572032.INTRANET.000\Desktop\pro_dataset",
+dataset = Dataset(dir_path=r"C:\Users\w1572032.INTRANET.001\Desktop\pro_dataset",
                   sub_set="train",
                   source_label="vocals",
                   lazy_load=False)

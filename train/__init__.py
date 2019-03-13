@@ -16,37 +16,33 @@ __maintainer__ = "Vinay Patel"
 __email__ = "w1572032@my.westminster.ac.uk"
 __status__ = "Development"
 
-def random_sampler(
+def random_batch_sampler(
     dataset, nb_frames=128
 ):
     while True:
-      X, Y = dataset[np.random.randint(0, len(dataset))]
-      nb_total_frames, nb_bins, nb_channels = X.shape
-      start = np.random.randint(0, X.shape[0] - nb_frames)
-      cur_X = X[start:start+nb_frames, :, 0]
-      cur_Y = Y[start:start+nb_frames, :, 0]
-      yield dict(X=cur_X, Y=cur_Y)
-
+        i = np.random.randint(0, len(dataset))
+        X, Y = dataset[i]
+        nb_total_frames, nb_bins, nb_channels = X.shape
+        start = np.random.randint(0, X.shape[0] - nb_frames)
+        cur_X = X[start:start+nb_frames, :, 0]
+        cur_Y = Y[start:start+nb_frames, :, 0]
+        yield dict(X=cur_X, Y=cur_Y)
 
 if __name__ == '__main__':
     timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d_%H-%M')
     print(timestamp)
     MODEL_NAME = timestamp+'_LSTM_B' + str(TRAIN_CONFIG.NB_BATCHES) + '_H' + str(TRAIN_CONFIG.HIDDEN_SIZE)
 
-    cuda_available = torch.cuda.is_available()
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     torch.manual_seed(42)
-    if cuda_available:
-        device = torch.device("cuda")
-    else:
-        device = torch.device("cpu")
-
-    dataset = Dataset(dir_path=r"C:\Users\w1572032.INTRANET.000\Desktop\pro_dataset",
+    dataset = Dataset(dir_path=r"C:\Users\w1572032.INTRANET.001\Desktop\pro_dataset",
                       sub_set="train",
                       source_label="vocals",
                       lazy_load=True)
     print(dataset.mixture_scaler.mean_.shape)
     print(dataset.mixture_scaler.scale_.shape)
-    model = LSTM_Model(
+
+    dnn_model = LSTM_Model(
         nb_features=TRAIN_CONFIG.NB_BINS,
         nb_frames=TRAIN_CONFIG.NB_SAMPLES,
         hidden_size=TRAIN_CONFIG.HIDDEN_SIZE,
@@ -55,14 +51,15 @@ if __name__ == '__main__':
         output_mean=dataset.label_scaler.mean_,
     ).to(device)
 
-    optimizer = optimizer.RMSprop(model.parameters(), lr=0.001)
+    optimizer = optimizer.RMSprop(dnn_model.parameters(), lr=0.001)
     criterion = torch.nn.MSELoss()
 
+    train_gen = random_batch_sampler(dataset, nb_frames=TRAIN_CONFIG.NB_SAMPLES)
 
-    train_gen = random_sampler(dataset, nb_frames=TRAIN_CONFIG.NB_SAMPLES)
+    # -----------------TRAINING---------------------
 
-    # set the training mode on pytorch
-    model.train()
+    # setting model on training mode so that weights and parameters can be updated
+    dnn_model.train()
 
     # initialize tensorboard graph
     dummy_batch = Variable(torch.rand(TRAIN_CONFIG.NB_BATCHES, TRAIN_CONFIG.NB_SAMPLES, TRAIN_CONFIG.NB_BINS))
@@ -84,14 +81,14 @@ if __name__ == '__main__':
         Yt = torch.tensor(Y, dtype=torch.float32, device=device)
 
         optimizer.zero_grad()
-        Y_hat = model(Xt)
+        Y_hat = dnn_model(Xt)
 
         loss = criterion(Y_hat, Yt)
         writer.add_scalar('loss', loss.item(), i)
         loss.backward()
         optimizer.step()
 
-    torch.save(model, "./models/"+MODEL_NAME+".pt")
+    torch.save(dnn_model, "./models/" + MODEL_NAME + ".pt")
 
 
     writer.close()

@@ -4,7 +4,7 @@ stempeg
 tqdm
 soundfile
 librosa
-git+https://github.com/sigsep/norbert#egg=norbert
+git+https://github.com/sigsep/norbert@0.1.0c#egg=norbert
 flask
 ipdb
 tensorboard

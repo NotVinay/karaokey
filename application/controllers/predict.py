@@ -13,7 +13,6 @@ import torch.nn.functional as F
 
 
 def predict(dir_path):
-    global Vanilla
 
     # transformation object
     file_path = os.path.join(dir_path, 'mixture.wav')
