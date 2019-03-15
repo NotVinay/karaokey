@@ -1,4 +1,5 @@
 import numpy as np
+import librosa as lib
 import tqdm
 import torch
 import torch.nn.functional as F
@@ -13,6 +14,7 @@ import norbert
 import preprocess.utility as sp
 from preprocess.preprocess_tools import Scaler, STFT
 from preprocess.data import Data
+import soundfile as sf
 
 
 def random_batch_sampler(dataset, nb_frames=128):
@@ -71,6 +73,7 @@ def evaluation(dnn_model,
                test_tracks,
                loss_function,
                writer,
+               full_evaluation=True,
                trained_on="vocals",
                MONO=True):
     dnn_model.eval()
@@ -152,20 +155,46 @@ def evaluation(dnn_model,
             writer.add_scalar('SIR_mean_accompaniment', SIR_mean[1], track_number)
             writer.add_scalar('SAR_mean_accompaniment', SAR_mean[1], track_number)
             writer.add_scalar('ISR_mean_accompaniment', ISR_mean[1], track_number)
+
+            if track_number == 0:
+                sf.write(file=r"C:\Users\w1572032.INTRANET.001\Desktop\vocals.wav",
+                         data=vocals_estimate,
+                         samplerate=track.mixture.sr)
+                sf.write(file=r"C:\Users\w1572032.INTRANET.001\Desktop\acc.wav",
+                         data=acc_estimate,
+                         samplerate=track.mixture.sr)
+                # mono_vocals_estimate_normalized = lib.util.normalize(sp.to_mono(vocals_estimate))
+                # print("normalized")
+                # writer.add_audio(tag="vocals",
+                #                  snd_tensor=torch.from_numpy(mono_vocals_estimate_normalized),
+                #                  global_step=1,
+                #                  sample_rate=track.mixture.sr)
+                # mono_acc_estimate_normalized = lib.util.normalize(sp.to_mono(acc_estimate))
+                # print("saved")
+                # writer.add_audio(tag="accompaniment",
+                #                  snd_tensor=torch.from_numpy(mono_acc_estimate_normalized),
+                #                  global_step=1,
+                #                  sample_rate=track.mixture.sr)
+                # print("FIRST TRACK EVALUATION COMPLETE")
+            if not full_evaluation:
+                print("ENDING FULL EVALUATION!!")
+                break
             # END OF FOR of test samples
         # END OF CONTEXT torch.no_grad()
 
 
 def main():
     timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d_%H-%M')
+    trained_on = "accompaniment"
+
     print(timestamp)
-    MODEL_NAME = timestamp+'_LSTM_B' + str(TRAIN_CONFIG.NB_BATCHES) + '_H' + str(TRAIN_CONFIG.HIDDEN_SIZE)
+    MODEL_NAME = timestamp+'_LSTM_'+ str(trained_on)+'_B' + str(TRAIN_CONFIG.NB_BATCHES) + '_H' + str(TRAIN_CONFIG.HIDDEN_SIZE) + '_S' + str(TRAIN_CONFIG.STEPS)
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     torch.manual_seed(42)
     dataset = Dataset(dir_path=r"C:\Users\w1572032.INTRANET.001\Desktop\pro_dataset",
                       sub_set="train",
-                      source_label="vocals",
+                      source_label=trained_on,
                       lazy_load=True)
     print(dataset.mixture_scaler.mean_.shape)
     print(dataset.mixture_scaler.scale_.shape)
@@ -199,7 +228,7 @@ def main():
     test_tracks = data.get_tracks(sub_set="test", labels={'vocals', 'accompaniment'})
 
     # evaluate the model
-    evaluation(dnn_model, device, test_tracks, loss_function, writer, trained_on="vocals", MONO=True)
+    evaluation(dnn_model, device, test_tracks, loss_function, writer, full_evaluation=False, trained_on=trained_on, MONO=True)
 
     # close the summary writer
     writer.close()

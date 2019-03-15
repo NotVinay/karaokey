@@ -12,7 +12,7 @@ SECRET_KEY = "b'\x89b=|\xbb\x99\x0e\x0f\xd4\xa7\x06\x90\xd0\x80&j'"
 
 ROOT = os.path.dirname(os.path.realpath(__file__))
 AUDIO_DIR = os.path.join(ROOT, 'audio/')
-MODEL_PATH = os.path.join(ROOT, 'controllers/models/lstm.pt')
+MODEL_PATH = os.path.join(ROOT, 'controllers/models/test1.pt')
 
 SUPPORTED_EXTENSIONS = [".aac",
                         ".aif",
