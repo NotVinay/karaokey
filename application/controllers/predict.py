@@ -3,8 +3,8 @@ import numpy as np
 import norbert
 import os
 import soundfile as sf
-from .utility import read, to_mono
-from .preprocess_tools import Scaler, STFT
+import preprocess.utility as sp
+from preprocess.preprocess_tools import Scaler, STFT
 from flask import current_app as app
 from .model import LSTM_Model
 
@@ -16,7 +16,7 @@ def predict(dir_path):
 
     # transformation object
     file_path = os.path.join(dir_path, 'mixture.wav')
-    data, sr = read(file_path, stereo=True)
+    data, sr = sp.read(file_path, stereo=True)
 
     transform = STFT(sr=sr,
                      n_per_seg=4096,
@@ -29,7 +29,7 @@ def predict(dir_path):
 
     # change to mono
     if nb_channels > 1:
-        data = to_mono(data)
+        data = sp.to_mono(data)
 
     # generate STFT of time series data
     x_tf = transform.stft(data.T)

@@ -5,7 +5,7 @@ import torch
 import torch.nn.functional as F
 import time, datetime
 from torch.autograd import Variable
-from train.model import LSTM_Model
+from train.model import LSTM_Model, Generalised_LSTM_Model
 from tensorboardX import SummaryWriter
 from config.model_config import TRAIN_CONFIG, DATASET_CONFIG
 from dataset import Dataset
@@ -80,58 +80,12 @@ def evaluation(dnn_model,
     with torch.no_grad():
         # iterate over sample the tracks
         for track_number, track in enumerate(test_tracks):
-            # transformation object
-            transform = STFT(sr=DATASET_CONFIG.SR,
-                             n_per_seg=DATASET_CONFIG.N_PER_SEG,
-                             n_overlap=DATASET_CONFIG.N_OVERLAP)
 
-            # Scaler object
-            scaler = Scaler()
-
-            # get time series data of mixture
-            data_mix = track.mixture.data
-
-            # convert track to mono track
-            if MONO:
-                data_mix = sp.to_mono(data_mix)
-
-            nb_samples, nb_channels = data_mix.shape
-
-            # generate STFT of time series data
-            mixture_tf = transform.stft(data_mix.T)
-
-            # get spectrogram of STFT i.e., |Xi|
-            mixture_stft = np.abs(mixture_tf)
-
-            # scaling the values to 0 to 1
-            X_scaled = scaler.scale(mixture_stft)
-
-            X_scaled = np.transpose(X_scaled, (2, 0, 1))
-
-            mixture_tensor = torch.tensor(X_scaled, dtype=torch.float32, device=device).to(device)
-            estimate = dnn_model(mixture_tensor)
-
-            estimate_np = estimate[0].cpu().detach().numpy()
-            # synthesising the outputs to get the results
-            estimate_stereo = np.stack([estimate_np, estimate_np]).transpose(1, 2, 0)
-            estimate_stereo = estimate_stereo[..., None] ** 2
-
-            # converting stereo track
-            mixture_tf_squeeze = np.squeeze(mixture_tf)
-            mixture_tf_stereo = np.stack([mixture_tf_squeeze, mixture_tf_squeeze]).transpose(1, 2, 0)
-
-            # synthesising
-            estimate_residual = norbert.residual(estimate_stereo, mixture_tf_stereo)
-
-            # applying wiener filers to get the results
-            estimate_filter_results = norbert.wiener(np.copy(estimate_residual), np.copy(mixture_tf_stereo))
-
-            if trained_on == "vocals":
-                vocals_estimate = transform.istft(estimate_filter_results[..., 0]).T
-                acc_estimate = transform.istft(estimate_filter_results[..., 1]).T
-            else:
-                acc_estimate = transform.istft(estimate_filter_results[..., 0]).T
-                vocals_estimate = transform.istft(estimate_filter_results[..., 1]).T
+            acc_estimate, vocals_estimate = predict(dnn_model,
+                                                   device,
+                                                   data=track.mixture.data,
+                                                   sr=track.mixture.sr,
+                                                   trained_on=trained_on)
 
             estimates_list = np.array([vocals_estimate, acc_estimate])
             reference_list = np.array([np.copy(track.sources["vocals"].data), np.copy(track.sources["accompaniment"].data)])
@@ -145,37 +99,37 @@ def evaluation(dnn_model,
             print(track_number, ": ", SDR.shape, ", ", SDR_mean.shape)
 
             # logging METRICS
-            writer.add_scalar('SDR_mean_vocals', SDR_mean[0], track_number)
-            writer.add_scalar('SIR_mean_vocals', SIR_mean[0], track_number)
-            writer.add_scalar('SAR_mean_vocals', SAR_mean[0], track_number)
-            writer.add_scalar('ISR_mean_vocals', ISR_mean[0], track_number)
+            writer.add_scalar('vocals/SDR_mean', SDR_mean[0], track_number)
+            writer.add_scalar('vocals/SIR_mean', SIR_mean[0], track_number)
+            writer.add_scalar('vocals/SAR_mean', SAR_mean[0], track_number)
+            writer.add_scalar('vocals/ISR_mean', ISR_mean[0], track_number)
 
             # logging METRICS
-            writer.add_scalar('SDR_mean_accompaniment', SDR_mean[1], track_number)
-            writer.add_scalar('SIR_mean_accompaniment', SIR_mean[1], track_number)
-            writer.add_scalar('SAR_mean_accompaniment', SAR_mean[1], track_number)
-            writer.add_scalar('ISR_mean_accompaniment', ISR_mean[1], track_number)
+            writer.add_scalar('accompaniment/SDR_mean', SDR_mean[1], track_number)
+            writer.add_scalar('accompaniment/SIR_mean', SIR_mean[1], track_number)
+            writer.add_scalar('accompaniment/SAR_mean', SAR_mean[1], track_number)
+            writer.add_scalar('accompaniment/ISR_mean', ISR_mean[1], track_number)
 
             if track_number == 0:
-                sf.write(file=r"C:\Users\w1572032.INTRANET.001\Desktop\vocals.wav",
-                         data=vocals_estimate,
-                         samplerate=track.mixture.sr)
-                sf.write(file=r"C:\Users\w1572032.INTRANET.001\Desktop\acc.wav",
-                         data=acc_estimate,
-                         samplerate=track.mixture.sr)
-                # mono_vocals_estimate_normalized = lib.util.normalize(sp.to_mono(vocals_estimate))
-                # print("normalized")
-                # writer.add_audio(tag="vocals",
-                #                  snd_tensor=torch.from_numpy(mono_vocals_estimate_normalized),
-                #                  global_step=1,
-                #                  sample_rate=track.mixture.sr)
-                # mono_acc_estimate_normalized = lib.util.normalize(sp.to_mono(acc_estimate))
-                # print("saved")
-                # writer.add_audio(tag="accompaniment",
-                #                  snd_tensor=torch.from_numpy(mono_acc_estimate_normalized),
-                #                  global_step=1,
-                #                  sample_rate=track.mixture.sr)
-                # print("FIRST TRACK EVALUATION COMPLETE")
+                # sf.write(file=r"C:\Users\w1572032.INTRANET.001\Desktop\vocals.wav",
+                #          data=vocals_estimate,
+                #          samplerate=track.mixture.sr)
+                # sf.write(file=r"C:\Users\w1572032.INTRANET.001\Desktop\acc.wav",
+                #          data=acc_estimate,
+                #          samplerate=track.mixture.sr)
+                mono_vocals_estimate_normalized = lib.util.normalize(sp.to_mono(vocals_estimate))
+                print("normalized")
+                writer.add_audio(tag="vocals",
+                                 snd_tensor=torch.from_numpy(mono_vocals_estimate_normalized),
+                                 global_step=1,
+                                 sample_rate=track.mixture.sr)
+                mono_acc_estimate_normalized = lib.util.normalize(sp.to_mono(acc_estimate))
+                print("saved")
+                writer.add_audio(tag="accompaniment",
+                                 snd_tensor=torch.from_numpy(mono_acc_estimate_normalized),
+                                 global_step=1,
+                                 sample_rate=track.mixture.sr)
+                print("FIRST TRACK EVALUATION COMPLETE")
             if not full_evaluation:
                 print("ENDING FULL EVALUATION!!")
                 break
@@ -183,12 +137,71 @@ def evaluation(dnn_model,
         # END OF CONTEXT torch.no_grad()
 
 
+def predict(dnn_model,
+           device,
+           data,
+           sr,
+           trained_on="vocals"):
+    # transformation object
+    transform = STFT(sr=DATASET_CONFIG.SR,
+                     n_per_seg=DATASET_CONFIG.N_PER_SEG,
+                     n_overlap=DATASET_CONFIG.N_OVERLAP)
+
+    # Scaler object
+    scaler = Scaler()
+
+    # convert track to mono track
+    if data.shape[1] != 1:
+        data = sp.to_mono(data)
+
+    nb_samples, nb_channels = data.shape
+
+    # generate STFT of time series data
+    mixture_tf = transform.stft(data.T)
+
+    # get spectrogram of STFT i.e., |Xi|
+    mixture_stft = np.abs(mixture_tf)
+
+    # scaling the values to 0 to 1
+    X_scaled = scaler.scale(mixture_stft)
+
+    X_scaled = np.transpose(X_scaled, (2, 0, 1))
+
+    mixture_tensor = torch.tensor(X_scaled, dtype=torch.float32, device=device).to(device)
+    estimate = dnn_model(mixture_tensor)
+
+    estimate_np = estimate[0].cpu().detach().numpy()
+    # synthesising the outputs to get the results
+    estimate_stereo = np.stack([estimate_np, estimate_np]).transpose(1, 2, 0)
+    estimate_stereo = estimate_stereo[..., None] ** 2
+
+    # converting stereo track
+    mixture_tf_squeeze = np.squeeze(mixture_tf)
+    mixture_tf_stereo = np.stack([mixture_tf_squeeze, mixture_tf_squeeze]).transpose(1, 2, 0)
+
+    # synthesising
+    estimate_residual = norbert.residual(estimate_stereo, mixture_tf_stereo)
+
+    # applying wiener filers to get the results
+    estimate_filter_results = norbert.wiener(np.copy(estimate_residual), np.copy(mixture_tf_stereo))
+
+    if trained_on == "vocals":
+        vocals_estimate = transform.istft(estimate_filter_results[..., 0]).T
+        acc_estimate = transform.istft(estimate_filter_results[..., 1]).T
+        return acc_estimate, vocals_estimate
+    else:
+        acc_estimate = transform.istft(estimate_filter_results[..., 0]).T
+        vocals_estimate = transform.istft(estimate_filter_results[..., 1]).T
+        return acc_estimate, vocals_estimate
+
+
 def main():
     timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d_%H-%M')
     trained_on = "accompaniment"
+    activation_function = "relu"
 
     print(timestamp)
-    MODEL_NAME = timestamp+'_LSTM_'+ str(trained_on)+'_B' + str(TRAIN_CONFIG.NB_BATCHES) + '_H' + str(TRAIN_CONFIG.HIDDEN_SIZE) + '_S' + str(TRAIN_CONFIG.STEPS)
+    MODEL_NAME = timestamp+'_Generalised_LSTM_'+str(activation_function)+"_"+str(trained_on)+'_B' + str(TRAIN_CONFIG.NB_BATCHES) + '_H' + str(TRAIN_CONFIG.HIDDEN_SIZE) + '_S' + str(TRAIN_CONFIG.STEPS)
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     torch.manual_seed(42)
@@ -199,16 +212,25 @@ def main():
     print(dataset.mixture_scaler.mean_.shape)
     print(dataset.mixture_scaler.scale_.shape)
 
-    dnn_model = LSTM_Model(
-        nb_features=TRAIN_CONFIG.NB_BINS,
-        nb_frames=TRAIN_CONFIG.NB_SAMPLES,
-        hidden_size=TRAIN_CONFIG.HIDDEN_SIZE,
-        input_mean=dataset.mixture_scaler.mean_,
-        input_scale=dataset.mixture_scaler.scale_,
-        output_mean=dataset.label_scaler.mean_,
-    ).to(device)
+    # dnn_model = LSTM_Model(
+    #     nb_features=TRAIN_CONFIG.NB_BINS,
+    #     nb_frames=TRAIN_CONFIG.NB_SAMPLES,
+    #     hidden_size=TRAIN_CONFIG.HIDDEN_SIZE,
+    #     input_mean=dataset.mixture_scaler.mean_,
+    #     input_scale=dataset.mixture_scaler.scale_,
+    #     output_mean=dataset.label_scaler.mean_,
+    # ).to(device)
+    dnn_model = Generalised_LSTM_Model(nb_features=TRAIN_CONFIG.NB_BINS,
+                                        nb_frames=TRAIN_CONFIG.NB_SAMPLES,
+                                        hidden_size=TRAIN_CONFIG.HIDDEN_SIZE,
+                                        nb_layers=1,
+                                        bidirectional=False,
+                                        input_mean=dataset.mixture_scaler.mean_,
+                                        input_scale=dataset.mixture_scaler.scale_,
+                                        output_mean=dataset.label_scaler.mean_,
+                                        activation_function="tanh").to(device)
 
-    optimizer = torch.optim.RMSprop(dnn_model.parameters(), lr=0.001)
+    optimizer = torch.optim.Adam(dnn_model.parameters(), lr=0.001)
     loss_function = torch.nn.MSELoss()
     dataset_loader = random_batch_sampler(dataset, nb_frames=TRAIN_CONFIG.NB_SAMPLES)
 
@@ -228,7 +250,7 @@ def main():
     test_tracks = data.get_tracks(sub_set="test", labels={'vocals', 'accompaniment'})
 
     # evaluate the model
-    evaluation(dnn_model, device, test_tracks, loss_function, writer, full_evaluation=False, trained_on=trained_on, MONO=True)
+    evaluation(dnn_model, device, test_tracks, loss_function, writer, full_evaluation=True, trained_on=trained_on, MONO=True)
 
     # close the summary writer
     writer.close()
