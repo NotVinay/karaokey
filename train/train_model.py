@@ -14,7 +14,7 @@ import norbert
 import preprocess.utility as sp
 from preprocess.preprocess_tools import Scaler, STFT
 from preprocess.data import Data
-import soundfile as sf
+import common.input_handler as uin
 
 
 def random_batch_sampler(dataset, nb_frames=128):
@@ -23,8 +23,8 @@ def random_batch_sampler(dataset, nb_frames=128):
         X, Y = dataset[i]
         nb_total_frames, nb_bins, nb_channels = X.shape
         start = np.random.randint(0, X.shape[0] - nb_frames)
-        cur_X = X[start:start+nb_frames, :, 0]
-        cur_Y = Y[start:start+nb_frames, :, 0]
+        cur_X = X[start:start + nb_frames, :, 0]
+        cur_Y = Y[start:start + nb_frames, :, 0]
         yield dict(X=cur_X, Y=cur_Y)
 
 
@@ -82,13 +82,14 @@ def evaluation(dnn_model,
         for track_number, track in enumerate(test_tracks):
 
             acc_estimate, vocals_estimate = predict(dnn_model,
-                                                   device,
-                                                   data=track.mixture.data,
-                                                   sr=track.mixture.sr,
-                                                   trained_on=trained_on)
+                                                    device,
+                                                    data=track.mixture.data,
+                                                    sr=track.mixture.sr,
+                                                    trained_on=trained_on)
 
             estimates_list = np.array([vocals_estimate, acc_estimate])
-            reference_list = np.array([np.copy(track.sources["vocals"].data), np.copy(track.sources["accompaniment"].data)])
+            reference_list = np.array(
+                [np.copy(track.sources["vocals"].data), np.copy(track.sources["accompaniment"].data)])
 
             # evaluating the metrics
             SDR, SIR, ISR, SAR = museval.evaluate(reference_list, estimates_list)
@@ -138,10 +139,10 @@ def evaluation(dnn_model,
 
 
 def predict(dnn_model,
-           device,
-           data,
-           sr,
-           trained_on="vocals"):
+            device,
+            data,
+            sr,
+            trained_on="vocals"):
     # transformation object
     transform = STFT(sr=DATASET_CONFIG.SR,
                      n_per_seg=DATASET_CONFIG.N_PER_SEG,
@@ -197,17 +198,59 @@ def predict(dnn_model,
 
 def main():
     timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d_%H-%M')
-    trained_on = "accompaniment"
-    activation_function = "relu"
+    use_default_config = uin.get_confirmation(msg="Use default train config",
+                                              error_msg="Please enter vocals or accompaniment")
+    if not use_default_config:
+        TRAIN_CONFIG.TRAINED_ON = uin.get_input_str(msg="Please select the label (vocals/accompaniment)",
+                                                    only_accept=['vocals', 'accompaniment'],
+                                                    error_msg="Please enter vocals or accompaniment")
+        TRAIN_CONFIG.NB_BATCHES = uin.get_input_int(msg="Please enter batch size",
+                                                    only_accept=[8, 16, 32, 64, 128],
+                                                    error_msg="Please enter valid number of layers")
+        TRAIN_CONFIG.NB_SAMPLES = uin.get_input_int(msg="Please enter number of samples",
+                                                    only_accept=[64, 128, 256, 512],
+                                                    error_msg="Please enter valid number of batches")
+        TRAIN_CONFIG.HIDDEN_SIZE = TRAIN_CONFIG.NB_SAMPLES * 2
+        TRAIN_CONFIG.ACTIVATION_FUNCTION = uin.get_input_str(msg="Please select activation function (relu/tanh)",
+                                                             only_accept=['relu', 'tanh'],
+                                                             error_msg="Please relu or tanh")
+        TRAIN_CONFIG.NB_LAYERS = uin.get_input_int(msg="Please enter number of LSTM Layers [1 to 3]",
+                                                   only_accept=range(1, 3),
+                                                   error_msg="Please enter valid number of layers")
+        TRAIN_CONFIG.BIDIRECTIONAL = uin.get_confirmation(msg="Use bidirectional LSTM?",
+                                                          error_msg="Please enter y or n")
+        TRAIN_CONFIG.OPTIMIZER = uin.get_input_str(msg="Please select optimizer (adam/rmsprop)",
+                                                   only_accept=['adam', 'rmsprop'],
+                                                   error_msg="Please adam or rmsprop")
+        TRAIN_CONFIG.STEPS = uin.get_input_int(msg="Please enter number of steps",
+                                               only_accept=[1000, 2000, 5000, 7500, 10000],
+                                               error_msg="Please enter valid number of steps")
 
-    print(timestamp)
-    MODEL_NAME = timestamp+'_Generalised_LSTM_'+str(activation_function)+"_"+str(trained_on)+'_B' + str(TRAIN_CONFIG.NB_BATCHES) + '_H' + str(TRAIN_CONFIG.HIDDEN_SIZE) + '_S' + str(TRAIN_CONFIG.STEPS)
+    print("\n Selected Configuration ->",
+          "\n Trained on: ", TRAIN_CONFIG.TRAINED_ON,
+          "\n batches: ", TRAIN_CONFIG.NB_BATCHES,
+          "\n samples per batch: ", TRAIN_CONFIG.NB_SAMPLES,
+          "\n Activation Function: ", TRAIN_CONFIG.ACTIVATION_FUNCTION,
+          "\n Hidden Size: ", TRAIN_CONFIG.HIDDEN_SIZE,
+          "\n Layers: ", TRAIN_CONFIG.NB_LAYERS,
+          "\n BiLSTM: ", TRAIN_CONFIG.BIDIRECTIONAL,
+          "\n Learning Rate: ", TRAIN_CONFIG.LR,
+          "\n Optimizer: ", TRAIN_CONFIG.OPTIMIZER,
+          "\n Steps: ", str(TRAIN_CONFIG.STEPS))
+
+    if not uin.get_confirmation(msg="Proceed with above configurations?", error_msg="Please enter y or n"):
+        print("TERMINATED")
+        return None
+
+    MODEL_NAME = timestamp + '_Generalised_LSTM_' + str(TRAIN_CONFIG.ACTIVATION_FUNCTION) + "_" + str(
+        TRAIN_CONFIG.TRAINED_ON) + '_B' + str(
+        TRAIN_CONFIG.NB_BATCHES) + '_H' + str(TRAIN_CONFIG.HIDDEN_SIZE) + '_S' + str(TRAIN_CONFIG.STEPS) + "_" + TRAIN_CONFIG.OPTIMIZER
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     torch.manual_seed(42)
     dataset = Dataset(dir_path=r"C:\Users\w1572032.INTRANET.001\Desktop\pro_dataset",
                       sub_set="train",
-                      source_label=trained_on,
+                      source_label=TRAIN_CONFIG.TRAINED_ON,
                       lazy_load=True)
     print(dataset.mixture_scaler.mean_.shape)
     print(dataset.mixture_scaler.scale_.shape)
@@ -221,23 +264,25 @@ def main():
     #     output_mean=dataset.label_scaler.mean_,
     # ).to(device)
     dnn_model = Generalised_LSTM_Model(nb_features=TRAIN_CONFIG.NB_BINS,
-                                        nb_frames=TRAIN_CONFIG.NB_SAMPLES,
-                                        hidden_size=TRAIN_CONFIG.HIDDEN_SIZE,
-                                        nb_layers=1,
-                                        bidirectional=False,
-                                        input_mean=dataset.mixture_scaler.mean_,
-                                        input_scale=dataset.mixture_scaler.scale_,
-                                        output_mean=dataset.label_scaler.mean_,
-                                        activation_function=activation_function).to(device)
+                                       nb_frames=TRAIN_CONFIG.NB_SAMPLES,
+                                       hidden_size=TRAIN_CONFIG.HIDDEN_SIZE,
+                                       nb_layers=TRAIN_CONFIG.NB_LAYERS,
+                                       bidirectional=TRAIN_CONFIG.BIDIRECTIONAL,
+                                       input_mean=dataset.mixture_scaler.mean_,
+                                       input_scale=dataset.mixture_scaler.scale_,
+                                       output_mean=dataset.label_scaler.mean_,
+                                       activation_function=TRAIN_CONFIG.ACTIVATION_FUNCTION).to(device)
 
-    optimizer = torch.optim.Adam(dnn_model.parameters(), lr=0.001)
+    optimizer_choices = {'adam': torch.optim.Adam, 'rmsprop': torch.optim.RMSprop}
     loss_function = torch.nn.MSELoss()
+    optimizer = optimizer_choices[TRAIN_CONFIG.OPTIMIZER](dnn_model.parameters(), lr=0.001)
     dataset_loader = random_batch_sampler(dataset, nb_frames=TRAIN_CONFIG.NB_SAMPLES)
 
     # initialize tensorboard graph
     dummy_batch = Variable(torch.rand(TRAIN_CONFIG.NB_BATCHES, TRAIN_CONFIG.NB_SAMPLES, TRAIN_CONFIG.NB_BINS))
-    writer = SummaryWriter(log_dir="runs/"+MODEL_NAME)
-    writer.add_graph(LSTM_Model(nb_features=TRAIN_CONFIG.NB_BINS, nb_frames=TRAIN_CONFIG.NB_SAMPLES, hidden_size=TRAIN_CONFIG.HIDDEN_SIZE), dummy_batch, True)
+    writer = SummaryWriter(log_dir="runs/" + MODEL_NAME)
+    writer.add_graph(LSTM_Model(nb_features=TRAIN_CONFIG.NB_BINS, nb_frames=TRAIN_CONFIG.NB_SAMPLES,
+                                hidden_size=TRAIN_CONFIG.HIDDEN_SIZE), dummy_batch, True)
 
     # train the model
     train(dnn_model, device, dataset_loader, loss_function, optimizer, writer)
@@ -250,7 +295,14 @@ def main():
     test_tracks = data.get_tracks(sub_set="test", labels={'vocals', 'accompaniment'})
 
     # evaluate the model
-    evaluation(dnn_model, device, test_tracks, loss_function, writer, full_evaluation=True, trained_on=trained_on, MONO=True)
+    evaluation(dnn_model,
+               device,
+               test_tracks,
+               loss_function,
+               writer,
+               full_evaluation=True,
+               trained_on=TRAIN_CONFIG.TRAINED_ON,
+               MONO=True)
 
     # close the summary writer
     writer.close()

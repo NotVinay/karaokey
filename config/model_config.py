@@ -15,10 +15,28 @@ class DATASET_CONFIG:
     N_OVERLAP = N_PER_SEG - N_HOP_SIZE
 
 class TRAIN_CONFIG:
+    TRAINED_ON = 'accompaniment'
     NB_SAMPLES = 256
     NB_BINS = 2049
     NB_BATCHES = 16
     HIDDEN_SIZE = NB_SAMPLES*2
+    NB_LAYERS = 1
+    BIDIRECTIONAL = False
+    ACTIVATION_FUNCTION = "relu"
     LR = 0.001
-    STEPS = 2000
+    OPTIMIZER = "adam"
+    STEPS = 1000
+
+    def __str__(self):
+        str = "\n Selected Configuration ->" +\
+              "\n Trained on: ", TRAIN_CONFIG.TRAINED_ON +\
+              "\n batches: ", str(TRAIN_CONFIG.NB_BATCHES) +\
+              "\n samples per batch: ", str(TRAIN_CONFIG.NB_SAMPLES) +\
+              "\n Activation Function: ", TRAIN_CONFIG.ACTIVATION_FUNCTION +\
+              "\n Hidden Size: ", str(TRAIN_CONFIG.HIDDEN_SIZE) +\
+              "\n Layers: ", str(TRAIN_CONFIG.NB_LAYERS) +\
+              "\n BiLSTM: ", str(TRAIN_CONFIG.BIDIRECTIONAL) +\
+              "\n Learning Rate: ", str(TRAIN_CONFIG.LR) +\
+              "\n Optimizer: ", TRAIN_CONFIG.OPTIMIZER + \
+              "\n Steps: ", str(TRAIN_CONFIG.STEPS)
 
