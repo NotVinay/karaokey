@@ -1,0 +1,14 @@
+/venv
+.idea/*
+.dist/*
+/application/audio
+/application/__pycache__
+/application/controllers/__pycache__
+/config/__pycache__
+/dataset/__pycache__
+/preprocess/__pycache__
+/train/__pycache__
+/common/__pycache__
+temp.py
+sample.mp3
+t_model.py
