@@ -27,16 +27,17 @@ class TRAIN_CONFIG:
     OPTIMIZER = "adam"
     STEPS = 1000
 
-    def __str__(self):
-        str = "\n Selected Configuration ->" +\
-              "\n Trained on: ", TRAIN_CONFIG.TRAINED_ON +\
-              "\n batches: ", str(TRAIN_CONFIG.NB_BATCHES) +\
-              "\n samples per batch: ", str(TRAIN_CONFIG.NB_SAMPLES) +\
-              "\n Activation Function: ", TRAIN_CONFIG.ACTIVATION_FUNCTION +\
-              "\n Hidden Size: ", str(TRAIN_CONFIG.HIDDEN_SIZE) +\
-              "\n Layers: ", str(TRAIN_CONFIG.NB_LAYERS) +\
-              "\n BiLSTM: ", str(TRAIN_CONFIG.BIDIRECTIONAL) +\
-              "\n Learning Rate: ", str(TRAIN_CONFIG.LR) +\
-              "\n Optimizer: ", TRAIN_CONFIG.OPTIMIZER + \
-              "\n Steps: ", str(TRAIN_CONFIG.STEPS)
+    def __str__():
+        ret = "\n ---Model Configuration---" +\
+              "  \n Trained on: " + TRAIN_CONFIG.TRAINED_ON +\
+              "  \n batches: " + str(TRAIN_CONFIG.NB_BATCHES) +\
+              "  \n samples per batch: " + str(TRAIN_CONFIG.NB_SAMPLES) +\
+              "  \n Activation Function: " + TRAIN_CONFIG.ACTIVATION_FUNCTION +\
+              "  \n Hidden Size: " + str(TRAIN_CONFIG.HIDDEN_SIZE) +\
+              "  \n Layers: " + str(TRAIN_CONFIG.NB_LAYERS) +\
+              "  \n BiLSTM: " + str(TRAIN_CONFIG.BIDIRECTIONAL) +\
+              "  \n Learning Rate: " + str(TRAIN_CONFIG.LR) +\
+              "  \n Optimizer: " + TRAIN_CONFIG.OPTIMIZER +\
+              "  \n Steps: " + str(TRAIN_CONFIG.STEPS)
+        return ret
 

@@ -79,6 +79,10 @@ def evaluation(dnn_model,
     dnn_model.eval()
     with torch.no_grad():
         # iterate over sample the tracks
+        sdr_means = []
+        sir_means = []
+        isr_means = []
+        sar_means = []
         for track_number, track in enumerate(test_tracks):
 
             acc_estimate, vocals_estimate = predict(dnn_model,
@@ -98,7 +102,10 @@ def evaluation(dnn_model,
             ISR_mean = np.mean(ISR, axis=1)
             SAR_mean = np.mean(SAR, axis=1)
             print(track_number, ": ", SDR.shape, ", ", SDR_mean.shape)
-
+            sdr_means.append(SDR_mean)
+            sir_means.append(SIR_mean)
+            isr_means.append(ISR_mean)
+            sar_means.append(SAR_mean)
             # logging METRICS
             writer.add_scalar('vocals/SDR_mean', SDR_mean[0], track_number)
             writer.add_scalar('vocals/SIR_mean', SIR_mean[0], track_number)
@@ -135,6 +142,23 @@ def evaluation(dnn_model,
                 print("ENDING FULL EVALUATION!!")
                 break
             # END OF FOR of test samples
+        sdr_total_mean = np.mean(np.array(sdr_means), axis=0)
+        sir_total_mean = np.mean(np.array(sir_means), axis=0)
+        isr_total_mean = np.mean(np.array(isr_means), axis=0)
+        sar_total_mean = np.mean(np.array(sar_means), axis=0)
+        writer.add_text('Model_Configuration', TRAIN_CONFIG.__str__(), 0)
+        writer.add_text('sdr_total_mean',
+                        "accompaniment: " + str(sdr_total_mean[1]) + "\n vocals: " + str(sdr_total_mean[0]),
+                        0)
+        writer.add_text('sir_total_mean',
+                        "accompaniment: " + str(sir_total_mean[1]) + "\n vocals: " + str(sir_total_mean[0]),
+                        0)
+        writer.add_text('isr_total_mean',
+                        "accompaniment: " + str(isr_total_mean[1]) + "\n vocals: " + str(isr_total_mean[0]),
+                        0)
+        writer.add_text('sar_total_mean',
+                        "accompaniment: " + str(sar_total_mean[1]) + "\n vocals: " + str(sar_total_mean[0]),
+                        0)
         # END OF CONTEXT torch.no_grad()
 
 
