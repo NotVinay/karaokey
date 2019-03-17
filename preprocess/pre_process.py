@@ -16,6 +16,7 @@ from sklearn.preprocessing import StandardScaler
 import preprocess.utility as sp
 import numpy as np
 import os
+import common.input_handler as uin
 
 __author__ = "Vinay Patel"
 __version__ = "0.1.0"
@@ -28,23 +29,13 @@ def main():
     Main method of pre-processing the data and saving it as numpy files
     """
     # set to preprocess
-    sub_set = None
-    while True:
-        sub_set = input("Enter the set for preprocessing?(train/test) ->")
-        if sub_set in ['train', 'test']:
-            break
-        else:
-            print("please enter a valid set")
-        # END OF WHILE for sub_set input
-    while True:
-        mono_in = input("Process track as mono?(y/n) ->")
+    sub_set = uin.get_input_str(msg="Enter the set for preprocessing?(train/test)",
+                                only_accept=['train', 'test'],
+                                error_msg="Please enter a valid subset")
 
-        if mono_in in ['y', 'Y', 'n', 'N']:
-            MONO = True if mono_in in ['y', 'Y'] else False
-            break
-        else:
-            print("please enter a valid set")
-        # END OF WHILE for MONO input
+    # process it as mono?
+    MONO = uin.get_confirmation(msg="Process track as mono?",
+                                error_msg="Please enter a y or n")
     print("choosen set: ", sub_set)
     print("Is mono: ", MONO)
 
