@@ -20,5 +20,5 @@ class TRAIN_CONFIG:
     NB_BATCHES = 16
     HIDDEN_SIZE = NB_SAMPLES*2
     LR = 0.001
-    STEPS = 1000
+    STEPS = 2000
 

@@ -228,7 +228,7 @@ def main():
                                         input_mean=dataset.mixture_scaler.mean_,
                                         input_scale=dataset.mixture_scaler.scale_,
                                         output_mean=dataset.label_scaler.mean_,
-                                        activation_function="tanh").to(device)
+                                        activation_function=activation_function).to(device)
 
     optimizer = torch.optim.Adam(dnn_model.parameters(), lr=0.001)
     loss_function = torch.nn.MSELoss()
