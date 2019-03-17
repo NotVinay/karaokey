@@ -22,7 +22,7 @@ class TRAIN_CONFIG:
     HIDDEN_SIZE = NB_SAMPLES*2
     NB_LAYERS = 1
     BIDIRECTIONAL = False
-    ACTIVATION_FUNCTION = "relu"
+    ACTIVATION_FUNCTION = "tanh"
     LR = 0.001
     OPTIMIZER = "adam"
     STEPS = 1000
@@ -30,8 +30,8 @@ class TRAIN_CONFIG:
     def __str__():
         ret = "\n ---Model Configuration---" +\
               "  \n Trained on: " + TRAIN_CONFIG.TRAINED_ON +\
-              "  \n batches: " + str(TRAIN_CONFIG.NB_BATCHES) +\
-              "  \n samples per batch: " + str(TRAIN_CONFIG.NB_SAMPLES) +\
+              "  \n Batches: " + str(TRAIN_CONFIG.NB_BATCHES) +\
+              "  \n Samples per batch: " + str(TRAIN_CONFIG.NB_SAMPLES) +\
               "  \n Activation Function: " + TRAIN_CONFIG.ACTIVATION_FUNCTION +\
               "  \n Hidden Size: " + str(TRAIN_CONFIG.HIDDEN_SIZE) +\
               "  \n Layers: " + str(TRAIN_CONFIG.NB_LAYERS) +\

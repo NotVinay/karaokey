@@ -148,16 +148,16 @@ def evaluation(dnn_model,
         sar_total_mean = np.mean(np.array(sar_means), axis=0)
         writer.add_text('Model_Configuration', TRAIN_CONFIG.__str__(), 0)
         writer.add_text('sdr_total_mean',
-                        "accompaniment: " + str(sdr_total_mean[1]) + "\n vocals: " + str(sdr_total_mean[0]),
+                        "accompaniment: " + str(sdr_total_mean[1]) + "  \n vocals: " + str(sdr_total_mean[0]),
                         0)
         writer.add_text('sir_total_mean',
-                        "accompaniment: " + str(sir_total_mean[1]) + "\n vocals: " + str(sir_total_mean[0]),
+                        "accompaniment: " + str(sir_total_mean[1]) + "  \n vocals: " + str(sir_total_mean[0]),
                         0)
         writer.add_text('isr_total_mean',
-                        "accompaniment: " + str(isr_total_mean[1]) + "\n vocals: " + str(isr_total_mean[0]),
+                        "accompaniment: " + str(isr_total_mean[1]) + "  \n vocals: " + str(isr_total_mean[0]),
                         0)
         writer.add_text('sar_total_mean',
-                        "accompaniment: " + str(sar_total_mean[1]) + "\n vocals: " + str(sar_total_mean[0]),
+                        "accompaniment: " + str(sar_total_mean[1]) + "  \n vocals: " + str(sar_total_mean[0]),
                         0)
         # END OF CONTEXT torch.no_grad()
 
