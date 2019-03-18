@@ -106,7 +106,8 @@ def remove_session_token():
         # get directory associated with the token.
         session_dir = os.path.join(app.config['AUDIO_DIR'], session['token'])
         # remove the directory of that token
-        shutil.rmtree(session_dir)
+        if os.path.exists(session_dir):
+            shutil.rmtree(session_dir)
         session.pop('token', None)
         return True
     else:
