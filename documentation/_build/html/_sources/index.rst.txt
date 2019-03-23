@@ -1,25 +1,11 @@
 
-Welcome to Karaokey's documentation!
+Karaokey Documentation
 ====================================
 
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
-FYP
-===
-
-.. toctree::
-   :maxdepth: 4
+   :caption: Contents
+   :name: karaokey
 
    docs/source/application
    docs/source/common
