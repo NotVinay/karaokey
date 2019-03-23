@@ -24,4 +24,5 @@ SUPPORTED_EXTENSIONS = [".aac",
                         ".ra",
                         ".wav",
                         ".wma",
-                        ".wav"]
+                        ".wav",
+                        ".m4a"]

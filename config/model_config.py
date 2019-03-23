@@ -25,7 +25,7 @@ class TRAIN_CONFIG:
     ACTIVATION_FUNCTION = "relu"
     LR = 0.001
     OPTIMIZER = "adam"
-    STEPS = 1000
+    STEPS = 5000
 
     def __str__():
         ret = "\n ---Model Configuration---" +\

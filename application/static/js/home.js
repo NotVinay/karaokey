@@ -23,7 +23,7 @@ $( document ).ready(function() {
         }
     });
 
-    $('#upload').on('click', function() {
+    $('#upload').on('click', function(event) {
         event.stopPropagation(); // stop executing futher events
         event.preventDefault(); // stop current event
         console.log("Upload Clicked")

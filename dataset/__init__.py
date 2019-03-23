@@ -179,10 +179,10 @@ class Dataset(object):
                 os.path.exists(os.path.join(metadata_path, 'mixture_mean.npy')) and
                 os.path.exists(os.path.join(metadata_path, self.source_label + '_scale.npy')) and
                 os.path.exists(os.path.join(metadata_path, self.source_label + '_mean.npy'))):
-            mixture_scale = np.load(os.path.join(metadata_path, 'mixture_scale.npy'))
-            mixture_mean = np.load(os.path.join(metadata_path, 'mixture_mean.npy'))
-            label_scale = np.load(os.path.join(metadata_path, self.source_label + '_scale.npy'))
-            label_mean = np.load(os.path.join(metadata_path, self.source_label + '_mean.npy'))
+            mixture_scale = np.load(os.path.join(metadata_path, 'mixture_scale.npy'), mmap_mode="r")
+            mixture_mean = np.load(os.path.join(metadata_path, 'mixture_mean.npy'), mmap_mode="r")
+            label_scale = np.load(os.path.join(metadata_path, self.source_label + '_scale.npy'), mmap_mode="r")
+            label_mean = np.load(os.path.join(metadata_path, self.source_label + '_mean.npy'), mmap_mode="r")
         else:
             # if not saved in the set generate on the fly,
             # could be slow for large datasets

@@ -276,8 +276,8 @@ def main():
                       sub_set="train",
                       source_label=TRAIN_CONFIG.TRAINED_ON,
                       lazy_load=True)
-    print(dataset.mixture_scaler.mean_.shape)
-    print(dataset.mixture_scaler.scale_.shape)
+    print(dataset.mixture_scale.shape)
+    print(dataset.mixture_mean.shape)
 
     dnn_model = Generalised_LSTM_Model(nb_features=TRAIN_CONFIG.NB_BINS,
                                        nb_frames=TRAIN_CONFIG.NB_SAMPLES,
