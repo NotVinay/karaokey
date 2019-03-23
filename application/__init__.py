@@ -16,15 +16,6 @@ def home_page():
     page = 'home'
     return render_template('home.html')
 
-
-@app.route('/karaokey')
-def karaokey_page():
-    """
-        Renders Karaokey application page
-    """
-    page = 'karaokey'
-    return render_template('karaokey.html')
-
 @app.route('/results')
 def reults_page():
     """
