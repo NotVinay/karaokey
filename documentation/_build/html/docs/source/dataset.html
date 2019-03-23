@@ -1,0 +1,339 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>dataset package &#8212; Karaokey alpha documentation</title>
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="preprocess package" href="preprocess.html" />
+    <link rel="prev" title="config package" href="config.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="preprocess.html" title="preprocess package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="config.html" title="config package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Karaokey alpha documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="dataset-package">
+<h1>dataset package<a class="headerlink" href="#dataset-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-dataset.Evaluation">
+<span id="dataset-evaluation-module"></span><h2>dataset.Evaluation module<a class="headerlink" href="#module-dataset.Evaluation" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-dataset">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-dataset" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="dataset.Dataset">
+<em class="property">class </em><code class="descclassname">dataset.</code><code class="descname">Dataset</code><span class="sig-paren">(</span><em>dir_path=None</em>, <em>sub_set='train'</em>, <em>source_label='vocals'</em>, <em>data_type='.npy'</em>, <em>lazy_load=True</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.Dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to load the preprocessed dataset</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><strong>_mixtures</strong> (<em>ndarray</em>) – shape(nb_tracks, nb_frames, nb_bins, nb_channels)
+array of scaled and preprocessed spectrogramic mixture tracks</li>
+<li><strong>_labels</strong> (<em>ndarray</em>) – shape(nb_tracks, nb_frames, nb_bins, nb_channels)
+array of scaled and preprocessed spectrogramic label tracks</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="dataset.Dataset.__getitem__">
+<code class="descname">__getitem__</code><span class="sig-paren">(</span><em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.Dataset.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the music from the dataset</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>index of the music file</em>) – </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><ul class="simple">
+<li><strong>mixture</strong> (<em>ndarray</em>) – shape(nb_frames, nb_bins, nb_channels)
+audio data of mixture file</li>
+<li><strong>label</strong> (<em>ndarray</em>) – shape(nb_frames, nb_bins, nb_channels)
+audio data of mixture file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Dataset.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>dir_path=None</em>, <em>sub_set='train'</em>, <em>source_label='vocals'</em>, <em>data_type='.npy'</em>, <em>lazy_load=True</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.Dataset.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor that initialises the Dataset</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>dir_path</strong> (<em>str</em>) – path of the dataset</li>
+<li><strong>sub_set</strong> (<em>str</em>) – sub set to load from the dataset</li>
+<li><strong>source_label</strong> (<em>str</em>) – label of the source file to retrieve</li>
+<li><strong>data_type</strong> (<em>str</em>) – data type or extension of files</li>
+<li><strong>lazy_load</strong> (<em>bool</em>) – Lazy load the data i.e, load on the fly to reduces the memory limits and loading times</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Dataset.__len__">
+<code class="descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dataset.Dataset.__len__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Length of tracks</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>int</strong></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">length of tracks in dataset</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Dataset.get_track_dir_paths">
+<code class="descname">get_track_dir_paths</code><span class="sig-paren">(</span><em>sub_set='train'</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.Dataset.get_track_dir_paths" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets track dir paths</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sub_set</strong> (<em>str</em>) – sub_set of the dataset i.e., train or test</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">list of the absolute paths of the track directories.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list[str]</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Dataset.get_track_name">
+<code class="descname">get_track_name</code><span class="sig-paren">(</span><em>index</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.Dataset.get_track_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get name of track sampl</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Name of the track</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.Dataset.labels">
+<code class="descname">labels</code><a class="headerlink" href="#dataset.Dataset.labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets scaled and preprocessed labels for all tracks</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>labels</strong> – shape(nb_tracks, nb_frames, nb_bins, nb_channels)
+array of scaled and preprocessed spectrogramic label tracks</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Dataset.load">
+<code class="descname">load</code><span class="sig-paren">(</span><em>track_dir</em><span class="sig-paren">)</span><a class="headerlink" href="#dataset.Dataset.load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads scaled and preprocessed mixture and label for a single track from specified track dir.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>track_dir</strong> (<em>str</em>) – path of the track directory where the files files are stored</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><ul class="simple">
+<li><strong>mixture</strong> (<em>ndarray</em>) – shape(nb_frames, nb_bins, nb_channels)
+scaled and preprocessed spectrogramic mixture track</li>
+<li><strong>label</strong> (<em>ndarray</em>) – shape(nb_frames, nb_bins, nb_channels)
+scaled and preprocessed spectrogramic label track</li>
+</ul>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code> – If <cite>track_dir</cite> doesn’t exist.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Dataset.load_all_tracks">
+<code class="descname">load_all_tracks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dataset.Dataset.load_all_tracks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads scaled and preprocessed mixtures and labels for all tracks</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><ul class="simple">
+<li><strong>mixtures</strong> (<em>ndarray</em>) – shape(nb_tracks, nb_frames, nb_bins, nb_channels)
+array of scaled and preprocessed spectrogramic mixture tracks</li>
+<li><strong>labels</strong> (<em>ndarray</em>) – shape(nb_tracks, nb_frames, nb_bins, nb_channels)
+array of scaled and preprocessed spectrogramic label tracks</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="dataset.Dataset.load_metadata">
+<code class="descname">load_metadata</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#dataset.Dataset.load_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>loads the metadata(scalers) related to the subset of the dataset</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><ul class="simple">
+<li><strong>mixture_scaler</strong> (<em>StandardScaler</em>) – Sklearn preprocess StandardScaler object which is fitted on mixture tracks from dataset</li>
+<li><strong>label_scaler</strong> (<em>StandardScaler</em>) – Sklearn preprocess StandardScaler object which is fitted on label tracks from dataset</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="dataset.Dataset.mixtures">
+<code class="descname">mixtures</code><a class="headerlink" href="#dataset.Dataset.mixtures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets scaled and preprocessed mixtures for all tracks</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>mixtures</strong> – shape(nb_tracks, nb_frames, nb_bins, nb_channels)
+array of scaled and preprocessed spectrogramic mixture tracks</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">dataset package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-dataset.Evaluation">dataset.Evaluation module</a></li>
+<li><a class="reference internal" href="#module-dataset">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="config.html"
+                        title="previous chapter">config package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="preprocess.html"
+                        title="next chapter">preprocess package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/docs/source/dataset.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="preprocess.html" title="preprocess package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="config.html" title="config package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">Karaokey alpha documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Vinay Patel.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
+    </div>
+  </body>
+</html>

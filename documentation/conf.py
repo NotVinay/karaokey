@@ -20,13 +20,13 @@ sys.path.insert(0, os.path.abspath('../'))
 # -- Project information -----------------------------------------------------
 
 project = 'Karaokey'
-copyright = '2019, VP'
-author = 'VP'
+copyright = '2019, Vinay Patel'
+author = 'Vinay Patel'
 
 # The short X.Y version
-version = ''
+version = '0.1.0'
 # The full version, including alpha/beta/rc tags
-release = '0.1'
+release = 'alpha'
 
 
 # -- General configuration ---------------------------------------------------
@@ -140,7 +140,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'Karaokey.tex', 'Karaokey Documentation',
-     'VP', 'manual'),
+     'Vinay Patel', 'manual'),
 ]
 
 
