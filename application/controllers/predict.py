@@ -6,7 +6,7 @@ import soundfile as sf
 import preprocess.utility as sp
 from preprocess.preprocess_tools import Scaler, STFT
 from flask import current_app as app
-from .model import LSTM_Model
+from train.model import LSTM_Model
 
 from torch.nn import Module, LSTM, Linear, Parameter
 import torch.nn.functional as F

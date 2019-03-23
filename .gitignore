@@ -1,6 +1,7 @@
 /venv
 .idea/*
 .dist/*
+.samples/*
 /application/audio
 /application/__pycache__
 /application/controllers/__pycache__
@@ -8,8 +9,8 @@
 /dataset/__pycache__
 /preprocess/__pycache__
 /train/__pycache__
-/train/models
 /train/runs
+/train/models
 /common/__pycache__
 temp.py
 sample.mp3

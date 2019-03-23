@@ -137,11 +137,13 @@ def main():
     if not os.path.exists(metadata_path):
         os.mkdir(metadata_path)
     # save cross track scaler computation as numpy file
-    np.save(os.path.join(metadata_path, 'mixture_scaler.npy'), mixture_scaler)
+    np.save(os.path.join(metadata_path, 'mixture_scale.npy'), mixture_scaler.scale_)
+    np.save(os.path.join(metadata_path, 'mixture_mean.npy'), mixture_scaler.mean_)
     for label in sources_scaler:
-        source_scaler_path = os.path.join(metadata_path, label + '_scaler.npy')
-        np.save(source_scaler_path, sources_scaler[label])
-
+        source_scale_path = os.path.join(metadata_path, label + '_scale.npy')
+        np.save(source_scale_path, sources_scaler[label].scale_)
+        source_mean_path = os.path.join(metadata_path, label + '_mean.npy')
+        np.save(source_mean_path, sources_scaler[label].mean_)
 
 if __name__ == '__main__':
     # run main method if this is ran as alone an script

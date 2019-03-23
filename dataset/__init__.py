@@ -17,7 +17,6 @@ class Dataset(object):
         array of scaled and preprocessed spectrogramic label tracks
     """
 
-
     def __init__(self,
                  dir_path=None,
                  sub_set='train',
@@ -53,8 +52,7 @@ class Dataset(object):
             self._mixtures, self._labels = self.load_all_tracks()
 
         # load metadata
-        self.mixture_scaler, self.label_scaler = self.load_metadata()
-
+        self.mixture_mean, self.mixture_scale, self.label_mean, self.label_scale = self.load_metadata()
 
     def __len__(self):
         """
@@ -177,10 +175,14 @@ class Dataset(object):
         # loading metadata metadata
         metadata_path = os.path.join(self.dir_path, self.sub_set + '_metadata')
         # load the scalers if saved in the dataset
-        if os.path.exists(os.path.join(metadata_path, 'mixture_scaler.npy')) and os.path.exists(
-                os.path.join(metadata_path, self.source_label + '_scaler.npy')):
-            mixture_scaler = np.load(os.path.join(metadata_path, 'mixture_scaler.npy')).item()
-            label_scaler = np.load(os.path.join(metadata_path, self.source_label + '_scaler.npy')).item()
+        if (os.path.exists(os.path.join(metadata_path, 'mixture_scale.npy')) and
+                os.path.exists(os.path.join(metadata_path, 'mixture_mean.npy')) and
+                os.path.exists(os.path.join(metadata_path, self.source_label + '_scale.npy')) and
+                os.path.exists(os.path.join(metadata_path, self.source_label + '_mean.npy'))):
+            mixture_scale = np.load(os.path.join(metadata_path, 'mixture_scale.npy'))
+            mixture_mean = np.load(os.path.join(metadata_path, 'mixture_mean.npy'))
+            label_scale = np.load(os.path.join(metadata_path, self.source_label + '_scale.npy'))
+            label_mean = np.load(os.path.join(metadata_path, self.source_label + '_mean.npy'))
         else:
             # if not saved in the set generate on the fly,
             # could be slow for large datasets
@@ -190,7 +192,11 @@ class Dataset(object):
                 mixture, label = self[i]
                 mixture_scaler.partial_fit(np.squeeze(mixture))
                 label_scaler.partial_fit(np.squeeze(label))
-        return mixture_scaler, label_scaler
+            mixture_scale = mixture_scaler.scale_
+            mixture_mean = mixture_scaler.mean_
+            label_scale = label_scaler.scale_
+            label_mean = label_scaler.mean_
+        return mixture_mean, mixture_scale, label_mean, label_scale
 
     def load(self, track_dir):
         """

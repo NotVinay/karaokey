@@ -279,22 +279,14 @@ def main():
     print(dataset.mixture_scaler.mean_.shape)
     print(dataset.mixture_scaler.scale_.shape)
 
-    # dnn_model = LSTM_Model(
-    #     nb_features=TRAIN_CONFIG.NB_BINS,
-    #     nb_frames=TRAIN_CONFIG.NB_SAMPLES,
-    #     hidden_size=TRAIN_CONFIG.HIDDEN_SIZE,
-    #     input_mean=dataset.mixture_scaler.mean_,
-    #     input_scale=dataset.mixture_scaler.scale_,
-    #     output_mean=dataset.label_scaler.mean_,
-    # ).to(device)
     dnn_model = Generalised_LSTM_Model(nb_features=TRAIN_CONFIG.NB_BINS,
                                        nb_frames=TRAIN_CONFIG.NB_SAMPLES,
                                        hidden_size=TRAIN_CONFIG.HIDDEN_SIZE,
                                        nb_layers=TRAIN_CONFIG.NB_LAYERS,
                                        bidirectional=TRAIN_CONFIG.BIDIRECTIONAL,
-                                       input_mean=dataset.mixture_scaler.mean_,
-                                       input_scale=dataset.mixture_scaler.scale_,
-                                       output_mean=dataset.label_scaler.mean_,
+                                       input_mean=dataset.mixture_mean,
+                                       input_scale=dataset.mixture_scale,
+                                       output_mean=dataset.label_mean,
                                        activation_function=TRAIN_CONFIG.ACTIVATION_FUNCTION).to(device)
 
     optimizer_choices = {'adam': torch.optim.Adam, 'rmsprop': torch.optim.RMSprop}

@@ -8,7 +8,7 @@ class PREPROCESS_CONFIG:
     PATH = r"C:\Users\w1572032.INTRANET.001\Desktop\pro_dataset_test"
 
 class DATASET_CONFIG:
-    PATH = r"C:\Users\w1572032.INTRANET.001\Desktop\short_dataset_wav"
+    PATH = r"C:\Users\w1572032.INTRANET.001\Desktop\dataset_wav"
     SR = 44100
     N_PER_SEG = 4096
     N_HOP_SIZE = N_PER_SEG/2
@@ -22,7 +22,7 @@ class TRAIN_CONFIG:
     HIDDEN_SIZE = NB_SAMPLES*2
     NB_LAYERS = 1
     BIDIRECTIONAL = False
-    ACTIVATION_FUNCTION = "tanh"
+    ACTIVATION_FUNCTION = "relu"
     LR = 0.001
     OPTIMIZER = "adam"
     STEPS = 1000
