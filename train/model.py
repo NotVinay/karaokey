@@ -2,7 +2,7 @@ from torch.nn import Module, LSTM, Linear, Parameter
 import torch.nn.functional as F
 import torch
 import numpy as np
-
+import ipdb
 
 class LSTM_Model(Module):
     def __init__(self,
@@ -124,10 +124,11 @@ class Generalised_LSTM_Model(Module):
             batch_first=True,
             bidirectional=bidirectional
         )
+        self.lstm_output = hidden_size*2 if bidirectional else hidden_size
 
         # fully connected dense layer for input dimensionality expansion
         self.fc_de = Linear(
-            in_features=hidden_size,
+            in_features=self.lstm_output,
             out_features=nb_features
         )
 
@@ -139,16 +140,20 @@ class Generalised_LSTM_Model(Module):
             torch.from_numpy(np.copy(output_mean).astype(np.float32))
         )
 
-        activation_functions = {'relu':F.relu, 'tanh': torch.tanh}
+        activation_functions = {'relu': F.relu, 'tanh': torch.tanh}
         self.activation_function = activation_functions[activation_function]
 
     def forward(self, x):
+        #ipdb.set_trace()
         nb_batches, nb_frames, nb_features = x.data.shape
         x -= self.input_mean
         x /= self.input_scale
 
+        # making sure that the shape of the tensors are correct to be feed into next FC layer
+        x = x.reshape(-1, nb_features)
+
         # reduce input dimensionality
-        x = self.fc_dr(x.reshape(-1, nb_features))
+        x = self.fc_dr(x)
 
         # tanh squashing range ot [-1, 1]
         x = self.activation_function(x)
@@ -160,7 +165,7 @@ class Generalised_LSTM_Model(Module):
         x, state = self.lstm(x)
 
         # making sure that the shape of the tensors are correct to be feed into next FC layer
-        x = x.reshape(-1, self.hidden_size)
+        x = x.reshape(-1, self.lstm_output)
 
         # dimensionality expansion layer using fully connected dense layer to regain the original shape
         x = self.fc_de(x)

@@ -8,6 +8,8 @@
 /dataset/__pycache__
 /preprocess/__pycache__
 /train/__pycache__
+/train/models
+/train/runs
 /common/__pycache__
 temp.py
 sample.mp3
