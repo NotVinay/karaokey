@@ -55,3 +55,8 @@ input[type=checkbox]
   -o-transform: scale(2);
   padding: 10px;
 }
+
+.spinner-border-lg {
+    height: 5rem;
+    width: 5rem;
+}

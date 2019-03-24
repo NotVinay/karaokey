@@ -3,6 +3,10 @@
 
 
 $( document ).ready(function() {
+    // preventing modal from closing when backdrop is clicked
+    $('#loader').modal({show: false})
+
+
     var file
 
     // capturing file on change
@@ -24,18 +28,20 @@ $( document ).ready(function() {
     });
 
     $('#upload').on('click', function(event) {
+        $('#loader').modal('show');
         event.stopPropagation(); // stop executing futher events
         event.preventDefault(); // stop current event
         console.log("Upload Clicked")
         if(!$('#consent').is(":checked")){
             // showing consent error if consent is not clicked
-            $('#consent-error').show()
+            $('#consent-error').show();
+            $('#loader').modal('hide');
         } else {
             $('#file-form').prop('disabled', true);
             $('#upload').attr("disabled", "disabled");
             // capturing form data
             var data = new FormData();
-            data.append('music', file)
+            data.append('music', file);
             // sending ajax request for separation
             $.ajax({
                 url: '/separate',
@@ -55,6 +61,7 @@ $( document ).ready(function() {
                         // show error if separation fails
                         $('#file-form').prop('disabled', false);
                         $('#upload').removeAttr("disabled");
+                        $('#loader').modal('hide');
                         $('#box-error').text(data.error)
                         $('#box-error').addClass("");
                         $('#box-error').show();
@@ -66,7 +73,8 @@ $( document ).ready(function() {
                         // show error if separation fails
                         $('#file-form').prop('disabled', false);
                         $('#upload').removeAttr("disabled");
-                        $('#box-error').text(errorThrown)
+                        $('#loader').modal('hide');
+                        $('#box-error').text(errorThrown);
                         $('#box-error').addClass("");
                         $('#box-error').show();
                     }
