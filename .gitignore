@@ -1,7 +1,7 @@
 /venv
 .idea/*
 .dist/*
-.samples/*
+/samples
 /application/audio
 /application/__pycache__
 /application/controllers/__pycache__

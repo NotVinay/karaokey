@@ -75,7 +75,7 @@ def separate():
         saved = file_actions.save_file()
         if saved:
             dir_path = os.path.join(app.config['AUDIO_DIR'], session['token'])
-            predict.predict(dir_path)
+            predict.separate_file(dir_path)
             return jsonify({'token': session['token']})
         else:
             return jsonify({'error': 'Error in saving the file'})
