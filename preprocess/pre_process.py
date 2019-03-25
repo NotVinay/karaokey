@@ -1,12 +1,14 @@
 """
 Loads the Data from the .wav music files, preprocesses it and saves it as numpy array.
 
+Notes
+-----
 Main Pre processing Steps:
-1: Loading the individual track in time domain using `Data` object.
-2: Converting the loaded track to mono.
-3: Transforming it to frequency domain using `STFT` object which does Short Time Fourier Transformation.
-4: Normalises it by scaling it between 0 to 1 giving 0 to lowest values and 1 to highest values.
-5: Repeats the steps 1 to 3 for sources and than for scaling it scales the sources relative to the mixture.
+#. Loading the individual track in time domain using `Data` object.
+#. Converting the loaded track to mono.
+#. Transforming it to frequency domain using `STFT` object which does Short Time Fourier Transformation.
+#. Normalises it by scaling it between 0 to 1 giving 0 to lowest values and 1 to highest values.
+#. Repeats the steps 1 to 3 for sources and than for scaling it scales the sources relative to the mixture.
 """
 
 from config.model_config import DATASET_CONFIG, PREPROCESS_CONFIG

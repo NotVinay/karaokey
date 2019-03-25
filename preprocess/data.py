@@ -1,5 +1,5 @@
 """
-This module helps to load dataset from
+This module helps to load dataset of .wav files.
 """
 import os
 from preprocess.track_classes import Track

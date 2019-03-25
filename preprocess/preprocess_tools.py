@@ -1,3 +1,6 @@
+"""
+This module contains the tools used for pre-processing music tracks to be feed into the neural network.
+"""
 import numpy as np
 from scipy.signal import stft, istft
 #from config.model_config import EPS
@@ -58,6 +61,23 @@ class STFT:
         data: ndarray
             shape(nb_frames, nb_bins, nb_channels)
             STFT of the signal.
+
+        Notes
+        -----
+        STFT of signal :math:`x(m)` is given by:
+
+        .. math:: x(t) = x(m)h(m - tH)
+
+        Where the parameters represents following:
+
+        * :math:`x(m)` is signal
+        * :math:`t` is time
+        * :math:`h(m)` is window
+        * :math:`H` = `n_per_seg` - `n_overlap` is hop size of the signal
+
+        See Also
+        --------
+        istft: inverse STFT (Short Time Fourier Transformation)
         """
         self.shape = audio_data.shape
         f, t, Zxx = stft(audio_data,
@@ -67,7 +87,8 @@ class STFT:
 
     def istft(self, X):
         """
-        Generates the inverse STFT of frequency domain data
+        Generates the inverse STFT of frequency domain data.
+
         Parameters
         ----------
         X :  ndarray, shape(nb_frames, nb_bins, nb_channels)
@@ -77,6 +98,24 @@ class STFT:
         -------
         data : ndarray, shape(nb_channels, nb_samples)
             audio signal in time domain.
+
+        Notes
+        -----
+        inverse STFT is given by:
+
+        .. math::
+            x(m) = \\frac{ \\sum_{t}x_{t}(m)h(h-tH) }{ \\sum_{t} h^{2}(m-tH) }
+
+        Where the parameters represents following:
+
+        * :math:`x(m)` is retrieved signal
+        * :math:`h` is window
+        * :math:`t` is time of the signal
+        * :math:`H` = `n_per_seg` - `n_overlap` is hop size of the signal
+
+        See Also
+        --------
+        stft: STFT (Short Time Fourier Transformation)
         """
 
         t, data = istft(Zxx=X.T,
@@ -87,7 +126,7 @@ class STFT:
 
 class Scaler:
     """
-    Apply log compression the magnitude of stft and normalize to _boundary
+    Apply log compression the magnitude of stft and normalize to `_boundary`
 
     Attributes
     ----------
@@ -133,6 +172,10 @@ class Scaler:
         >>> print(scaler.scale(X=ex))
         [[0.         0.68273064 0.851306   0.25795466 1.        ]
          [0.         0.25795466 0.         0.         0.48812467]]
+
+        See Also
+        --------
+        unscale: It unscales the scaled spectrogramic mixture i.e. performs reverse process of `scale`.
         """
         # make sure there is no zero or neg values
         X = np.log(np.maximum(EPS, X))
@@ -157,8 +200,8 @@ class Scaler:
     def unscale(self, X, boundary=None):
         """
         It unscales the scaled spectrogramic mixture.
-
         It performs the reverse process of scaling
+
         Parameters
         ----------
         X: ndarray
@@ -180,6 +223,10 @@ class Scaler:
         >>> print(scaler.unscale(X=ex, boundary=np.array([4.2, 9])))
         [[0.         0.68273064 0.851306   0.25795466 1.        ]
          [0.         0.25795466 0.         0.         0.48812467]]
+
+        See Also
+        --------
+        scale: Scales the magnitude of STFT(Spectrogram).
         """
         if boundary is None:
             return np.exp(X * (self._boundary[1] - self._boundary[0]) + self._boundary[0])

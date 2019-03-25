@@ -166,11 +166,14 @@ class Dataset(object):
 
         Returns
         -------
-        mixture_scaler: StandardScaler
-            Sklearn preprocess StandardScaler object which is fitted on mixture tracks from dataset
-
-        label_scaler: StandardScaler
-            Sklearn preprocess StandardScaler object which is fitted on label tracks from dataset
+        mixture_mean: ndarray
+            mean of mixture sources
+        mixture_scale: ndarray
+            scaled ndarray of mixture sources
+        label_mean: ndarray
+            mean of label sources
+        label_scale: ndarray
+            scaled ndarray of label sources
         """
         # loading metadata metadata
         metadata_path = os.path.join(self.dir_path, self.sub_set + '_metadata')

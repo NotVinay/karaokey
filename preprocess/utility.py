@@ -53,7 +53,7 @@ def to_mono(data):
 
     Returns
     -------
-    ndArray
+    ndarray
         shape=(nb_samples, nb_channels)
         audio signal of `ndim = 1`
 

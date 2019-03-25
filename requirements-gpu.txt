@@ -9,6 +9,8 @@ flask
 ipdb
 tensorboard
 tensorboardX
+sphinx
+sphinx-rtd-theme
 
 # pytorch for gpu (CUDA10 and python 3.7)
 https://download.pytorch.org/whl/cu100/torch-1.0.1-cp37-cp37m-win_amd64.whl

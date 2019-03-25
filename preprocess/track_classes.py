@@ -1,3 +1,8 @@
+"""
+Contains track classes which represents audio tracks.
+"""
+
+
 import os
 import preprocess.utility as sp
 
@@ -142,23 +147,23 @@ class Audio:
 
     def __str__(self):
         """
-        Returns string representation of Audio
+        Returns string representation of `Audio`
 
         Returns
         -------
         str
-            String representation of Audio
+            String representation of `Audio`
         """
         return self.name
 
     def __repr__(self):
         """
-        Returns string representation of Audio
+        Returns string representation of `Audio`
 
         Returns
         -------
         str
-            String representation of Audio
+            String representation of `Audio`
         """
         return self.__str__()
 
