@@ -60,3 +60,7 @@ input[type=checkbox]
     height: 5rem;
     width: 5rem;
 }
+
+.text-break {
+    word-break: break-word
+}
