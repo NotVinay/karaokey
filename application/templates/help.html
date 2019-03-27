@@ -1,5 +1,59 @@
 {% extends 'index.html' %}
 
 {% block body %}
-    <h1> Frequently Asked Questions </h1>
+    <div class="container pb-4">
+        <h1> Frequently Asked Questions </h1>
+        <h4 class="mt-2"> How to use the application?</h4>
+        <div class="row">
+            <div class="col text-center">
+                <i class="fas fa-file-upload upload-icon text-center text-info mb-4"></i>
+                <h5>1. Upload music file.</h5>
+            </div>
+            <div class="col text-center">
+                <i class="fas fa-cogs upload-icon text-center text-info mb-4"></i>
+                <h5>2. Request Separation and wait for result.</h5>
+            </div>
+            <div class="col text-center">
+                <i class="fas fa-music upload-icon text-center text-info mb-4"></i>
+                <h5>3. Check and Save the separation.</h5>
+            </div>
+        </div>
+        <h4 class="mt-2"> Which files does karaokey support?</h4>
+        <p> It supports almost all audio file types, here is the full list of files types supported.</p>
+        <ul>
+            <li>.aac</li>
+            <li>.aif</li>
+            <li>.au</li>
+            <li>.flac</li>
+            <li>.gsm</li>
+            <li>.mp3</li>
+            <li>.ogg</li>
+            <li>.ra</li>
+            <li>.wav</li>
+            <li>.wma</li>
+            <li>.wav</li>
+            <li>.m4a</li>
+        </ul>
+        <h4 class="mt-2"> How long will the file i upload be saved on the system?</h4>
+        <p>
+            The uploaded by the you will be kept for 1 to 2 days.
+            User will be able to access the results of the separation for 1 day.
+            After a day the results will no longer be available and you will have to perform the separation again.
+        </p>
+        <h4 class="mt-2"> How the system uses the file i upload?</h4>
+        <p>
+            The file you upload will not be used by the system for any personal use,
+            it will only process the file through the model to generate the predicted results.
+            The file will not be published anywhere on the site or be available to any other user.
+        </p>
+        <h4 class="mt-2"> Is the file shared with any other user or system?</h4>
+        <p>
+            The file is only available to you and other users will not be able to access the file you upload and the separation results.
+            The is not shared with any other user's
+        </p>
+        <h4 class="mt-2"> What are the copyrights laws for music files?</h4>
+        <p>
+            Check <a href="/about">this link</a> for copyright laws and disclaimer statement for usage of this system.
+        </p>
+    </div>
 {% endblock %}

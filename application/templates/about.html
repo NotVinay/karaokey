@@ -1,5 +1,45 @@
 {% extends 'index.html' %}
 
 {% block body %}
-    <h1> Karaokey Vocal Remover </h1>
+    <div class="container">
+        <h1> About </h1>
+        <p>
+            Karaokey is a vocal remover that automatically separates the vocals and instruments. A deep learning model based on LSTMs has been trained to tackle the source separation.
+            The model learns the particularities of music signals through its temporal structure. For more information on how to use it please check <a href="/help" target="_blank">this link</a>.
+        </p>
+        <h2 id="disclaimer">
+            Disclaimer
+        </h2>
+        <p>
+            Karaokey only processes the audio files uploaded by the user.
+            Karaokey is not responsible for authorship rights of the uploaded songs.
+            Its the responsibility of the user to get appropriate license or agreement from the song owner for the usage.
+            Please check the Copyright law stated below for more information.
+        </p>
+        <h3>Copyright law for music:</h3>
+        <p>
+            Musical recordings and score are protected under UK copyright law outlined in Copyright, Designs and Patents Act 1998.
+            This states that musical recordings are automatically copyrighted whenever an individual or company creates the work (music).
+            This individual or company becomes the ‘first owner of copyright’ under the act.
+        </p>
+        <p>
+            Under this act, it is an offence to:
+        </p>
+        <ul>
+            <li>Copy the music.</li>
+            <li>Rent, lend or issue the music to others,</li>
+            <li>Perform, broadcast or show the music to public.</li>
+            <li>Adapt the music.</li>
+            <li>Copy the music.</li>
+        </ul>
+        <p> Here are some useful links which can provide detailed information on Copyrights and lawful processing of Intellectual Property.</p>
+        <ul>
+            <li>
+                <a href="https://www.gov.uk/government/publications/copyright-acts-and-related-laws/" target="_blank">Copyright Acts and related laws</a>
+            </li>
+            <li>
+                <a href="https://www.gov.uk/topic/intellectual-property/copyright/" target="_blank">Intellectual Property Copyright</a>
+            </li>
+        </ul>
+    </div>
 {% endblock %}

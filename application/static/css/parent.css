@@ -47,6 +47,11 @@ body {
     font-size: 60px;
 }
 
+.mute-icon {
+    font-size: 120px;
+}
+
+
 input[type=checkbox]
 {
   -ms-transform: scale(2);
@@ -57,8 +62,8 @@ input[type=checkbox]
 }
 
 .spinner-border-lg {
-    height: 5rem;
-    width: 5rem;
+    height: 7rem;
+    width: 7rem;
 }
 
 .text-break {
