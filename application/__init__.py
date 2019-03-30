@@ -24,13 +24,13 @@ def reults_page():
     page = 'results'
     return render_template('results.html')
 
-@app.route('/help')
+@app.route('/faq')
 def help_page():
     """
-        Renders help page
+        Renders faq page
     """
     page = 'help'
-    return render_template('help.html')
+    return render_template('faq.html')
 
 
 @app.route('/about')
@@ -72,9 +72,12 @@ def separate():
         return jsonify({'error': 'File Not Supported'})
 
     elif audio_file and file_actions.supported_file(audio_file.filename):
+        #flash("Saving uploaded file")
         saved = file_actions.save_file()
         if saved:
+            #flash("Uploaded file saved")
             dir_path = os.path.join(app.config['AUDIO_DIR'], session['token'])
+            #flash("Predicting...")
             predict.separate_file(dir_path)
             return jsonify({'token': session['token']})
         else:
