@@ -234,14 +234,15 @@ If none supplied than all tracks in the directory will be loaded.</li>
 </div>
 <div class="section" id="module-preprocess.pre_process">
 <span id="preprocess-pre-process-module"></span><h2>preprocess.pre_process module<a class="headerlink" href="#module-preprocess.pre_process" title="Permalink to this headline">¶</a></h2>
-<p>Loads the Data from the .wav music files, preprocesses it and saves it as numpy array.</p>
-<p class="rubric">Notes</p>
-<p>Main Pre processing Steps:
-#. Loading the individual track in time domain using <cite>Data</cite> object.
-#. Converting the loaded track to mono.
-#. Transforming it to frequency domain using <cite>STFT</cite> object which does Short Time Fourier Transformation.
-#. Normalises it by scaling it between 0 to 1 giving 0 to lowest values and 1 to highest values.
-#. Repeats the steps 1 to 3 for sources and than for scaling it scales the sources relative to the mixture.</p>
+<p>Loads the Data from the .wav music files, preprocesses it and saves it as numpy array.
+Main Pre processing Steps:</p>
+<ul class="simple">
+<li>Loading the individual track in time domain using <cite>Data</cite> object.</li>
+<li>Converting the loaded track to mono.</li>
+<li>Transforming it to frequency domain using <cite>STFT</cite> object which does Short Time Fourier Transformation.</li>
+<li>Normalises it by scaling it between 0 to 1 giving 0 to lowest values and 1 to highest values.</li>
+<li>Repeats the steps 1 to 3 for sources and than for scaling it scales the sources relative to the mixture.</li>
+</ul>
 <dl class="function">
 <dt id="preprocess.pre_process.main">
 <code class="descclassname">preprocess.pre_process.</code><code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#preprocess.pre_process.main" title="Permalink to this definition">¶</a></dt>

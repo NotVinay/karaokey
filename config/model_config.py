@@ -22,16 +22,18 @@ class TRAIN_CONFIG:
     HIDDEN_SIZE = NB_SAMPLES*2
     NB_LAYERS = 1
     BIDIRECTIONAL = False
+    RECURRENT_LAYER = "lstm"
     ACTIVATION_FUNCTION = "relu"
     LR = 0.001
     OPTIMIZER = "adam"
-    STEPS = 5000
+    STEPS = 1000
 
     def __str__():
         ret = "\n ---Model Configuration---" +\
               "  \n Trained on: " + TRAIN_CONFIG.TRAINED_ON +\
               "  \n Batches: " + str(TRAIN_CONFIG.NB_BATCHES) +\
               "  \n Samples per batch: " + str(TRAIN_CONFIG.NB_SAMPLES) +\
+              "  \n RECURRENT LAYER: " + TRAIN_CONFIG.RECURRENT_LAYER +\
               "  \n Activation Function: " + TRAIN_CONFIG.ACTIVATION_FUNCTION +\
               "  \n Hidden Size: " + str(TRAIN_CONFIG.HIDDEN_SIZE) +\
               "  \n Layers: " + str(TRAIN_CONFIG.NB_LAYERS) +\
