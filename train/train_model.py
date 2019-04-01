@@ -15,7 +15,7 @@ import preprocess.utility as sp
 from preprocess.preprocess_tools import Scaler, STFT
 from preprocess.data import Data
 import common.input_handler as uin
-
+import os
 
 def random_batch_sampler(dataset, nb_frames=128):
     """
@@ -135,6 +135,7 @@ def evaluation(dnn_model,
         isr_means = []
         sar_means = []
         # iterate over sample the tracks
+        PREDICTION_PATH = os.path.abspath(r"C:\Users\w1572032.INTRANET.001\Desktop\predicted_results")
         for track_number, track in enumerate(test_tracks):
             # getting predicted estimates of accompaniment and vocals
             acc_estimate, vocals_estimate = predict(dnn_model,
@@ -143,20 +144,26 @@ def evaluation(dnn_model,
                                                     sr=track.mixture.sr,
                                                     trained_on=trained_on)
 
+            res_track_path = os.path.join(PREDICTION_PATH, track.__str__())
+            if not os.path.exists(res_track_path):
+                os.mkdir(res_track_path)
+            sp.write(path=os.path.join(res_track_path, 'predicted_vocals.wav'), data=vocals_estimate, sr=track.mixture.sr)
+            sp.write(path=os.path.join(res_track_path, 'predicted_accompaniment.wav'), data=acc_estimate, sr=track.mixture.sr)
+
             # adding it to list for evaluating metrics
             estimates_list = np.array([vocals_estimate, acc_estimate])
             reference_list = np.array(
                 [np.copy(track.sources["vocals"].data), np.copy(track.sources["accompaniment"].data)])
 
             # evaluating the metrics
-            SDR, SIR, ISR, SAR = museval.evaluate(reference_list, estimates_list)
+            SDR_mean, SIR_mean, ISR_mean, SAR_mean = museval.evaluate(reference_list, estimates_list, win=track.mixture.data.shape[0], hop=track.mixture.data.shape[0])
 
             # getting mean of the metrics
-            SDR_mean = np.mean(SDR, axis=1)
-            SIR_mean = np.mean(SIR, axis=1)
-            ISR_mean = np.mean(ISR, axis=1)
-            SAR_mean = np.mean(SAR, axis=1)
-            print(track_number, ": ", SDR.shape, ", ", SDR_mean.shape)
+            # SDR_mean = np.mean(SDR, axis=1)
+            # SIR_mean = np.mean(SIR, axis=1)
+            # ISR_mean = np.mean(ISR, axis=1)
+            # SAR_mean = np.mean(SAR, axis=1)
+            print(track_number, ": ", SDR_mean.shape, ", ", SDR_mean.shape)
 
             # logging METRICS for vocals
             writer.add_scalar('vocals/SDR_mean', SDR_mean[0], track_number)
@@ -307,7 +314,7 @@ def main():
     # current timestamp
     timestamp = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d_%H-%M')
     use_default_config = uin.get_confirmation(msg="Use default train config",
-                                              error_msg="Please enter vocals or accompaniment")
+                                              error_msg="Please enter y or n")
     # getting parameters through console.
     if not use_default_config:
         TRAIN_CONFIG.TRAINED_ON = uin.get_input_str(msg="Please select the label (vocals/accompaniment)",
@@ -338,17 +345,7 @@ def main():
                                                only_accept=[1000, 2000, 5000, 7500, 10000],
                                                error_msg="Please enter valid number of steps")
 
-    print("\n Selected Configuration ->",
-          "\n Trained on: ", TRAIN_CONFIG.TRAINED_ON,
-          "\n batches: ", TRAIN_CONFIG.NB_BATCHES,
-          "\n samples per batch: ", TRAIN_CONFIG.NB_SAMPLES,
-          "\n Activation Function: ", TRAIN_CONFIG.ACTIVATION_FUNCTION,
-          "\n Hidden Size: ", TRAIN_CONFIG.HIDDEN_SIZE,
-          "\n Layers: ", TRAIN_CONFIG.NB_LAYERS,
-          "\n BiLSTM: ", TRAIN_CONFIG.BIDIRECTIONAL,
-          "\n Learning Rate: ", TRAIN_CONFIG.LR,
-          "\n Optimizer: ", TRAIN_CONFIG.OPTIMIZER,
-          "\n Steps: ", str(TRAIN_CONFIG.STEPS))
+    print(TRAIN_CONFIG.__str__())
 
     if not uin.get_confirmation(msg="Proceed with above configurations?", error_msg="Please enter y or n"):
         print("TERMINATED")

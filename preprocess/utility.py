@@ -42,6 +42,23 @@ def read(path=None,
     return data, sr
 
 
+def write(path=None,
+          data=None,
+          sr=None):
+    """
+    Writes the music file.
+
+    Parameters
+    ----------
+    path: str
+        path to the file.
+    data: ndarray, shape(nb_samples, nb_channels)
+        time series data.
+    sr: int
+        sampling rate
+    """
+    sf.write(path, data, sr)
+
 def to_mono(data):
     """
     Transforms a stereo track into mono track.

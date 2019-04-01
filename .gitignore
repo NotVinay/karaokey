@@ -1,7 +1,7 @@
 /venv
 .idea/*
 .dist/*
-#/samples
+/samples
 /application/audio
 /application/__pycache__
 /application/controllers/__pycache__
@@ -12,4 +12,4 @@
 /train/runs
 /train/models
 /common/__pycache__
-t_model.py
+/interactive_notebooks/.ipynb_checkpoints
