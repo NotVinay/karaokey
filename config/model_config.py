@@ -26,7 +26,7 @@ class TRAIN_CONFIG:
     NB_LAYERS = 1
     BIDIRECTIONAL = False
     RECURRENT_LAYER = "rnn"
-    ACTIVATION_FUNCTION = "relu"
+    ACTIVATION_FUNCTION = "tanh"
     LR = 0.001
     OPTIMIZER = "adam"
     STEPS = 5000

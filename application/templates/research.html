@@ -2,10 +2,37 @@
 
 {% block body %}
 <div class="container mb-4">
+    <div class="modal h-100" id="loader" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+            <div class="spinner-grow spinner-border-lg text-primary shadow m-auto" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
     <form id="research-form">
+        <div class="row mt-4">
+            <div class="col">
+                <h3 class="font-weight-bold mt-2">
+                    Instructions:
+                </h3>
+                <p>
+                    This research study involves rating of 25 music separation results. For each sample you will be presented with
+                    the full mixture track, a original separated track and a predicted instrumental track each of them is 6 seconds in duration.
+                    You should compare it in contrast with noise, the source presence i.e., how much vocals are left in the predicted instrumental
+                    and the overall quality of the music sources.
+                </p>
+                <p>
+                    For each sample select appropriate rating for the predict instrumental by comparing it with the original instrumental tracks.
+                </p>
+                <div class="alert alert-danger">
+                    While rating please do not judge the songs on the bases of the lyrics, only judge the samples on the factors explained above.
+                    This is because lyrics, or melody of the song could influence some audience which may lead to inconsistent results.
+                </div>
+            </div>
+        </div>
         {% for track_dir in track_dirs %}
             <div class="mt-3 card shadow">
-                <h5 class="card-header text-center text-light bg-info">{{ i }} {{ track_dir }} </h5>
+                <h5 class="card-header text-center text-light bg-info">{{ track_dir }} </h5>
                 <div class="card-body">
                     <div class="row mb-2 justify-content-center">
                         <div class="col-12 font-weight-bold text-center mb-1 mr-md-4">Mixture</div>
@@ -20,13 +47,13 @@
                         </audio>
                     </div>
                     <div class="row mb-2 justify-content-center">
-                        <div class="col-12 font-weight-bold text-center mb-1 mr-md-4">Predicted results to compare</div>
+                        <div class="col-12 font-weight-bold text-center mb-1 mr-md-4">Predicted Instrumental</div>
                         <audio controls class="col-md-12 col-lg-8 align-self-center mb-2 mb-md-0" preload="auto">
                             <source src="{{ url_for('static', filename='cognitive_research/'+track_dir+'/predicted_accompaniment.wav') }}" type="audio/wav">
                         </audio>
                     </div>
                     <fieldset class="form-group row">
-                        <legend class="col-form-legend text-center">Please select appropriate rating for this separation result.</legend>
+                        <legend class="col-form-legend text-center">Rate the quality of predicted instrumental track.</legend>
                         <div class="m-auto col-12 col-md-3">
                             <div class="form-check">
                                 <label class="form-check-label">
@@ -67,7 +94,7 @@
         <div class="mt-3 card shadow">
             <div class="card-body">
                 <div class="form-group text-center">
-                    <label for="feedback">Please give any additional feedback on the results.</label>
+                    <label for="feedback">Do you have any additional feedback?</label>
                     <textarea class="form-control" name="feedback" id="feedback" rows="3"></textarea>
                 </div>
             </div>
@@ -78,6 +105,14 @@
             </div>
         </div>
     </form>
+    <div class="mt-4" id="submit-successful">
+        <div class="d-flex flex-column align-items-center">
+            <div class="mb-2">
+                <i class="fas fa-check-circle text-info" style="font-size: 7.5em;"></i>
+            </div>
+            <h3>Thanks for taking part in this research study!</h3>
+        </div>
+    </div>
 </div>
 <script  type="text/javascript" src="{{ url_for('static', filename='js/research.js') }}"></script>
 {% endblock %}

@@ -19,3 +19,4 @@ torchvision
 # museval
 # notebook==5.7.5
 # flask_sqlalchemy
+# pymysql

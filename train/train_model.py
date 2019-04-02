@@ -135,7 +135,6 @@ def evaluation(dnn_model,
         isr_means = []
         sar_means = []
         # iterate over sample the tracks
-        PREDICTION_PATH = os.path.abspath(r"C:\Users\w1572032.INTRANET.001\Desktop\predicted_results")
         for track_number, track in enumerate(test_tracks):
             # getting predicted estimates of accompaniment and vocals
             acc_estimate, vocals_estimate = predict(dnn_model,
@@ -143,13 +142,6 @@ def evaluation(dnn_model,
                                                     data=track.mixture.data,
                                                     sr=track.mixture.sr,
                                                     trained_on=trained_on)
-
-            res_track_path = os.path.join(PREDICTION_PATH, track.__str__())
-            if not os.path.exists(res_track_path):
-                os.mkdir(res_track_path)
-            sp.write(path=os.path.join(res_track_path, 'predicted_vocals.wav'), data=vocals_estimate, sr=track.mixture.sr)
-            sp.write(path=os.path.join(res_track_path, 'predicted_accompaniment.wav'), data=acc_estimate, sr=track.mixture.sr)
-
             # adding it to list for evaluating metrics
             estimates_list = np.array([vocals_estimate, acc_estimate])
             reference_list = np.array(

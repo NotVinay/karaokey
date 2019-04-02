@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
 app.config.from_pyfile('config.py')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://w1572032:AH1JedDWtkNz@elephant.ecs.westminster.ac.uk/w1572032_0'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://vinay:Vi^ay12345@10.0.4.71/karaokey'
 db = SQLAlchemy(app)
 page = 'home'
 
@@ -14,7 +14,7 @@ from .controllers import file_actions, predict
 from application.model import Track, User, Rating
 
 # create database tables only for feedback forms
-# db.create_all()
+db.create_all()
 
 @app.route('/')
 def home_page():
@@ -130,7 +130,6 @@ def submitResearch():
     form_data = request.form
     user = User(feedback=form_data['feedback'])
     db.session.add(user)
-    print("user id: ", user.id)
     for i in range(1, 30):
         s_i = str(i)
         if "title_"+s_i in form_data:
@@ -138,8 +137,11 @@ def submitResearch():
             db.session.add(Rating(user_id=user.id,
                                   track_id=track.id,
                                   rating=form_data["rating_"+s_i]))
-    db.session.commit()
-    return jsonify([])
+    try:
+        db.session.commit()
+        return jsonify({'success': True})
+    except:
+        return jsonify({'success': False})
 
 @app.route('/clear-session', methods=['GET'])
 def clearSession():

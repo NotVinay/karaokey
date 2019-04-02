@@ -72,7 +72,6 @@ $( document ).ready(function() {
                         $('#upload').removeAttr("disabled");
                         $('#loader').modal('hide');
                         $('#box-error').text(errorThrown);
-                        $('#box-error').addClass("");
                         $('#box-error').show();
                     }
                 }

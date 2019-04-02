@@ -4,6 +4,7 @@ Contains the configuration of the Flask app and other constants
 import os
 from datetime import timedelta
 
+# Only for Development Stage
 DEBUG = True
 TESTING = True
 
