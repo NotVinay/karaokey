@@ -1,6 +1,3 @@
-//ROOT = {{ request.script_root|tojson|safe }};
-// Variable to store your files
-
 
 $( document ).ready(function() {
     // preventing modal from closing when backdrop is clicked

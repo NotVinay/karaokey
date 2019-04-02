@@ -1,19 +1,26 @@
 from flask import Flask, flash, render_template, request, jsonify, session, send_file
 import os
-from .controllers import file_actions, predict
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
-
+app.config.from_pyfile('config.py')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://w1572032:AH1JedDWtkNz@elephant.ecs.westminster.ac.uk/w1572032_0'
+db = SQLAlchemy(app)
 page = 'home'
 
+# app imports after initialising the app and db
+from .controllers import file_actions, predict
+from application.model import Track, User, Rating
+
+# create database tables only for feedback forms
+# db.create_all()
 
 @app.route('/')
 def home_page():
     """
         Renders home page
     """
-    page = 'home'
     return render_template('home.html')
 
 @app.route('/results')
@@ -32,7 +39,6 @@ def help_page():
     page = 'help'
     return render_template('faq.html')
 
-
 @app.route('/about')
 def about_page():
     """
@@ -40,6 +46,16 @@ def about_page():
     """
     page = 'about'
     return render_template('about.html')
+
+@app.route('/research')
+def research_study_page():
+    """
+        Renders about page
+    """
+    page = 'research'
+    dir_path = os.path.join(app.config['ROOT'], 'static/cognitive_research')
+    _, folders, _ = next(os.walk(dir_path))
+    return render_template('research.html', track_dirs=folders)
 
 """
     ------------------------------
@@ -105,6 +121,25 @@ def download():
     else:
         ret = {'error': True, 'description': "Error in request parameters"}
     return jsonify(ret)
+
+@app.route('/submit-research', methods=['POST'])
+def submitResearch():
+    """
+    Submits the research form
+    """
+    form_data = request.form
+    user = User(feedback=form_data['feedback'])
+    db.session.add(user)
+    print("user id: ", user.id)
+    for i in range(1, 30):
+        s_i = str(i)
+        if "title_"+s_i in form_data:
+            track = Track.query.filter_by(title=request.form["title_"+s_i]).first()
+            db.session.add(Rating(user_id=user.id,
+                                  track_id=track.id,
+                                  rating=form_data["rating_"+s_i]))
+    db.session.commit()
+    return jsonify([])
 
 @app.route('/clear-session', methods=['GET'])
 def clearSession():

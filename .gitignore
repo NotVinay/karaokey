@@ -5,6 +5,7 @@
 /application/audio
 /application/__pycache__
 /application/controllers/__pycache__
+/application/static/cognitive_research
 /config/__pycache__
 /dataset/__pycache__
 /preprocess/__pycache__
