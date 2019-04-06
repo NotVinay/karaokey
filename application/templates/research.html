@@ -11,23 +11,57 @@
     </div>
     <form id="research-form">
         <div class="row mt-4">
-            <div class="col">
+            <div class="col-12">
                 <h3 class="font-weight-bold mt-2">
-                    Instructions:
+                    PARTICIPATION INFORMATION:
                 </h3>
                 <p>
-                    This research study involves rating of 25 music separation results. For each sample you will be presented with
-                    the full mixture track, a original separated track and a predicted instrumental track each of them is 6 seconds in duration.
-                    You should compare it in contrast with noise, the source presence i.e., how much vocals are left in the predicted instrumental
+                    This research study involves rating of 25 music separation results. This will take about 20 to 30 minutes.
+                </p>
+                <p>
+                    For each sample you will be presented with the full mixture track, a original separated track and a predicted instrumental track, each 6 seconds in duration.
+                    You should compare it in contrast with noise, interference and the source presence i.e., how much vocals are left in the predicted instrumental
                     and the overall quality of the music sources.
                 </p>
                 <p>
-                    For each sample select appropriate rating for the predict instrumental by comparing it with the original instrumental tracks.
+                    You will have to select appropriate rating for each predicted instrumental by comparing it with the original instrumental track.
                 </p>
                 <div class="alert alert-danger">
-                    While rating please do not judge the songs on the bases of the lyrics, only judge the samples on the factors explained above.
+                    While rating please do not judge the songs on the basis of the lyrics, only judge the samples on the factors explained above.
                     This is because lyrics, or melody of the song could influence some audience which may lead to inconsistent results.
                 </div>
+            </div>
+            <div class="col-12 mt-2">
+                <h3 class="font-weight-bold mt-2">
+                    Please note:
+                </h3>
+                <ul>
+                    <li>
+                        Your participation in this research is entirely voluntary.
+                    </li>
+                    <li>
+                        You have the right to withdraw at any time without giving a reason.
+                    </li>
+                    <li>
+                        Your responses are anonymous, and will be kept until the end of this academic year(july 2019).
+                    </li>
+                    <li>
+                        You have the right to ask for your data to be withdrawn as long as this is practical, and for personal information to be destroyed.
+                    </li>
+                    <li>
+                        If you wish you, can receive information on the results of the research.
+                        Please contact the researcher by email <a href = "mailto: w1572032@my.westminster.ac.uk">w1572032@my.westminster.ac.uk</a>.
+                    </li>
+                    <li>
+                        No individuals should be identifiable from any collated data, written report of the research, or any publications arising from it.
+                    </li>
+                    <li>
+                        The researcher can be contacted during and after participation by email <a href = "mailto: w1572032@my.westminster.ac.uk">w1572032@my.westminster.ac.uk</a>.
+                    </li>
+                    <li>
+                        If you have a complaint about this research project you can contact the project supervisor, Dr. Barbara Villarini by e-mail <a href = "mailto: B.Villarini@westminster.ac.uk">B.Villarini@westminster.ac.uk</a> or by telephone <a href="tel:+442079115000">+44 20 7911 5000</a> ext 64739.
+                    </li>
+                </ul>
             </div>
         </div>
         {% for track_dir in track_dirs %}
@@ -86,7 +120,7 @@
                                 </label>
                             </div>
                         </div>
-                        <input type="hidden" id="" name="title_{{ loop.index }}" value="{{ track_dir }}">
+                        <input type="hidden" id="title_{{ loop.index }}" name="title_{{ loop.index }}" value="{{ track_dir }}">
                     </fieldset>
                 </div>
             </div>

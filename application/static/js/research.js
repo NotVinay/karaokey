@@ -6,9 +6,18 @@ $(document).ready(function() {
     $('#loader').modal({show: false})
 
     $('#submit').on('click', function(event) {
-        $('#loader').modal('show');
         event.stopPropagation();
         event.preventDefault();
+        var i;
+        for (i = 1; i < 26; i++){
+            console.log('#rating_'+i, $('input[name=rating_'+i+']:checked', '#research-form').val())
+            if(!$('input[name=rating_'+i+']:checked', '#research-form').val()){
+                alert("Please make sure you have rated all tracks");
+                return
+                break
+            }
+        }
+        $('#loader').modal('show');
         var data = $("#research-form").serialize();
         console.log(data)
         $.ajax({
@@ -28,5 +37,6 @@ $(document).ready(function() {
                 $('#loader').modal('hide');
             }
         });
+
     });
 });
