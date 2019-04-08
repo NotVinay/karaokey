@@ -9,6 +9,4 @@ FYP
    config
    dataset
    preprocess
-   t_model
-   tests
    train

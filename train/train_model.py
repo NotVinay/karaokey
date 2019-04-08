@@ -5,17 +5,24 @@ import torch
 import torch.nn.functional as F
 import time, datetime
 from torch.autograd import Variable
-from train.model import LSTM_Model, Generalised_Recurrent_Model
+from train.model import Generalised_Recurrent_Model
 from tensorboardX import SummaryWriter
-from config.model_config import TRAIN_CONFIG, DATASET_CONFIG
-from dataset import Dataset
 import museval
 import norbert
+from config import TRAIN_CONFIG, DATASET_CONFIG
+from dataset import Dataset
 import preprocess.utility as sp
 from preprocess.preprocess_tools import Scaler, STFT
 from preprocess.data import Data
 import common.input_handler as uin
 import os
+
+__author__ = "Vinay Patel"
+__version__ = "0.1.0"
+__maintainer__ = "Vinay Patel"
+__email__ = "w1572032@my.westminster.ac.uk"
+__status__ = "Development"
+
 
 def random_batch_sampler(dataset, nb_frames=128):
     """
@@ -34,12 +41,14 @@ def random_batch_sampler(dataset, nb_frames=128):
         dictionary with mixture and label
     """
     while True:
-        i = np.random.randint(0, len(dataset))
-        mixture, label = dataset[i]
-        nb_total_frames, nb_bins, nb_channels = mixture.shape
-        start = np.random.randint(0, mixture.shape[0] - nb_frames)
-        cur_mixture = mixture[start:start + nb_frames, :, 0]
-        cur_label = label[start:start + nb_frames, :, 0]
+        while True:
+            random_index = np.random.randint(0, len(dataset))
+            mixture, label = dataset[random_index]
+            if mixture.shape[0] >= nb_frames:
+                break
+        rand_slice_i = np.random.randint(0, mixture.shape[0] - nb_frames)
+        cur_mixture = mixture[rand_slice_i:rand_slice_i + nb_frames, :, 0]
+        cur_label = label[rand_slice_i:rand_slice_i + nb_frames, :, 0]
         yield dict(mixture=cur_mixture, label=cur_label)
 
 
@@ -87,8 +96,10 @@ def train(dnn_model,
 
         # resets the gradients for new epoch.
         optimizer.zero_grad()
+
         # forward pass on X data
         Y_hat = dnn_model(X_tensor)
+
         # calculating loss
         loss = loss_function(Y_hat, Y_tensor)
 
@@ -109,12 +120,14 @@ def evaluation(dnn_model,
                full_evaluation=True,
                trained_on="vocals"):
     """
+    This function performs the evaluation on the provided tracks and saves the logs the tensorboard summarywriter events.
 
     Parameters
     ----------
     dnn_model : Generalised_Recurrent_Model
         Model to use for prediction
-    test_tracks :
+    test_tracks : list[Track]
+        list of tracks to be evaluated.
     device : torch.device
         device to use
     writer : SummaryWriter
@@ -123,7 +136,6 @@ def evaluation(dnn_model,
         True if full evaluation is to be performed, False if only one track needs to be evaluated
     trained_on : str
         Labels of the trained model "vocals" or "accompaniment"
-
     """
     # setting the evaluation mode
     dnn_model.eval()
@@ -134,6 +146,7 @@ def evaluation(dnn_model,
         sir_means = []
         isr_means = []
         sar_means = []
+
         # iterate over sample the tracks
         for track_number, track in enumerate(test_tracks):
             # getting predicted estimates of accompaniment and vocals
@@ -142,20 +155,22 @@ def evaluation(dnn_model,
                                                     data=track.mixture.data,
                                                     sr=track.mixture.sr,
                                                     trained_on=trained_on)
+
             # adding it to list for evaluating metrics
-            estimates_list = np.array([vocals_estimate, acc_estimate])
-            reference_list = np.array(
-                [np.copy(track.sources["vocals"].data), np.copy(track.sources["accompaniment"].data)])
+            estimates_list = np.array([vocals_estimate,
+                                       acc_estimate])
+            reference_list = np.array([np.copy(track.sources["vocals"].data),
+                                       np.copy(track.sources["accompaniment"].data)])
 
             # evaluating the metrics
-            SDR_mean, SIR_mean, ISR_mean, SAR_mean = museval.evaluate(reference_list, estimates_list, win=track.mixture.data.shape[0], hop=track.mixture.data.shape[0])
+            SDR, SIR, ISR, SAR = museval.evaluate(reference_list, estimates_list)
 
             # getting mean of the metrics
-            # SDR_mean = np.mean(SDR, axis=1)
-            # SIR_mean = np.mean(SIR, axis=1)
-            # ISR_mean = np.mean(ISR, axis=1)
-            # SAR_mean = np.mean(SAR, axis=1)
-            print(track_number, ": ", SDR_mean.shape, ", ", SDR_mean.shape)
+            SDR_mean = np.mean(SDR, axis=1)
+            SIR_mean = np.mean(SIR, axis=1)
+            ISR_mean = np.mean(ISR, axis=1)
+            SAR_mean = np.mean(SAR, axis=1)
+            # print(track_number, ": ", SDR_mean.shape, ", ", SDR_mean.shape)
 
             # logging METRICS for vocals
             writer.add_scalar('vocals/SDR_mean', SDR_mean[0], track_number)
@@ -177,13 +192,11 @@ def evaluation(dnn_model,
             # saving the first sample
             if track_number == 0:
                 mono_vocals_estimate_normalized = lib.util.normalize(sp.to_mono(vocals_estimate))
-                print("normalized")
                 writer.add_audio(tag="vocals",
                                  snd_tensor=torch.from_numpy(mono_vocals_estimate_normalized),
                                  global_step=1,
                                  sample_rate=track.mixture.sr)
                 mono_acc_estimate_normalized = lib.util.normalize(sp.to_mono(acc_estimate))
-                print("saved")
                 writer.add_audio(tag="accompaniment",
                                  snd_tensor=torch.from_numpy(mono_acc_estimate_normalized),
                                  global_step=1,
@@ -199,20 +212,29 @@ def evaluation(dnn_model,
         sir_total_mean = np.mean(np.array(sir_means), axis=0)
         isr_total_mean = np.mean(np.array(isr_means), axis=0)
         sar_total_mean = np.mean(np.array(sar_means), axis=0)
-        writer.add_text('Model_Configuration', TRAIN_CONFIG.__str__(), 0)
-        writer.add_text('sdr_total_mean',
-                        "accompaniment: " + str(sdr_total_mean[1]) + "  \n vocals: " + str(sdr_total_mean[0]),
+        # min
+        sdr_total_min = np.min(np.array(sdr_means), axis=0)
+        sir_total_min = np.min(np.array(sir_means), axis=0)
+        isr_total_min = np.min(np.array(isr_means), axis=0)
+        sar_total_min = np.min(np.array(sar_means), axis=0)
+        # max
+        sdr_total_max = np.max(np.array(sdr_means), axis=0)
+        sir_total_max = np.max(np.array(sir_means), axis=0)
+        isr_total_max = np.max(np.array(isr_means), axis=0)
+        sar_total_max = np.max(np.array(sar_means), axis=0)
+        writer.add_text('Accompaniment',
+                        "SDR: " + str(sdr_total_min[1]) + " +- " + str(sdr_total_max[1]) + ", mean: " + str(sdr_total_mean[1])
+                        + "  \nSIR: " + str(sir_total_min[1]) + " +- " + str(sir_total_max[1]) + ", mean: " + str(sir_total_mean[1])
+                        + "  \nISR: " + str(isr_total_min[1]) + " +- " + str(isr_total_max[1]) + ", mean: " + str(isr_total_mean[1])
+                        + "  \nSAR: " + str(sar_total_min[1]) + " +- " + str(sar_total_max[1]) + ", mean: " + str(sar_total_mean[1]),
                         0)
-        writer.add_text('sir_total_mean',
-                        "accompaniment: " + str(sir_total_mean[1]) + "  \n vocals: " + str(sir_total_mean[0]),
+        writer.add_text('Vocals',
+                        "SDR: " + str(sdr_total_min[0]) + " +- " + str(sdr_total_max[0]) + ", mean: " + str(sdr_total_mean[0])
+                        + "  \nSIR: " + str(sir_total_min[0]) + " +- " + str(sir_total_max[0]) + ", mean: " + str(sir_total_mean[0])
+                        + "  \nISR: " + str(isr_total_min[0]) + " +- " + str(isr_total_max[0]) + ", mean: " + str(isr_total_mean[0])
+                        + "  \nSAR: " + str(sar_total_min[0]) + " +- " + str(sar_total_max[0]) + ", mean: " + str(sar_total_mean[0]),
                         0)
-        writer.add_text('isr_total_mean',
-                        "accompaniment: " + str(isr_total_mean[1]) + "  \n vocals: " + str(isr_total_mean[0]),
-                        0)
-        writer.add_text('sar_total_mean',
-                        "accompaniment: " + str(sar_total_mean[1]) + "  \n vocals: " + str(sar_total_mean[0]),
-                        0)
-        # END OF CONTEXT torch.no_grad()
+        # END OF CONTEXT
 
 
 def predict(dnn_model,
@@ -221,7 +243,7 @@ def predict(dnn_model,
             sr,
             trained_on="vocals"):
     """
-    Predicts the estimes of vocals and accompaniment using
+    Predicts the estimates of vocals and accompaniment using the model provided.
 
     Parameters
     ----------
@@ -343,10 +365,12 @@ def main():
         print("TERMINATED")
         return None
 
+    model_prefix = uin.get_input_str(msg="Enter any prefix for logs")
+
     # model name for saving logs and trained model
-    MODEL_NAME = timestamp + '_Generalised_Recurrent_Model_' + str(TRAIN_CONFIG.ACTIVATION_FUNCTION) + "_" + str(
-        TRAIN_CONFIG.TRAINED_ON) + '_B' + str(
-        TRAIN_CONFIG.NB_BATCHES) + '_H' + str(TRAIN_CONFIG.HIDDEN_SIZE) + '_S' + str(TRAIN_CONFIG.STEPS) + "_" + TRAIN_CONFIG.OPTIMIZER
+    MODEL_NAME = model_prefix + "_" + timestamp + '_Generalised_Recurrent_Model_' + str(TRAIN_CONFIG.ACTIVATION_FUNCTION) + "_" \
+                 + str(TRAIN_CONFIG.TRAINED_ON) + '_B' + str(TRAIN_CONFIG.NB_BATCHES) + '_H' + str(TRAIN_CONFIG.HIDDEN_SIZE) \
+                 + '_S' + str(TRAIN_CONFIG.STEPS) + "_" + TRAIN_CONFIG.OPTIMIZER
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     torch.manual_seed(42)
@@ -354,8 +378,8 @@ def main():
                       sub_set="train",
                       source_label=TRAIN_CONFIG.TRAINED_ON,
                       lazy_load=True)
-    print(dataset.mixture_scale.shape)
-    print(dataset.mixture_mean.shape)
+    # print("Mixture mean shape: ", dataset.mixture_scale.shape)
+    # print("Mixture mean shape: ", dataset.mixture_mean.shape)
 
     # initialising the objects
     dnn_model = Generalised_Recurrent_Model(nb_features=TRAIN_CONFIG.NB_BINS,
@@ -372,23 +396,27 @@ def main():
     optimizer_choices = {'adam': torch.optim.Adam,
                          'rmsprop': torch.optim.RMSprop}
     loss_function = torch.nn.MSELoss()
-    optimizer = optimizer_choices[TRAIN_CONFIG.OPTIMIZER](dnn_model.parameters(), lr=0.001)
+    # setting up the optimizer function
+    optimizer = optimizer_choices[TRAIN_CONFIG.OPTIMIZER](dnn_model.parameters(), lr=TRAIN_CONFIG.LR)
     dataset_loader = random_batch_sampler(dataset, nb_frames=TRAIN_CONFIG.NB_SAMPLES)
     writer = SummaryWriter(log_dir="runs/" + MODEL_NAME)
 
     # initialize tensorboard graph
-    # dummy_batch = Variable(torch.rand(TRAIN_CONFIG.NB_BATCHES, TRAIN_CONFIG.NB_SAMPLES, TRAIN_CONFIG.NB_BINS))
-    # writer.add_graph(Generalised_Recurrent_Model(nb_features=TRAIN_CONFIG.NB_BINS,
-    #                                             nb_frames=TRAIN_CONFIG.NB_SAMPLES,
-    #                                             nb_layers=TRAIN_CONFIG.NB_LAYERS,
-    #                                             hidden_size=TRAIN_CONFIG.HIDDEN_SIZE,
-    #                                             bidirectional=TRAIN_CONFIG.BIDIRECTIONAL,
-    #                                             mixture_mean=dataset.mixture_mean,
-    #                                             mixture_scale=dataset.mixture_scale,
-    #                                             label_mean=dataset.label_mean,
-    #                                             activation_function=TRAIN_CONFIG.ACTIVATION_FUNCTION,
-    #                                             recurrent_layer=TRAIN_CONFIG.RECURRENT_LAYER.to(device)
-    #                  , dummy_batch, True)
+    dummy_batch = Variable(torch.rand(TRAIN_CONFIG.NB_BATCHES, TRAIN_CONFIG.NB_SAMPLES, TRAIN_CONFIG.NB_BINS)).to(device)
+    writer.add_graph(Generalised_Recurrent_Model(nb_features=TRAIN_CONFIG.NB_BINS,
+                                                 nb_frames=TRAIN_CONFIG.NB_SAMPLES,
+                                                 nb_layers=TRAIN_CONFIG.NB_LAYERS,
+                                                 hidden_size=TRAIN_CONFIG.HIDDEN_SIZE,
+                                                 bidirectional=TRAIN_CONFIG.BIDIRECTIONAL,
+                                                 mixture_mean=dataset.mixture_mean,
+                                                 mixture_scale=dataset.mixture_scale,
+                                                 label_mean=dataset.label_mean,
+                                                 activation_function=TRAIN_CONFIG.ACTIVATION_FUNCTION,
+                                                 recurrent_layer=TRAIN_CONFIG.RECURRENT_LAYER).to(device)
+                     , dummy_batch, True)
+
+    # saving model configuration
+    writer.add_text('Model_Configuration', TRAIN_CONFIG.__str__(), 0)
 
     # train the model
     train(dnn_model, device, dataset_loader, loss_function, optimizer, writer)

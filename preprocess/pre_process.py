@@ -9,14 +9,14 @@ Main Pre processing Steps:
 - Repeats the steps 1 to 3 for sources and than for scaling it scales the sources relative to the mixture.
 """
 
-from config.model_config import DATASET_CONFIG, PREPROCESS_CONFIG
-from preprocess.data import Data
-from preprocess.preprocess_tools import STFT, Scaler
 from sklearn.preprocessing import StandardScaler
-import preprocess.utility as sp
 import numpy as np
 import os
 import common.input_handler as uin
+from config import DATASET_CONFIG, PREPROCESS_CONFIG
+from preprocess.data import Data
+from preprocess.preprocess_tools import STFT, Scaler
+import preprocess.utility as sp
 
 __author__ = "Vinay Patel"
 __version__ = "0.1.0"

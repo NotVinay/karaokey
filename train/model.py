@@ -4,88 +4,11 @@ import torch
 import numpy as np
 import ipdb
 
-
-class LSTM_Model(Module):
-    def __init__(self,
-                 nb_features,
-                 nb_frames,
-                 hidden_size=256,
-                 nb_layers=1,
-                 input_mean=None,
-                 input_scale=None,
-                 output_mean=None):
-        super(LSTM_Model, self).__init__()
-
-        # set the hidden size
-        self.hidden_size = hidden_size
-
-        # create parameters with torch tensors for mean and scale
-        self.input_mean = Parameter(torch.from_numpy(np.copy(input_mean).astype(np.float32)))
-
-        self.input_scale = Parameter(torch.from_numpy(np.copy(input_scale).astype(np.float32)))
-
-        # fully connected dense layer for input dimensionality reduction
-        self.fc_dr = Linear(
-            in_features=nb_features,
-            out_features=hidden_size
-        )
-
-        # LSTM layer
-        self.lstm = LSTM(
-            input_size=hidden_size,
-            hidden_size=hidden_size,
-            num_layers=nb_layers,
-            batch_first=True,
-            bidirectional=False
-        )
-
-        # fully connected dense layer for input dimensionality expansion
-        self.fc_de = Linear(
-            in_features=hidden_size,
-            out_features=nb_features
-        )
-
-        self.output_scale = Parameter(
-            torch.ones(nb_features)
-        )
-
-        self.output_mean = Parameter(
-            torch.from_numpy(np.copy(output_mean).astype(np.float32))
-        )
-
-    def forward(self, x):
-        nb_batches, nb_frames, nb_features = x.data.shape
-        x -= self.input_mean
-        x /= self.input_scale
-
-        # reduce input dimensionality
-        x = self.fc_dr(x.reshape(-1, nb_features))
-
-        # tanh squashing range ot [-1, 1]
-        x = torch.tanh(x)
-
-        # making sure that the shape of the tensors are correct to be feed into LSTM
-        x = x.reshape(nb_batches, nb_frames, self.hidden_size)
-
-        # feed into LSTM layer(s)
-        x, state = self.lstm(x)
-
-        # making sure that the shape of the tensors are correct to be feed into next FC layer
-        x = x.reshape(-1, self.hidden_size)
-
-        # dimensionality expansion layer using fully connected dense layer to regain the original shape
-        x = self.fc_de(x)
-
-        # reshaping the
-        x = x.reshape(nb_batches, nb_frames, nb_features)
-
-        # apply output scaling
-        x *= self.output_scale
-        x += self.output_mean
-
-        x = F.relu(x)
-
-        return x
+__author__ = "Vinay Patel"
+__version__ = "0.1.0"
+__maintainer__ = "Vinay Patel"
+__email__ = "w1572032@my.westminster.ac.uk"
+__status__ = "Development"
 
 
 class Generalised_Recurrent_Model(Module):
@@ -118,7 +41,6 @@ class Generalised_Recurrent_Model(Module):
         activation function to use. "relu" by default, if "tanh" than tanh is used/
     recurrent_layer: str
         recurrent layer to use. "lstm" by defalt, use "rnn" for RNN and "gru" for GRU.
-
     """
     def __init__(self,
                  nb_features,
@@ -192,7 +114,8 @@ class Generalised_Recurrent_Model(Module):
 
         Returns
         -------
-        tensor (Tensor): output data from forward pass.
+        tensor (Tensor)
+            output data from forward pass.
         """
         # ipdb.set_trace()
         nb_batches, nb_frames, nb_features = x.data.shape
@@ -208,7 +131,7 @@ class Generalised_Recurrent_Model(Module):
         x = self.fc_dr(x)
 
         # tanh: squashing range ot [-1, 1]
-        # relu:
+        # relu: x if (x>0) or 0 otherwise
         x = self.activation_function(x)
 
         # making sure that the shape of the tensors are correct to be feed into recurrent layer

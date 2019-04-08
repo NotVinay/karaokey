@@ -1,9 +1,6 @@
 preprocess package
 ==================
 
-Submodules
-----------
-
 preprocess.data module
 ----------------------
 
@@ -28,14 +25,6 @@ preprocess.preprocess\_tools module
     :undoc-members:
     :show-inheritance:
 
-preprocess.split\_to\_wav module
---------------------------------
-
-.. automodule:: preprocess.split_to_wav
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 preprocess.track\_classes module
 --------------------------------
 
@@ -48,15 +37,6 @@ preprocess.utility module
 -------------------------
 
 .. automodule:: preprocess.utility
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: preprocess
     :members:
     :undoc-members:
     :show-inheritance:

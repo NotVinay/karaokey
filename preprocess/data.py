@@ -76,5 +76,4 @@ class Data:
                 tracks.append(track)
                 # END OF FOR LOOP of track dir
             # END OF FOR LOOP of set_dir os.walk
-
         return tracks

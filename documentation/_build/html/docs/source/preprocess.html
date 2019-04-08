@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>preprocess package &mdash; Karaokey alpha documentation</title>
+  <title>preprocess package &mdash; Karaokey beta documentation</title>
   
 
   
@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="t_model module" href="t_model.html" />
+    <link rel="next" title="train package" href="train.html" />
     <link rel="prev" title="dataset package" href="dataset.html" /> 
 </head>
 
@@ -92,18 +92,13 @@
 <li class="toctree-l1"><a class="reference internal" href="config.html">config package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dataset.html">dataset package</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">preprocess package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-preprocess.data">preprocess.data module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-preprocess.pre_process">preprocess.pre_process module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-preprocess.preprocess_tools">preprocess.preprocess_tools module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-preprocess.split_to_wav">preprocess.split_to_wav module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-preprocess.track_classes">preprocess.track_classes module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-preprocess.utility">preprocess.utility module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-preprocess">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="t_model.html">t_model module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tests.html">tests package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="train.html">train package</a></li>
 </ul>
 
@@ -171,9 +166,6 @@
             
   <div class="section" id="preprocess-package">
 <h1>preprocess package<a class="headerlink" href="#preprocess-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
 <div class="section" id="module-preprocess.data">
 <span id="preprocess-data-module"></span><h2>preprocess.data module<a class="headerlink" href="#module-preprocess.data" title="Permalink to this headline">¶</a></h2>
 <p>This module helps to load dataset of .wav files.</p>
@@ -192,41 +184,34 @@
 <dt id="preprocess.data.Data.__init__">
 <code class="descname">__init__</code><span class="sig-paren">(</span><em>dataset_path</em><span class="sig-paren">)</span><a class="headerlink" href="#preprocess.data.Data.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialises the Data object</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dataset_path</strong> (<em>str</em>) – Path of the dataset directory</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dataset_path</strong> (<em>str</em>) – Path of the dataset directory</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt>
 <code class="descname">get_tracks</code><span class="sig-paren">(</span><em>sub_set='train'</em>, <em>select_tracks=None</em>, <em>labels={'vocals'}</em><span class="sig-paren">)</span></dt>
 <dd><p>loads and returns the tracks from the dataset.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>sub_set</strong> (<em>str</em>) – The set to load from the dataset</li>
-<li><strong>select_tracks</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – Select the tracks to load.
-If none supplied than all tracks in the directory will be loaded.</li>
-<li><strong>labels</strong> (<em>dict</em>) – the labels to load from the dataset.
-“Mixture” will be loaded by default.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sub_set</strong> (<em>str</em>) – The set to load from the dataset</p></li>
+<li><p><strong>select_tracks</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – Select the tracks to load.
+If none supplied than all tracks in the directory will be loaded.</p></li>
+<li><p><strong>labels</strong> (<em>dict</em>) – the labels to load from the dataset.
+“Mixture” will be loaded by default.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">list of tracks where each track is represents by ‘’Track’’ object</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list[<a class="reference internal" href="#preprocess.track_classes.Track" title="preprocess.track_classes.Track">Track</a>]</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of tracks where each track is represents by ‘’Track’’ object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list[<a class="reference internal" href="application.model.html#application.model.Track" title="application.model.Track">Track</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -237,11 +222,11 @@ If none supplied than all tracks in the directory will be loaded.</li>
 <p>Loads the Data from the .wav music files, preprocesses it and saves it as numpy array.
 Main Pre processing Steps:</p>
 <ul class="simple">
-<li>Loading the individual track in time domain using <cite>Data</cite> object.</li>
-<li>Converting the loaded track to mono.</li>
-<li>Transforming it to frequency domain using <cite>STFT</cite> object which does Short Time Fourier Transformation.</li>
-<li>Normalises it by scaling it between 0 to 1 giving 0 to lowest values and 1 to highest values.</li>
-<li>Repeats the steps 1 to 3 for sources and than for scaling it scales the sources relative to the mixture.</li>
+<li><p>Loading the individual track in time domain using <cite>Data</cite> object.</p></li>
+<li><p>Converting the loaded track to mono.</p></li>
+<li><p>Transforming it to frequency domain using <cite>STFT</cite> object which does Short Time Fourier Transformation.</p></li>
+<li><p>Normalises it by scaling it between 0 to 1 giving 0 to lowest values and 1 to highest values.</p></li>
+<li><p>Repeats the steps 1 to 3 for sources and than for scaling it scales the sources relative to the mixture.</p></li>
 </ul>
 <dl class="function">
 <dt id="preprocess.pre_process.main">
@@ -257,74 +242,65 @@ Main Pre processing Steps:</p>
 <dt id="preprocess.preprocess_tools.STFT">
 <em class="property">class </em><code class="descclassname">preprocess.preprocess_tools.</code><code class="descname">STFT</code><span class="sig-paren">(</span><em>sr=44100</em>, <em>n_per_seg=4096</em>, <em>n_overlap=3072</em><span class="sig-paren">)</span><a class="headerlink" href="#preprocess.preprocess_tools.STFT" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="docutils">
-<dt>Short Time Fourier Transform(STFT)</dt>
-<dd>Transforms time series data into frequency domain</dd>
+<dl class="simple">
+<dt>Short Time Fourier Transform(STFT)</dt><dd><p>Transforms time series data into frequency domain</p>
+</dd>
 </dl>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
-<li><a class="reference internal" href="#preprocess.track_classes.Audio.sr" title="preprocess.track_classes.Audio.sr"><strong>sr</strong></a> (<em>int</em>) – sampling rate</li>
-<li><strong>n_per_seg</strong> (<em>int</em>) – window size for computing STFT</li>
-<li><strong>n_overlap</strong> (<em>int</em>) – overlap samples for each window shift</li>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sr</strong> (<em>int</em>) – sampling rate</p></li>
+<li><p><strong>n_per_seg</strong> (<em>int</em>) – window size for computing STFT</p></li>
+<li><p><strong>n_overlap</strong> (<em>int</em>) – overlap samples for each window shift</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <dl class="method">
 <dt id="preprocess.preprocess_tools.STFT.__init__">
 <code class="descname">__init__</code><span class="sig-paren">(</span><em>sr=44100</em>, <em>n_per_seg=4096</em>, <em>n_overlap=3072</em><span class="sig-paren">)</span><a class="headerlink" href="#preprocess.preprocess_tools.STFT.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructor</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>sr</strong> (<em>int</em>) – sampling rate</li>
-<li><strong>n_per_seg</strong> (<em>int</em>) – window size for computing STFT</li>
-<li><strong>n_overlap</strong> (<em>int</em>) – overlap samples for each window shift</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sr</strong> (<em>int</em>) – sampling rate</p></li>
+<li><p><strong>n_per_seg</strong> (<em>int</em>) – window size for computing STFT</p></li>
+<li><p><strong>n_overlap</strong> (<em>int</em>) – overlap samples for each window shift</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="preprocess.preprocess_tools.STFT.istft">
 <code class="descname">istft</code><span class="sig-paren">(</span><em>X</em><span class="sig-paren">)</span><a class="headerlink" href="#preprocess.preprocess_tools.STFT.istft" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates the inverse STFT of frequency domain data.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>X</strong> (<em>ndarray</em><em>, </em><em>shape</em><em>(</em><em>nb_frames</em><em>, </em><em>nb_bins</em><em>, </em><em>nb_channels</em><em>)</em>) – audio signal in time domain.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>data</strong> – audio signal in time domain.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray, shape(nb_channels, nb_samples)</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>ndarray</em><em>, </em><em>shape</em><em>(</em><em>nb_frames</em><em>, </em><em>nb_bins</em><em>, </em><em>nb_channels</em><em>)</em>) – audio signal in time domain.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>data</strong> – audio signal in time domain.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray, shape(nb_channels, nb_samples)</p>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 <p>inverse STFT is given by:</p>
 <div class="math notranslate nohighlight">
 \[x(m) = \frac{ \sum_{t}x_{t}(m)h(h-tH) }{ \sum_{t} h^{2}(m-tH) }\]</div>
 <p>Where the parameters represents following:</p>
 <ul class="simple">
-<li><span class="math notranslate nohighlight">\(x(m)\)</span> is retrieved signal</li>
-<li><span class="math notranslate nohighlight">\(h\)</span> is window</li>
-<li><span class="math notranslate nohighlight">\(t\)</span> is time of the signal</li>
-<li><span class="math notranslate nohighlight">\(H\)</span> = <cite>n_per_seg</cite> - <cite>n_overlap</cite> is hop size of the signal</li>
+<li><p><span class="math notranslate nohighlight">\(x(m)\)</span> is retrieved signal</p></li>
+<li><p><span class="math notranslate nohighlight">\(h\)</span> is window</p></li>
+<li><p><span class="math notranslate nohighlight">\(t\)</span> is time of the signal</p></li>
+<li><p><span class="math notranslate nohighlight">\(H\)</span> = <cite>n_per_seg</cite> - <cite>n_overlap</cite> is hop size of the signal</p></li>
 </ul>
 <div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<dl class="last docutils">
-<dt><a class="reference internal" href="#preprocess.preprocess_tools.STFT.stft" title="preprocess.preprocess_tools.STFT.stft"><code class="xref py py-meth docutils literal notranslate"><span class="pre">stft()</span></code></a></dt>
-<dd>STFT (Short Time Fourier Transformation)</dd>
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#preprocess.preprocess_tools.STFT.stft" title="preprocess.preprocess_tools.STFT.stft"><code class="xref py py-meth docutils literal notranslate"><span class="pre">stft()</span></code></a></dt><dd><p>STFT (Short Time Fourier Transformation)</p>
+</dd>
 </dl>
 </div>
 </dd></dl>
@@ -333,36 +309,35 @@ Main Pre processing Steps:</p>
 <dt id="preprocess.preprocess_tools.STFT.stft">
 <code class="descname">stft</code><span class="sig-paren">(</span><em>audio_data</em><span class="sig-paren">)</span><a class="headerlink" href="#preprocess.preprocess_tools.STFT.stft" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates the STFT of time series data</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>audio_data</strong> (<em>ndarray</em>) – shape(nb_channels, nb_samples)
-audio signal in time domain.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>data</strong> – shape(nb_frames, nb_bins, nb_channels)
-STFT of the signal.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>audio_data</strong> (<em>ndarray</em>) – shape(nb_channels, nb_samples)
+audio signal in time domain.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>data</strong> – shape(nb_frames, nb_bins, nb_channels)
+STFT of the signal.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
 <p class="rubric">Notes</p>
 <p>STFT of signal <span class="math notranslate nohighlight">\(x(m)\)</span> is given by:</p>
 <div class="math notranslate nohighlight">
 \[x(t) = x(m)h(m - tH)\]</div>
 <p>Where the parameters represents following:</p>
 <ul class="simple">
-<li><span class="math notranslate nohighlight">\(x(m)\)</span> is signal</li>
-<li><span class="math notranslate nohighlight">\(t\)</span> is time</li>
-<li><span class="math notranslate nohighlight">\(h(m)\)</span> is window</li>
-<li><span class="math notranslate nohighlight">\(H\)</span> = <cite>n_per_seg</cite> - <cite>n_overlap</cite> is hop size of the signal</li>
+<li><p><span class="math notranslate nohighlight">\(x(m)\)</span> is signal</p></li>
+<li><p><span class="math notranslate nohighlight">\(t\)</span> is time</p></li>
+<li><p><span class="math notranslate nohighlight">\(h(m)\)</span> is window</p></li>
+<li><p><span class="math notranslate nohighlight">\(H\)</span> = <cite>n_per_seg</cite> - <cite>n_overlap</cite> is hop size of the signal</p></li>
 </ul>
 <div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<dl class="last docutils">
-<dt><a class="reference internal" href="#preprocess.preprocess_tools.STFT.istft" title="preprocess.preprocess_tools.STFT.istft"><code class="xref py py-meth docutils literal notranslate"><span class="pre">istft()</span></code></a></dt>
-<dd>inverse STFT (Short Time Fourier Transformation)</dd>
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#preprocess.preprocess_tools.STFT.istft" title="preprocess.preprocess_tools.STFT.istft"><code class="xref py py-meth docutils literal notranslate"><span class="pre">istft()</span></code></a></dt><dd><p>inverse STFT (Short Time Fourier Transformation)</p>
+</dd>
 </dl>
 </div>
 </dd></dl>
@@ -374,14 +349,11 @@ STFT of the signal.</td>
 <em class="property">class </em><code class="descclassname">preprocess.preprocess_tools.</code><code class="descname">Scaler</code><a class="headerlink" href="#preprocess.preprocess_tools.Scaler" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Apply log compression the magnitude of stft and normalize to <cite>_boundary</cite></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><strong>_boundary</strong> (<em>ndarray</em>) – Boundary of Log compressed spectrogram</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><p><strong>_boundary</strong> (<em>ndarray</em>) – Boundary of Log compressed spectrogram</p>
+</dd>
+</dl>
 <dl class="method">
 <dt id="preprocess.preprocess_tools.Scaler.___init___">
 <code class="descname">___init___</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#preprocess.preprocess_tools.Scaler.___init___" title="Permalink to this definition">¶</a></dt>
@@ -392,16 +364,14 @@ STFT of the signal.</td>
 <dt id="preprocess.preprocess_tools.Scaler.boundary">
 <code class="descname">boundary</code><a class="headerlink" href="#preprocess.preprocess_tools.Scaler.boundary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets the boundary of spectrogramic data.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">boundary of spectrogramic data</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>boundary of spectrogramic data</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -416,24 +386,20 @@ STFT of the signal.</td>
 <span class="go">[4.2 9. ]</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>X</strong> (<em>ndarray</em>) – input values</li>
-<li><strong>min</strong> (<em>int</em>) – min percentile value</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>ndarray</em>) – input values</p></li>
+<li><p><strong>min</strong> (<em>int</em>) – min percentile value</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">boundary percentiles of value <cite>min</cite> to 100</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>boundary percentiles of value <cite>min</cite> to 100</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -443,24 +409,20 @@ STFT of the signal.</td>
 <p>Firstly, it clips the spectrogramic data to percentile bounds
 to reduce the impact of noise in order to get unconsistent result.</p>
 <p>Lastly, it normalises or scales the clipped data to values between 0 and 1.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>X</strong> (<em>ndarray</em>) – magnitude of stft</li>
-<li><strong>boundary</strong> (<em>ndarray</em>) – boundary to which the data needs to be scaled</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>ndarray</em>) – magnitude of stft</p></li>
+<li><p><strong>boundary</strong> (<em>ndarray</em>) – boundary to which the data needs to be scaled</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X_scale</strong> – log scaler of magnitude of stft</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>X_scale</strong> – log scaler of magnitude of stft</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
 <p class="rubric">Examples</p>
 <p>Simple example for calculating scaling for each values.
 Here values lower than 4.2 is scaled to 0 because it’s percentile
@@ -473,10 +435,10 @@ boundary was [4.2 9.]</p>
 </pre></div>
 </div>
 <div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<dl class="last docutils">
-<dt><a class="reference internal" href="#preprocess.preprocess_tools.Scaler.unscale" title="preprocess.preprocess_tools.Scaler.unscale"><code class="xref py py-meth docutils literal notranslate"><span class="pre">unscale()</span></code></a></dt>
-<dd>It unscales the scaled spectrogramic mixture i.e. performs reverse process of <cite>scale</cite>.</dd>
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#preprocess.preprocess_tools.Scaler.unscale" title="preprocess.preprocess_tools.Scaler.unscale"><code class="xref py py-meth docutils literal notranslate"><span class="pre">unscale()</span></code></a></dt><dd><p>It unscales the scaled spectrogramic mixture i.e. performs reverse process of <cite>scale</cite>.</p>
+</dd>
 </dl>
 </div>
 </dd></dl>
@@ -486,24 +448,20 @@ boundary was [4.2 9.]</p>
 <code class="descname">unscale</code><span class="sig-paren">(</span><em>X</em>, <em>boundary=None</em><span class="sig-paren">)</span><a class="headerlink" href="#preprocess.preprocess_tools.Scaler.unscale" title="Permalink to this definition">¶</a></dt>
 <dd><p>It unscales the scaled spectrogramic mixture.
 It performs the reverse process of scaling</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>X</strong> (<em>ndarray</em>) – Scaled spectrogramic data</li>
-<li><strong>boundary</strong> – boundary to which data was scaled.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>ndarray</em>) – Scaled spectrogramic data</p></li>
+<li><p><strong>boundary</strong> – boundary to which data was scaled.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">unscaled spectrogramic mixture</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>unscaled spectrogramic mixture</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
 <p class="rubric">Examples</p>
 <p>Simple example for unscaling.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.68273064</span><span class="p">,</span> <span class="mf">0.851306</span><span class="p">,</span> <span class="mf">0.25795466</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25795466</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.48812467</span><span class="p">]])</span>
@@ -514,19 +472,16 @@ It performs the reverse process of scaling</p>
 </pre></div>
 </div>
 <div class="admonition seealso">
-<p class="first admonition-title">See also</p>
-<dl class="last docutils">
-<dt><a class="reference internal" href="#preprocess.preprocess_tools.Scaler.scale" title="preprocess.preprocess_tools.Scaler.scale"><code class="xref py py-meth docutils literal notranslate"><span class="pre">scale()</span></code></a></dt>
-<dd>Scales the magnitude of STFT(Spectrogram).</dd>
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#preprocess.preprocess_tools.Scaler.scale" title="preprocess.preprocess_tools.Scaler.scale"><code class="xref py py-meth docutils literal notranslate"><span class="pre">scale()</span></code></a></dt><dd><p>Scales the magnitude of STFT(Spectrogram).</p>
+</dd>
 </dl>
 </div>
 </dd></dl>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-preprocess.split_to_wav">
-<span id="preprocess-split-to-wav-module"></span><h2>preprocess.split_to_wav module<a class="headerlink" href="#module-preprocess.split_to_wav" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-preprocess.track_classes">
 <span id="preprocess-track-classes-module"></span><h2>preprocess.track_classes module<a class="headerlink" href="#module-preprocess.track_classes" title="Permalink to this headline">¶</a></h2>
@@ -536,120 +491,102 @@ It performs the reverse process of scaling</p>
 <em class="property">class </em><code class="descclassname">preprocess.track_classes.</code><code class="descname">Audio</code><span class="sig-paren">(</span><em>name</em>, <em>path=None</em>, <em>ext=None</em><span class="sig-paren">)</span><a class="headerlink" href="#preprocess.track_classes.Audio" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Represents an audio i.e, either mixture or sources</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
-<li><strong>name</strong> (<em>str</em>) – Audio file name</li>
-<li><strong>path</strong> (<em>str</em>) – Absolute path audio file</li>
-<li><strong>_data</strong> (<em>ndarray</em>) – shape(nb_samples, nb_channels)
-Data of the audio files in time domain.</li>
-<li><strong>_sr</strong> (<em>int</em>) – sampling rate of the audio</li>
-<li><strong>ext</strong> (<em>str</em>) – extension of the audio</li>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Audio file name</p></li>
+<li><p><strong>path</strong> (<em>str</em>) – Absolute path audio file</p></li>
+<li><p><strong>_data</strong> (<em>ndarray</em>) – shape(nb_samples, nb_channels)
+Data of the audio files in time domain.</p></li>
+<li><p><strong>_sr</strong> (<em>int</em>) – sampling rate of the audio</p></li>
+<li><p><strong>ext</strong> (<em>str</em>) – extension of the audio</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <dl class="method">
 <dt id="preprocess.track_classes.Audio.__init__">
 <code class="descname">__init__</code><span class="sig-paren">(</span><em>name</em>, <em>path=None</em>, <em>ext=None</em><span class="sig-paren">)</span><a class="headerlink" href="#preprocess.track_classes.Audio.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialising the Audio Object</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>name</strong> (<em>str</em>) – </li>
-<li><strong>path</strong> (<em>str</em>) – Absolute path audio file</li>
-<li><strong>ext</strong> (<em>str</em>) – extension of the audio</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – </p></li>
+<li><p><strong>path</strong> (<em>str</em>) – Absolute path audio file</p></li>
+<li><p><strong>ext</strong> (<em>str</em>) – extension of the audio</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="preprocess.track_classes.Audio.__repr__">
 <code class="descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#preprocess.track_classes.Audio.__repr__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns string representation of <cite>Audio</cite></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">String representation of <cite>Audio</cite></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>String representation of <cite>Audio</cite></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="preprocess.track_classes.Audio.__str__">
 <code class="descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#preprocess.track_classes.Audio.__str__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns string representation of <cite>Audio</cite></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">String representation of <cite>Audio</cite></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>String representation of <cite>Audio</cite></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="preprocess.track_classes.Audio.data">
 <code class="descname">data</code><a class="headerlink" href="#preprocess.track_classes.Audio.data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Time series data samples of the audio file.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">shape(nb_samples, nb_channels)
-Data of the audio files in time series.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>shape(nb_samples, nb_channels)
+Data of the audio files in time series.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="preprocess.track_classes.Audio.duration">
 <code class="descname">duration</code><a class="headerlink" href="#preprocess.track_classes.Audio.duration" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get duration of the audio file.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">track duration in seconds</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>track duration in seconds</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="preprocess.track_classes.Audio.sr">
 <code class="descname">sr</code><a class="headerlink" href="#preprocess.track_classes.Audio.sr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get sample rate of the Audio</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">sampling rate of audio in Hertz (Hz)</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">int</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>sampling rate of audio in Hertz (Hz)</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -659,101 +596,85 @@ Data of the audio files in time series.</td>
 <em class="property">class </em><code class="descclassname">preprocess.track_classes.</code><code class="descname">Track</code><span class="sig-paren">(</span><em>title=None</em>, <em>dir_path=None</em>, <em>labels={'vocals'}</em><span class="sig-paren">)</span><a class="headerlink" href="#preprocess.track_classes.Track" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Represents an audio track sample i.e., a composition of mixture and its sources</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
-<li><strong>title</strong> (<em>str</em>) – Track title</li>
-<li><strong>dir_path</strong> (<em>str</em>) – Track directory path</li>
-<li><strong>_mixture</strong> (<a class="reference internal" href="#preprocess.track_classes.Audio" title="preprocess.track_classes.Audio"><em>Audio</em></a>) – Mixture audio of the track</li>
-<li><strong>_sources</strong> (<em>dict</em><em>[</em><a class="reference internal" href="#preprocess.track_classes.Audio" title="preprocess.track_classes.Audio"><em>Audio</em></a><em>]</em>) – Sources of the track</li>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="application.model.html#application.model.Track.title" title="application.model.Track.title"><strong>title</strong></a> (<em>str</em>) – Track title</p></li>
+<li><p><strong>dir_path</strong> (<em>str</em>) – Track directory path</p></li>
+<li><p><strong>_mixture</strong> (<a class="reference internal" href="#preprocess.track_classes.Audio" title="preprocess.track_classes.Audio"><em>Audio</em></a>) – Mixture audio of the track</p></li>
+<li><p><strong>_sources</strong> (<em>dict</em><em>[</em><a class="reference internal" href="#preprocess.track_classes.Audio" title="preprocess.track_classes.Audio"><em>Audio</em></a><em>]</em>) – Sources of the track</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <dl class="method">
 <dt id="preprocess.track_classes.Track.__init__">
 <code class="descname">__init__</code><span class="sig-paren">(</span><em>title=None</em>, <em>dir_path=None</em>, <em>labels={'vocals'}</em><span class="sig-paren">)</span><a class="headerlink" href="#preprocess.track_classes.Track.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructor of the Track object</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>title</strong> (<em>str</em>) – title of track</li>
-<li><strong>dir_path</strong> (<em>str</em>) – track directory path</li>
-<li><strong>labels</strong> (<em>dict</em>) – labels to retrieve from the track</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> (<em>str</em>) – title of track</p></li>
+<li><p><strong>dir_path</strong> (<em>str</em>) – track directory path</p></li>
+<li><p><strong>labels</strong> (<em>dict</em>) – labels to retrieve from the track</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="preprocess.track_classes.Track.__repr__">
 <code class="descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#preprocess.track_classes.Track.__repr__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns string representation of Track</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">String representation of Track</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>String representation of Track</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="preprocess.track_classes.Track.__str__">
 <code class="descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#preprocess.track_classes.Track.__str__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns string representation of Track</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">String representation of Track</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>String representation of Track</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="preprocess.track_classes.Track.mixture">
 <code class="descname">mixture</code><a class="headerlink" href="#preprocess.track_classes.Track.mixture" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the mixture of the track</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>mixture</strong> – mixture of audio of track</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#preprocess.track_classes.Audio" title="preprocess.track_classes.Audio">Audio</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>mixture</strong> – mixture of audio of track</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#preprocess.track_classes.Audio" title="preprocess.track_classes.Audio">Audio</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="preprocess.track_classes.Track.sources">
 <code class="descname">sources</code><a class="headerlink" href="#preprocess.track_classes.Track.sources" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates the sources of the track</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>sources</strong> – list of audio sources</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">dict[<a class="reference internal" href="#preprocess.track_classes.Audio" title="preprocess.track_classes.Audio">Audio</a>]</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>sources</strong> – list of audio sources</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict[<a class="reference internal" href="#preprocess.track_classes.Audio" title="preprocess.track_classes.Audio">Audio</a>]</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -765,45 +686,40 @@ Data of the audio files in time series.</td>
 <dt id="preprocess.utility.read">
 <code class="descclassname">preprocess.utility.</code><code class="descname">read</code><span class="sig-paren">(</span><em>path=None</em>, <em>is_wav=True</em>, <em>stereo=True</em><span class="sig-paren">)</span><a class="headerlink" href="#preprocess.utility.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads an audio file in time series</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>path</strong> (<em>str</em>) – Path of the audio file</li>
-<li><strong>is_wav</strong> (<em>bool</em>) – File format of the file is wav.
-True by default.</li>
-<li><strong>stereo</strong> (<em>bool</em>) – Read file as stereo. True by default.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – Path of the audio file</p></li>
+<li><p><strong>is_wav</strong> (<em>bool</em>) – File format of the file is wav.
+True by default.</p></li>
+<li><p><strong>stereo</strong> (<em>bool</em>) – Read file as stereo. True by default.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">shape(nb_samples, nb_channels)</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">ndarray</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>shape(nb_samples, nb_channels)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="preprocess.utility.to_mono">
 <code class="descclassname">preprocess.utility.</code><code class="descname">to_mono</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#preprocess.utility.to_mono" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transforms a stereo track into mono track.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>ndArray</em><em>, </em><em>shape</em><em> (</em><em>nb_samples</em><em>, </em><em>nb_channels</em><em>)</em>) – audio signal of <cite>ndim = 2</cite></td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">shape=(nb_samples, nb_channels)
-audio signal of <cite>ndim = 1</cite></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">ndarray</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>ndArray</em><em>, </em><em>shape</em><em> (</em><em>nb_samples</em><em>, </em><em>nb_channels</em><em>)</em>) – audio signal of <cite>ndim = 2</cite></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>shape=(nb_samples, nb_channels)
+audio signal of <cite>ndim = 1</cite></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
 <p class="rubric">Examples</p>
 <p>Basic example on how stereo track array is converted to mono</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">],[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
@@ -821,24 +737,17 @@ audio signal of <cite>ndim = 1</cite></td>
 <dt id="preprocess.utility.write">
 <code class="descclassname">preprocess.utility.</code><code class="descname">write</code><span class="sig-paren">(</span><em>path=None</em>, <em>data=None</em>, <em>sr=None</em><span class="sig-paren">)</span><a class="headerlink" href="#preprocess.utility.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes the music file.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>path</strong> (<em>str</em>) – path to the file.</li>
-<li><strong>data</strong> (<em>ndarray</em><em>, </em><em>shape</em><em>(</em><em>nb_samples</em><em>, </em><em>nb_channels</em><em>)</em>) – time series data.</li>
-<li><strong>sr</strong> (<em>int</em>) – sampling rate</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<em>str</em>) – path to the file.</p></li>
+<li><p><strong>data</strong> (<em>ndarray</em><em>, </em><em>shape</em><em>(</em><em>nb_samples</em><em>, </em><em>nb_channels</em><em>)</em>) – time series data.</p></li>
+<li><p><strong>sr</strong> (<em>int</em>) – sampling rate</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
-</div>
-<div class="section" id="module-preprocess">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-preprocess" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -850,7 +759,7 @@ audio signal of <cite>ndim = 1</cite></td>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="t_model.html" class="btn btn-neutral float-right" title="t_model module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="train.html" class="btn btn-neutral float-right" title="train package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="dataset.html" class="btn btn-neutral float-left" title="dataset package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

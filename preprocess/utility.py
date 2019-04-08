@@ -37,7 +37,7 @@ def read(path=None,
         # librosa for other compressed files.
         data, sr = lb.load(path, sr=None, mono=not stereo)
         # librosa gives (nb_channels, nb_samples)
-        # thus transforming it to (nb_channels, nb_samples)
+        # thus transforming it to (nb_samples, nb_channels)
         data = data.T
     return data, sr
 

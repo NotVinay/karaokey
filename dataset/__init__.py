@@ -1,3 +1,7 @@
+"""
+This package contains the Dataset class which can be used to lazy load the preprocessed dataset of music tracks.
+"""
+
 import os
 import numpy as np
 from sklearn.preprocessing import StandardScaler

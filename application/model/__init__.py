@@ -2,6 +2,9 @@ from application import db
 import datetime
 
 class Track(db.Model):
+    """
+    Model for track table.
+    """
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), unique=True)
     sub_set = db.Column(db.String(40))
@@ -18,6 +21,9 @@ class Track(db.Model):
 
 
 class User(db.Model):
+    """
+    Model for user table.
+    """
     id = db.Column(db.Integer, primary_key=True)
     feedback = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, default=datetime.datetime.utcnow)
@@ -33,6 +39,9 @@ class User(db.Model):
 
 
 class Rating(db.Model):
+    """
+    Model for rating table.
+    """
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     track_id = db.Column(db.Integer, db.ForeignKey('track.id'), nullable=False)

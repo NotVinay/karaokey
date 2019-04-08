@@ -1,12 +1,15 @@
-from flask import Flask, flash, render_template, request, jsonify, session, send_file
+from flask import Flask, flash, render_template, request, jsonify, session, send_file, redirect
 import os
 from flask_sqlalchemy import SQLAlchemy
 
+# setting up the flask app
 app = Flask(__name__)
+# importing the app configurations
 app.config.from_pyfile('config.py')
-app.config.from_pyfile('config.py')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://vinay:Vi^ay12345@10.0.4.71/karaokey'
+
+# setting up remote database
 db = SQLAlchemy(app)
+
 page = 'home'
 
 # app imports after initialising the app and db
@@ -24,7 +27,7 @@ def home_page():
     return render_template('home.html')
 
 @app.route('/results')
-def reults_page():
+def results_page():
     """
         Renders Results of Process page
     """
@@ -105,9 +108,11 @@ def download():
     """
     Sends requested file for the `token` in `session`.
     Token authentication ensures that file is only accessed by the user which it belongs to.
+
     Returns
     -------
-
+    file
+        <file> if requested file exist and is available to the user, <dict> otherwise
     """
     ret = None
     req_file = request.args.get('file_name')
@@ -121,6 +126,7 @@ def download():
     else:
         ret = {'error': True, 'description': "Error in request parameters"}
     return jsonify(ret)
+
 
 @app.route('/submit-research', methods=['POST'])
 def submitResearch():
@@ -143,14 +149,14 @@ def submitResearch():
     except:
         return jsonify({'success': False})
 
+
 @app.route('/clear-session', methods=['GET'])
 def clearSession():
     """
     Clears the session
     """
-    pass
-    # TODO ADD Clear Session Script
-
+    session.clear()
+    return redirect(url_for('home_page'))
 
 """
     ------------------------------

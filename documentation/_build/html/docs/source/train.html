@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>train package &mdash; Karaokey alpha documentation</title>
+  <title>train package &mdash; Karaokey beta documentation</title>
   
 
   
@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="tests package" href="tests.html" /> 
+    <link rel="prev" title="preprocess package" href="preprocess.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -91,13 +91,9 @@
 <li class="toctree-l1"><a class="reference internal" href="config.html">config package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dataset.html">dataset package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="preprocess.html">preprocess package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="t_model.html">t_model module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tests.html">tests package</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">train package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-train.model">train.model module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-train.train_model">train.train_model module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-train">Module contents</a></li>
 </ul>
 </li>
 </ul>
@@ -166,9 +162,6 @@
             
   <div class="section" id="train-package">
 <h1>train package<a class="headerlink" href="#train-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
 <div class="section" id="module-train.model">
 <span id="train-model-module"></span><h2>train.model module<a class="headerlink" href="#module-train.model" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -178,65 +171,40 @@
 <p>Generalised Model for neural networks with recurrent layers.</p>
 <p>The structure of the Model is:</p>
 <ul class="simple">
-<li><strong>Fully Connected Layer</strong> Dimensionality Reduction layer used for reducing the dimensionality of the input features. If recurrent layer features are too many it can have problems with long term dependencies (RNN will suffer from it the most).</li>
-<li><strong>Recurrent Layer</strong> It learns the time dependencies over the sample frames. LSTMs and GRUs will provide the best output, however RNN can be efficient and could provide good result over</li>
-<li><strong>Fully Connected Layer</strong> Dimensionality Expansion layer used for transforming the learned features to original shape.</li>
+<li><p><strong>Fully Connected Layer</strong> Dimensionality Reduction layer used for reducing the dimensionality of the input features. If recurrent layer features are too many it can have problems with long term dependencies (RNN will suffer from it the most).</p></li>
+<li><p><strong>Recurrent Layer</strong> It learns the time dependencies over the sample frames. LSTMs and GRUs will provide the best output, however RNN can be efficient and could provide good result over</p></li>
+<li><p><strong>Fully Connected Layer</strong> Dimensionality Expansion layer used for transforming the learned features to original shape.</p></li>
 </ul>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
-<li><strong>nb_features</strong> (<em>int</em>) – number of features(nb of bins) of input data.</li>
-<li><strong>nb_frames</strong> (<em>int</em>) – number of frames or samples in each batch.</li>
-<li><strong>nb_layers</strong> (<em>int</em>) – number of layers for recurrent layer.</li>
-<li><strong>hidden_size</strong> (<em>int</em>) – number of hidden cells in the recurrent layer.</li>
-<li><strong>mixture_mean</strong> (<em>ndarray</em><em>, </em><em>shape</em><em>(</em><em>nb_features</em><em>)</em>) – mean of mixture data.</li>
-<li><strong>mixture_scale</strong> (<em>ndarray</em><em>, </em><em>shape</em><em>(</em><em>nb_features</em><em>)</em>) – scaled data of mixture.</li>
-<li><strong>label_mean</strong> (<em>ndarray</em><em>, </em><em>shape</em><em>(</em><em>nb_features</em><em>)</em>) – mean of label data.</li>
-<li><strong>activation_function</strong> (<em>str</em>) – activation function to use. “relu” by default, if “tanh” than tanh is used/</li>
-<li><strong>recurrent_layer</strong> (<em>str</em>) – recurrent layer to use. “lstm” by defalt, use “rnn” for RNN and “gru” for GRU.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nb_features</strong> (<em>int</em>) – number of features(nb of bins) of input data.</p></li>
+<li><p><strong>nb_frames</strong> (<em>int</em>) – number of frames or samples in each batch.</p></li>
+<li><p><strong>nb_layers</strong> (<em>int</em>) – number of layers for recurrent layer.</p></li>
+<li><p><strong>hidden_size</strong> (<em>int</em>) – number of hidden cells in the recurrent layer.</p></li>
+<li><p><strong>mixture_mean</strong> (<em>ndarray</em><em>, </em><em>shape</em><em>(</em><em>nb_features</em><em>)</em>) – mean of mixture data.</p></li>
+<li><p><strong>mixture_scale</strong> (<em>ndarray</em><em>, </em><em>shape</em><em>(</em><em>nb_features</em><em>)</em>) – scaled data of mixture.</p></li>
+<li><p><strong>label_mean</strong> (<em>ndarray</em><em>, </em><em>shape</em><em>(</em><em>nb_features</em><em>)</em>) – mean of label data.</p></li>
+<li><p><strong>activation_function</strong> (<em>str</em>) – activation function to use. “relu” by default, if “tanh” than tanh is used/</p></li>
+<li><p><strong>recurrent_layer</strong> (<em>str</em>) – recurrent layer to use. “lstm” by defalt, use “rnn” for RNN and “gru” for GRU.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <dl class="method">
 <dt id="train.model.Generalised_Recurrent_Model.forward">
 <code class="descname">forward</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#train.model.Generalised_Recurrent_Model.forward" title="Permalink to this definition">¶</a></dt>
 <dd><p>Every call of the forward pass.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> (<em>input data to the model</em>) – </td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>tensor (Tensor)</strong></td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">output data from forward pass.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="train.model.LSTM_Model">
-<em class="property">class </em><code class="descclassname">train.model.</code><code class="descname">LSTM_Model</code><span class="sig-paren">(</span><em>nb_features</em>, <em>nb_frames</em>, <em>hidden_size=256</em>, <em>nb_layers=1</em>, <em>input_mean=None</em>, <em>input_scale=None</em>, <em>output_mean=None</em><span class="sig-paren">)</span><a class="headerlink" href="#train.model.LSTM_Model" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<dl class="method">
-<dt id="train.model.LSTM_Model.forward">
-<code class="descname">forward</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#train.model.LSTM_Model.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>input data to the model</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>output data from forward pass.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tensor (Tensor)</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -247,22 +215,19 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="function">
 <dt id="train.train_model.evaluation">
 <code class="descclassname">train.train_model.</code><code class="descname">evaluation</code><span class="sig-paren">(</span><em>dnn_model</em>, <em>device</em>, <em>test_tracks</em>, <em>writer</em>, <em>full_evaluation=True</em>, <em>trained_on='vocals'</em><span class="sig-paren">)</span><a class="headerlink" href="#train.train_model.evaluation" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>dnn_model</strong> (<a class="reference internal" href="#train.model.Generalised_Recurrent_Model" title="train.model.Generalised_Recurrent_Model"><em>Generalised_Recurrent_Model</em></a>) – Model to use for prediction</li>
-<li><strong>test_tracks</strong> – </li>
-<li><strong>device</strong> (<em>torch.device</em>) – device to use</li>
-<li><strong>writer</strong> (<em>SummaryWriter</em>) – summary writer for writing TensorBoard summaries</li>
-<li><strong>full_evaluation</strong> (<em>bool</em>) – True if full evaluation is to be performed, False if only one track needs to be evaluated</li>
-<li><strong>trained_on</strong> (<em>str</em>) – Labels of the trained model “vocals” or “accompaniment”</li>
+<dd><p>This function performs the evaluation on the provided tracks and saves the logs the tensorboard summarywriter events.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dnn_model</strong> (<a class="reference internal" href="#train.model.Generalised_Recurrent_Model" title="train.model.Generalised_Recurrent_Model"><em>Generalised_Recurrent_Model</em></a>) – Model to use for prediction</p></li>
+<li><p><strong>test_tracks</strong> (<em>list</em><em>[</em><a class="reference internal" href="application.model.html#application.model.Track" title="application.model.Track"><em>Track</em></a><em>]</em>) – list of tracks to be evaluated.</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em>) – device to use</p></li>
+<li><p><strong>writer</strong> (<em>SummaryWriter</em>) – summary writer for writing TensorBoard summaries</p></li>
+<li><p><strong>full_evaluation</strong> (<em>bool</em>) – True if full evaluation is to be performed, False if only one track needs to be evaluated</p></li>
+<li><p><strong>trained_on</strong> (<em>str</em>) – Labels of the trained model “vocals” or “accompaniment”</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -273,84 +238,64 @@ registered hooks while the latter silently ignores them.</p>
 <dl class="function">
 <dt id="train.train_model.predict">
 <code class="descclassname">train.train_model.</code><code class="descname">predict</code><span class="sig-paren">(</span><em>dnn_model</em>, <em>device</em>, <em>data</em>, <em>sr</em>, <em>trained_on='vocals'</em><span class="sig-paren">)</span><a class="headerlink" href="#train.train_model.predict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Predicts the estimes of vocals and accompaniment using</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>dnn_model</strong> (<a class="reference internal" href="#train.model.Generalised_Recurrent_Model" title="train.model.Generalised_Recurrent_Model"><em>Generalised_Recurrent_Model</em></a>) – model to use for prediction</li>
-<li><strong>device</strong> (<em>torch.device</em>) – device to use</li>
-<li><strong>data</strong> (<em>ndarray</em><em>(</em><em>nb_samples</em><em>, </em><em>nb_channels</em><em>)</em>) – data of mixture track in time series</li>
-<li><strong>sr</strong> (<em>int</em>) – sampling rate of the mixture track</li>
-<li><strong>trained_on</strong> (<em>str</em>) – Labels of the trained model “vocals” or “accompaniment”</li>
+<dd><p>Predicts the estimates of vocals and accompaniment using the model provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dnn_model</strong> (<a class="reference internal" href="#train.model.Generalised_Recurrent_Model" title="train.model.Generalised_Recurrent_Model"><em>Generalised_Recurrent_Model</em></a>) – model to use for prediction</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em>) – device to use</p></li>
+<li><p><strong>data</strong> (<em>ndarray</em><em>(</em><em>nb_samples</em><em>, </em><em>nb_channels</em><em>)</em>) – data of mixture track in time series</p></li>
+<li><p><strong>sr</strong> (<em>int</em>) – sampling rate of the mixture track</p></li>
+<li><p><strong>trained_on</strong> (<em>str</em>) – Labels of the trained model “vocals” or “accompaniment”</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
-<li><strong>acc_estimate</strong> (<em>ndarray, shape(nb_samples, nb_channels)</em>) – Accompaniment estimates in time series</li>
-<li><strong>vocals_estimate</strong> (<em>ndarray, shape(nb_samples, nb_channels)</em>) – Vocals estimates in time series</li>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>acc_estimate</strong> (<em>ndarray, shape(nb_samples, nb_channels)</em>) – Accompaniment estimates in time series</p></li>
+<li><p><strong>vocals_estimate</strong> (<em>ndarray, shape(nb_samples, nb_channels)</em>) – Vocals estimates in time series</p></li>
 </ul>
 </p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="train.train_model.random_batch_sampler">
 <code class="descclassname">train.train_model.</code><code class="descname">random_batch_sampler</code><span class="sig-paren">(</span><em>dataset</em>, <em>nb_frames=128</em><span class="sig-paren">)</span><a class="headerlink" href="#train.train_model.random_batch_sampler" title="Permalink to this definition">¶</a></dt>
 <dd><p>Random batch sampler.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>dataset</strong> (<a class="reference internal" href="dataset.html#dataset.Dataset" title="dataset.Dataset"><em>Dataset</em></a>) – Dataset object</li>
-<li><strong>nb_frames</strong> (<em>int</em>) – number of samples or frames per batch.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<a class="reference internal" href="dataset.html#dataset.Dataset" title="dataset.Dataset"><em>Dataset</em></a>) – Dataset object</p></li>
+<li><p><strong>nb_frames</strong> (<em>int</em>) – number of samples or frames per batch.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">dictionary with mixture and label</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dict</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dictionary with mixture and label</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="train.train_model.train">
 <code class="descclassname">train.train_model.</code><code class="descname">train</code><span class="sig-paren">(</span><em>dnn_model</em>, <em>device</em>, <em>dataset_loader</em>, <em>loss_function</em>, <em>optimizer</em>, <em>writer</em><span class="sig-paren">)</span><a class="headerlink" href="#train.train_model.train" title="Permalink to this definition">¶</a></dt>
 <dd><p>trains the <cite>dnn_model</cite></p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>dnn_model</strong> (<a class="reference internal" href="#train.model.Generalised_Recurrent_Model" title="train.model.Generalised_Recurrent_Model"><em>Generalised_Recurrent_Model</em></a>) – Model to Train</li>
-<li><strong>device</strong> (<em>torch.device</em>) – device to use</li>
-<li><strong>dataset_loader</strong> (<em>object</em>) – Dataset batch generator</li>
-<li><strong>loss_function</strong> (<em>object</em>) – loss function either relu or tanh from PyTorch</li>
-<li><strong>optimizer</strong> (<em>object</em>) – optimizer to use for example, Adam or RMSProp</li>
-<li><strong>writer</strong> (<em>SummaryWriter</em>) – summary writer for writing TensorBoard summaries</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dnn_model</strong> (<a class="reference internal" href="#train.model.Generalised_Recurrent_Model" title="train.model.Generalised_Recurrent_Model"><em>Generalised_Recurrent_Model</em></a>) – Model to Train</p></li>
+<li><p><strong>device</strong> (<em>torch.device</em>) – device to use</p></li>
+<li><p><strong>dataset_loader</strong> (<em>object</em>) – Dataset batch generator</p></li>
+<li><p><strong>loss_function</strong> (<em>object</em>) – loss function either relu or tanh from PyTorch</p></li>
+<li><p><strong>optimizer</strong> (<em>object</em>) – optimizer to use for example, Adam or RMSProp</p></li>
+<li><p><strong>writer</strong> (<em>SummaryWriter</em>) – summary writer for writing TensorBoard summaries</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
-
-</div>
-<div class="section" id="module-train">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-train" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="train.random_batch_sampler">
-<code class="descclassname">train.</code><code class="descname">random_batch_sampler</code><span class="sig-paren">(</span><em>dataset</em>, <em>nb_frames=128</em><span class="sig-paren">)</span><a class="headerlink" href="#train.random_batch_sampler" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </div>
 </div>
@@ -364,7 +309,7 @@ registered hooks while the latter silently ignores them.</p>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="tests.html" class="btn btn-neutral float-left" title="tests package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="preprocess.html" class="btn btn-neutral float-left" title="preprocess package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -3,7 +3,7 @@ This module contains the tools used for pre-processing music tracks to be feed i
 """
 import numpy as np
 from scipy.signal import stft, istft
-#from config.model_config import EPS
+from config import EPS
 
 __author__ = "Vinay Patel"
 __version__ = "0.1.0"
@@ -11,7 +11,6 @@ __maintainer__ = "Vinay Patel"
 __email__ = "w1572032@my.westminster.ac.uk"
 __status__ = "Development"
 
-EPS = np.finfo(np.float).eps
 
 class STFT:
     """

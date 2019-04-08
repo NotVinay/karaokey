@@ -9,19 +9,49 @@
 \usepackage[utf8]{inputenc}
 \ifdefined\DeclareUnicodeCharacter
 % support both utf8 and utf8x syntaxes
-\edef\sphinxdqmaybe{\ifdefined\DeclareUnicodeCharacterAsOptional\string"\fi}
-  \DeclareUnicodeCharacter{\sphinxdqmaybe00A0}{\nobreakspace}
-  \DeclareUnicodeCharacter{\sphinxdqmaybe2500}{\sphinxunichar{2500}}
-  \DeclareUnicodeCharacter{\sphinxdqmaybe2502}{\sphinxunichar{2502}}
-  \DeclareUnicodeCharacter{\sphinxdqmaybe2514}{\sphinxunichar{2514}}
-  \DeclareUnicodeCharacter{\sphinxdqmaybe251C}{\sphinxunichar{251C}}
-  \DeclareUnicodeCharacter{\sphinxdqmaybe2572}{\textbackslash}
+  \ifdefined\DeclareUnicodeCharacterAsOptional
+    \def\sphinxDUC#1{\DeclareUnicodeCharacter{"#1}}
+  \else
+    \let\sphinxDUC\DeclareUnicodeCharacter
+  \fi
+  \sphinxDUC{00A0}{\nobreakspace}
+  \sphinxDUC{2500}{\sphinxunichar{2500}}
+  \sphinxDUC{2502}{\sphinxunichar{2502}}
+  \sphinxDUC{2514}{\sphinxunichar{2514}}
+  \sphinxDUC{251C}{\sphinxunichar{251C}}
+  \sphinxDUC{2572}{\textbackslash}
 \fi
 \usepackage{cmap}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,amssymb,amstext}
 \usepackage{babel}
+
+
+
 \usepackage{times}
+\expandafter\ifx\csname T@LGR\endcsname\relax
+\else
+% LGR was declared as font encoding
+  \substitutefont{LGR}{\rmdefault}{cmr}
+  \substitutefont{LGR}{\sfdefault}{cmss}
+  \substitutefont{LGR}{\ttdefault}{cmtt}
+\fi
+\expandafter\ifx\csname T@X2\endcsname\relax
+  \expandafter\ifx\csname T@T2A\endcsname\relax
+  \else
+  % T2A was declared as font encoding
+    \substitutefont{T2A}{\rmdefault}{cmr}
+    \substitutefont{T2A}{\sfdefault}{cmss}
+    \substitutefont{T2A}{\ttdefault}{cmtt}
+  \fi
+\else
+% X2 was declared as font encoding
+  \substitutefont{X2}{\rmdefault}{cmr}
+  \substitutefont{X2}{\sfdefault}{cmss}
+  \substitutefont{X2}{\ttdefault}{cmtt}
+\fi
+
+
 \usepackage[Bjarne]{fncychap}
 \usepackage{sphinx}
 
@@ -34,33 +64,17 @@
 \usepackage{hypcap}% it must be loaded after hyperref.
 % Set up styles of URL: it should be placed after hyperref.
 \urlstyle{same}
+\addto\captionsenglish{\renewcommand{\contentsname}{Contents}}
 
-\addto\captionsenglish{\renewcommand{\figurename}{Fig.\@ }}
-\makeatletter
-\def\fnum@figure{\figurename\thefigure{}}
-\makeatother
-\addto\captionsenglish{\renewcommand{\tablename}{Table }}
-\makeatletter
-\def\fnum@table{\tablename\thetable{}}
-\makeatother
-\addto\captionsenglish{\renewcommand{\literalblockname}{Listing}}
-
-\addto\captionsenglish{\renewcommand{\literalblockcontinuedname}{continued from previous page}}
-\addto\captionsenglish{\renewcommand{\literalblockcontinuesname}{continues on next page}}
-\addto\captionsenglish{\renewcommand{\sphinxnonalphabeticalgroupname}{Non-alphabetical}}
-\addto\captionsenglish{\renewcommand{\sphinxsymbolsname}{Symbols}}
-\addto\captionsenglish{\renewcommand{\sphinxnumbersname}{Numbers}}
-
-\addto\extrasenglish{\def\pageautorefname{page}}
-
+\usepackage{sphinxmessages}
 
 
 
 
 \title{Karaokey Documentation}
-\date{Mar 22, 2019}
-\release{0.1}
-\author{VP}
+\date{Apr 08, 2019}
+\release{beta}
+\author{w1572032 - Vinay Patel}
 \newcommand{\sphinxlogo}{\vbox{}}
 \renewcommand{\releasename}{Release}
 \makeindex
@@ -74,9 +88,1727 @@
 \phantomsection\label{\detokenize{index::doc}}
 
 
-docs/source/modules
+
+\chapter{application package}
+\label{\detokenize{docs/source/application:application-package}}\label{\detokenize{docs/source/application::doc}}
+
+\section{Subpackages}
+\label{\detokenize{docs/source/application:subpackages}}
+
+\subsection{application.controllers package}
+\label{\detokenize{docs/source/application.controllers:application-controllers-package}}\label{\detokenize{docs/source/application.controllers::doc}}
+
+\subsubsection{application.controllers.file\_actions module}
+\label{\detokenize{docs/source/application.controllers:module-application.controllers.file_actions}}\label{\detokenize{docs/source/application.controllers:application-controllers-file-actions-module}}\index{application.controllers.file\_actions (module)@\spxentry{application.controllers.file\_actions}\spxextra{module}}\index{create\_unique\_dir() (in module application.controllers.file\_actions)@\spxentry{create\_unique\_dir()}\spxextra{in module application.controllers.file\_actions}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.controllers:application.controllers.file_actions.create_unique_dir}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{application.controllers.file\_actions.}}\sphinxbfcode{\sphinxupquote{create\_unique\_dir}}}{}{}
+Creates unique directory for storing uploaded file and separated files.
+:returns: sends the directory path
+:rtype: str
+
+\end{fulllineitems}
+
+\index{get\_audio\_file\_path() (in module application.controllers.file\_actions)@\spxentry{get\_audio\_file\_path()}\spxextra{in module application.controllers.file\_actions}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.controllers:application.controllers.file_actions.get_audio_file_path}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{application.controllers.file\_actions.}}\sphinxbfcode{\sphinxupquote{get\_audio\_file\_path}}}{\emph{file\_name}}{}
+gets the absolute file path of the file by checking the available session token.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{file\_name}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} name of the file to retrieve
+
+\item[{Returns}] \leavevmode
+\begin{itemize}
+\item {} 
+\sphinxstyleemphasis{str} \textendash{} if file\_path is valid and available for the user
+
+\item {} 
+\sphinxstyleemphasis{bool} \textendash{} False if file\_path is not valid
+
+\end{itemize}
 
 
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{remove\_session\_token() (in module application.controllers.file\_actions)@\spxentry{remove\_session\_token()}\spxextra{in module application.controllers.file\_actions}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.controllers:application.controllers.file_actions.remove_session_token}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{application.controllers.file\_actions.}}\sphinxbfcode{\sphinxupquote{remove\_session\_token}}}{}{}
+Removes the \sphinxtitleref{token} from the \sphinxtitleref{session}
+and also removes the directory associated with this session.
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+True if successfully removed and False otherwise
+
+\item[{Return type}] \leavevmode
+bool
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{save\_file() (in module application.controllers.file\_actions)@\spxentry{save\_file()}\spxextra{in module application.controllers.file\_actions}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.controllers:application.controllers.file_actions.save_file}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{application.controllers.file\_actions.}}\sphinxbfcode{\sphinxupquote{save\_file}}}{}{}
+Saves the uploaded music file on the server so that it can be processed by the model.
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+True if successfully saved, False otherwise
+
+\item[{Return type}] \leavevmode
+bool
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{supported\_file() (in module application.controllers.file\_actions)@\spxentry{supported\_file()}\spxextra{in module application.controllers.file\_actions}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.controllers:application.controllers.file_actions.supported_file}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{application.controllers.file\_actions.}}\sphinxbfcode{\sphinxupquote{supported\_file}}}{\emph{filename}}{}
+Check if the file is supported by the application is not or not.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{filename}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} file name of the file
+
+\item[{Returns}] \leavevmode
+True if supported by application and False otherwise
+
+\item[{Return type}] \leavevmode
+bool
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+
+\subsubsection{application.controllers.predict module}
+\label{\detokenize{docs/source/application.controllers:module-application.controllers.predict}}\label{\detokenize{docs/source/application.controllers:application-controllers-predict-module}}\index{application.controllers.predict (module)@\spxentry{application.controllers.predict}\spxextra{module}}\index{separate\_file() (in module application.controllers.predict)@\spxentry{separate\_file()}\spxextra{in module application.controllers.predict}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.controllers:application.controllers.predict.separate_file}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{application.controllers.predict.}}\sphinxbfcode{\sphinxupquote{separate\_file}}}{\emph{dir\_path}}{}
+Separates and saves the music file into vocals and accompaniment.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{dir\_path}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} directory path
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+
+\subsection{application.model package}
+\label{\detokenize{docs/source/application.model:application-model-package}}\label{\detokenize{docs/source/application.model::doc}}
+
+\subsubsection{Module contents}
+\label{\detokenize{docs/source/application.model:module-application.model}}\label{\detokenize{docs/source/application.model:module-contents}}\index{application.model (module)@\spxentry{application.model}\spxextra{module}}\index{Rating (class in application.model)@\spxentry{Rating}\spxextra{class in application.model}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.model:application.model.Rating}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{application.model.}}\sphinxbfcode{\sphinxupquote{Rating}}}{\emph{user\_id}, \emph{track\_id}, \emph{rating}}{}
+Bases: \sphinxcode{\sphinxupquote{sqlalchemy.ext.declarative.api.Model}}
+
+Model for rating table.
+\index{id (application.model.Rating attribute)@\spxentry{id}\spxextra{application.model.Rating attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.model:application.model.Rating.id}}\pysigline{\sphinxbfcode{\sphinxupquote{id}}}
+\end{fulllineitems}
+
+\index{rating (application.model.Rating attribute)@\spxentry{rating}\spxextra{application.model.Rating attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.model:application.model.Rating.rating}}\pysigline{\sphinxbfcode{\sphinxupquote{rating}}}
+\end{fulllineitems}
+
+\index{track\_id (application.model.Rating attribute)@\spxentry{track\_id}\spxextra{application.model.Rating attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.model:application.model.Rating.track_id}}\pysigline{\sphinxbfcode{\sphinxupquote{track\_id}}}
+\end{fulllineitems}
+
+\index{user\_id (application.model.Rating attribute)@\spxentry{user\_id}\spxextra{application.model.Rating attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.model:application.model.Rating.user_id}}\pysigline{\sphinxbfcode{\sphinxupquote{user\_id}}}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{Track (class in application.model)@\spxentry{Track}\spxextra{class in application.model}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.model:application.model.Track}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{application.model.}}\sphinxbfcode{\sphinxupquote{Track}}}{\emph{title}, \emph{sub\_set}}{}
+Bases: \sphinxcode{\sphinxupquote{sqlalchemy.ext.declarative.api.Model}}
+
+Model for track table.
+\index{id (application.model.Track attribute)@\spxentry{id}\spxextra{application.model.Track attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.model:application.model.Track.id}}\pysigline{\sphinxbfcode{\sphinxupquote{id}}}
+\end{fulllineitems}
+
+\index{ratings (application.model.Track attribute)@\spxentry{ratings}\spxextra{application.model.Track attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.model:application.model.Track.ratings}}\pysigline{\sphinxbfcode{\sphinxupquote{ratings}}}
+\end{fulllineitems}
+
+\index{sub\_set (application.model.Track attribute)@\spxentry{sub\_set}\spxextra{application.model.Track attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.model:application.model.Track.sub_set}}\pysigline{\sphinxbfcode{\sphinxupquote{sub\_set}}}
+\end{fulllineitems}
+
+\index{title (application.model.Track attribute)@\spxentry{title}\spxextra{application.model.Track attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.model:application.model.Track.title}}\pysigline{\sphinxbfcode{\sphinxupquote{title}}}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{User (class in application.model)@\spxentry{User}\spxextra{class in application.model}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.model:application.model.User}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{application.model.}}\sphinxbfcode{\sphinxupquote{User}}}{\emph{feedback}}{}
+Bases: \sphinxcode{\sphinxupquote{sqlalchemy.ext.declarative.api.Model}}
+
+Model for user table.
+\index{feedback (application.model.User attribute)@\spxentry{feedback}\spxextra{application.model.User attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.model:application.model.User.feedback}}\pysigline{\sphinxbfcode{\sphinxupquote{feedback}}}
+\end{fulllineitems}
+
+\index{id (application.model.User attribute)@\spxentry{id}\spxextra{application.model.User attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.model:application.model.User.id}}\pysigline{\sphinxbfcode{\sphinxupquote{id}}}
+\end{fulllineitems}
+
+\index{ratings (application.model.User attribute)@\spxentry{ratings}\spxextra{application.model.User attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.model:application.model.User.ratings}}\pysigline{\sphinxbfcode{\sphinxupquote{ratings}}}
+\end{fulllineitems}
+
+\index{timestamp (application.model.User attribute)@\spxentry{timestamp}\spxextra{application.model.User attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/application.model:application.model.User.timestamp}}\pysigline{\sphinxbfcode{\sphinxupquote{timestamp}}}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+
+
+\section{application.config module}
+\label{\detokenize{docs/source/application:module-application.config}}\label{\detokenize{docs/source/application:application-config-module}}\index{application.config (module)@\spxentry{application.config}\spxextra{module}}
+Contains the configuration of the Flask app and other constants
+
+
+\chapter{common package}
+\label{\detokenize{docs/source/common:common-package}}\label{\detokenize{docs/source/common::doc}}
+
+\section{common.input\_handler module}
+\label{\detokenize{docs/source/common:module-common.input_handler}}\label{\detokenize{docs/source/common:common-input-handler-module}}\index{common.input\_handler (module)@\spxentry{common.input\_handler}\spxextra{module}}
+Module to handle the user inputs through console.
+\index{get\_confirmation() (in module common.input\_handler)@\spxentry{get\_confirmation()}\spxextra{in module common.input\_handler}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/common:common.input_handler.get_confirmation}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{common.input\_handler.}}\sphinxbfcode{\sphinxupquote{get\_confirmation}}}{\emph{msg='Confirm'}, \emph{error\_msg='Please select y or n'}}{}
+Function to get confirmation from user through consoles.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{msg}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} Input request message to display on console.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{error\_msg}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} Error message to display when input is invalid
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+\sphinxtitleref{True} if user confirms to the message, \sphinxtitleref{False} otherwise.
+
+\item[{Return type}] \leavevmode
+bool
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{get\_input\_int() (in module common.input\_handler)@\spxentry{get\_input\_int()}\spxextra{in module common.input\_handler}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/common:common.input_handler.get_input_int}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{common.input\_handler.}}\sphinxbfcode{\sphinxupquote{get\_input\_int}}}{\emph{msg='Please enter'}, \emph{only\_accept=None}, \emph{error\_msg='Please enter valid'}}{{ $\rightarrow$ int}}
+Function to handle integer inputs from consoles.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{msg}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} Input request message to display on console.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{only\_accept}} (\sphinxstyleliteralemphasis{\sphinxupquote{list}}) \textendash{} accept only the inputs present inside this list.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{error\_msg}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} Error message to display when input is invalid
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+integer input by the user.
+
+\item[{Return type}] \leavevmode
+int
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{get\_input\_str() (in module common.input\_handler)@\spxentry{get\_input\_str()}\spxextra{in module common.input\_handler}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/common:common.input_handler.get_input_str}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{common.input\_handler.}}\sphinxbfcode{\sphinxupquote{get\_input\_str}}}{\emph{msg='Please enter'}, \emph{only\_accept=None}, \emph{error\_msg='Please enter valid'}}{}
+Function to handle string inputs from console.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{msg}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} Input request message to display on console.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{only\_accept}} (\sphinxstyleliteralemphasis{\sphinxupquote{list}}) \textendash{} accept only the inputs present inside this list.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{error\_msg}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} Error message to display when input is invalid
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+string input by the user.
+
+\item[{Return type}] \leavevmode
+str
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+
+\chapter{config package}
+\label{\detokenize{docs/source/config:config-package}}\label{\detokenize{docs/source/config::doc}}
+
+\section{Module contents}
+\label{\detokenize{docs/source/config:module-config}}\label{\detokenize{docs/source/config:module-contents}}\index{config (module)@\spxentry{config}\spxextra{module}}
+Static configurations for packages.
+\index{DATASET\_CONFIG (class in config)@\spxentry{DATASET\_CONFIG}\spxextra{class in config}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.DATASET_CONFIG}}\pysigline{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{config.}}\sphinxbfcode{\sphinxupquote{DATASET\_CONFIG}}}
+Bases: \sphinxcode{\sphinxupquote{object}}
+\index{N\_HOP\_SIZE (config.DATASET\_CONFIG attribute)@\spxentry{N\_HOP\_SIZE}\spxextra{config.DATASET\_CONFIG attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.DATASET_CONFIG.N_HOP_SIZE}}\pysigline{\sphinxbfcode{\sphinxupquote{N\_HOP\_SIZE}}\sphinxbfcode{\sphinxupquote{ = 2048.0}}}
+\end{fulllineitems}
+
+\index{N\_OVERLAP (config.DATASET\_CONFIG attribute)@\spxentry{N\_OVERLAP}\spxextra{config.DATASET\_CONFIG attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.DATASET_CONFIG.N_OVERLAP}}\pysigline{\sphinxbfcode{\sphinxupquote{N\_OVERLAP}}\sphinxbfcode{\sphinxupquote{ = 2048.0}}}
+\end{fulllineitems}
+
+\index{N\_PER\_SEG (config.DATASET\_CONFIG attribute)@\spxentry{N\_PER\_SEG}\spxextra{config.DATASET\_CONFIG attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.DATASET_CONFIG.N_PER_SEG}}\pysigline{\sphinxbfcode{\sphinxupquote{N\_PER\_SEG}}\sphinxbfcode{\sphinxupquote{ = 4096}}}
+\end{fulllineitems}
+
+\index{PATH (config.DATASET\_CONFIG attribute)@\spxentry{PATH}\spxextra{config.DATASET\_CONFIG attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.DATASET_CONFIG.PATH}}\pysigline{\sphinxbfcode{\sphinxupquote{PATH}}\sphinxbfcode{\sphinxupquote{ = 'C:\textbackslash{}\textbackslash{}Users\textbackslash{}\textbackslash{}w1572032.INTRANET.001\textbackslash{}\textbackslash{}Desktop\textbackslash{}\textbackslash{}short\_dataset\_wav'}}}
+\end{fulllineitems}
+
+\index{SR (config.DATASET\_CONFIG attribute)@\spxentry{SR}\spxextra{config.DATASET\_CONFIG attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.DATASET_CONFIG.SR}}\pysigline{\sphinxbfcode{\sphinxupquote{SR}}\sphinxbfcode{\sphinxupquote{ = 44100}}}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{PREPROCESS\_CONFIG (class in config)@\spxentry{PREPROCESS\_CONFIG}\spxextra{class in config}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.PREPROCESS_CONFIG}}\pysigline{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{config.}}\sphinxbfcode{\sphinxupquote{PREPROCESS\_CONFIG}}}
+Bases: \sphinxcode{\sphinxupquote{object}}
+\index{PATH (config.PREPROCESS\_CONFIG attribute)@\spxentry{PATH}\spxextra{config.PREPROCESS\_CONFIG attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.PREPROCESS_CONFIG.PATH}}\pysigline{\sphinxbfcode{\sphinxupquote{PATH}}\sphinxbfcode{\sphinxupquote{ = 'C:\textbackslash{}\textbackslash{}Users\textbackslash{}\textbackslash{}w1572032.INTRANET.001\textbackslash{}\textbackslash{}Desktop\textbackslash{}\textbackslash{}pro\_dataset\_'}}}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{TRAIN\_CONFIG (class in config)@\spxentry{TRAIN\_CONFIG}\spxextra{class in config}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.TRAIN_CONFIG}}\pysigline{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{config.}}\sphinxbfcode{\sphinxupquote{TRAIN\_CONFIG}}}
+Bases: \sphinxcode{\sphinxupquote{object}}
+\index{ACTIVATION\_FUNCTION (config.TRAIN\_CONFIG attribute)@\spxentry{ACTIVATION\_FUNCTION}\spxextra{config.TRAIN\_CONFIG attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.TRAIN_CONFIG.ACTIVATION_FUNCTION}}\pysigline{\sphinxbfcode{\sphinxupquote{ACTIVATION\_FUNCTION}}\sphinxbfcode{\sphinxupquote{ = 'relu'}}}
+\end{fulllineitems}
+
+\index{BIDIRECTIONAL (config.TRAIN\_CONFIG attribute)@\spxentry{BIDIRECTIONAL}\spxextra{config.TRAIN\_CONFIG attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.TRAIN_CONFIG.BIDIRECTIONAL}}\pysigline{\sphinxbfcode{\sphinxupquote{BIDIRECTIONAL}}\sphinxbfcode{\sphinxupquote{ = True}}}
+\end{fulllineitems}
+
+\index{HIDDEN\_SIZE (config.TRAIN\_CONFIG attribute)@\spxentry{HIDDEN\_SIZE}\spxextra{config.TRAIN\_CONFIG attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.TRAIN_CONFIG.HIDDEN_SIZE}}\pysigline{\sphinxbfcode{\sphinxupquote{HIDDEN\_SIZE}}\sphinxbfcode{\sphinxupquote{ = 512}}}
+\end{fulllineitems}
+
+\index{LR (config.TRAIN\_CONFIG attribute)@\spxentry{LR}\spxextra{config.TRAIN\_CONFIG attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.TRAIN_CONFIG.LR}}\pysigline{\sphinxbfcode{\sphinxupquote{LR}}\sphinxbfcode{\sphinxupquote{ = 0.001}}}
+\end{fulllineitems}
+
+\index{NB\_BATCHES (config.TRAIN\_CONFIG attribute)@\spxentry{NB\_BATCHES}\spxextra{config.TRAIN\_CONFIG attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.TRAIN_CONFIG.NB_BATCHES}}\pysigline{\sphinxbfcode{\sphinxupquote{NB\_BATCHES}}\sphinxbfcode{\sphinxupquote{ = 16}}}
+\end{fulllineitems}
+
+\index{NB\_BINS (config.TRAIN\_CONFIG attribute)@\spxentry{NB\_BINS}\spxextra{config.TRAIN\_CONFIG attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.TRAIN_CONFIG.NB_BINS}}\pysigline{\sphinxbfcode{\sphinxupquote{NB\_BINS}}\sphinxbfcode{\sphinxupquote{ = 2049}}}
+\end{fulllineitems}
+
+\index{NB\_LAYERS (config.TRAIN\_CONFIG attribute)@\spxentry{NB\_LAYERS}\spxextra{config.TRAIN\_CONFIG attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.TRAIN_CONFIG.NB_LAYERS}}\pysigline{\sphinxbfcode{\sphinxupquote{NB\_LAYERS}}\sphinxbfcode{\sphinxupquote{ = 3}}}
+\end{fulllineitems}
+
+\index{NB\_SAMPLES (config.TRAIN\_CONFIG attribute)@\spxentry{NB\_SAMPLES}\spxextra{config.TRAIN\_CONFIG attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.TRAIN_CONFIG.NB_SAMPLES}}\pysigline{\sphinxbfcode{\sphinxupquote{NB\_SAMPLES}}\sphinxbfcode{\sphinxupquote{ = 256}}}
+\end{fulllineitems}
+
+\index{OPTIMIZER (config.TRAIN\_CONFIG attribute)@\spxentry{OPTIMIZER}\spxextra{config.TRAIN\_CONFIG attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.TRAIN_CONFIG.OPTIMIZER}}\pysigline{\sphinxbfcode{\sphinxupquote{OPTIMIZER}}\sphinxbfcode{\sphinxupquote{ = 'adam'}}}
+\end{fulllineitems}
+
+\index{RECURRENT\_LAYER (config.TRAIN\_CONFIG attribute)@\spxentry{RECURRENT\_LAYER}\spxextra{config.TRAIN\_CONFIG attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.TRAIN_CONFIG.RECURRENT_LAYER}}\pysigline{\sphinxbfcode{\sphinxupquote{RECURRENT\_LAYER}}\sphinxbfcode{\sphinxupquote{ = 'lstm'}}}
+\end{fulllineitems}
+
+\index{STEPS (config.TRAIN\_CONFIG attribute)@\spxentry{STEPS}\spxextra{config.TRAIN\_CONFIG attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.TRAIN_CONFIG.STEPS}}\pysigline{\sphinxbfcode{\sphinxupquote{STEPS}}\sphinxbfcode{\sphinxupquote{ = 1000}}}
+\end{fulllineitems}
+
+\index{TRAINED\_ON (config.TRAIN\_CONFIG attribute)@\spxentry{TRAINED\_ON}\spxextra{config.TRAIN\_CONFIG attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/config:config.TRAIN_CONFIG.TRAINED_ON}}\pysigline{\sphinxbfcode{\sphinxupquote{TRAINED\_ON}}\sphinxbfcode{\sphinxupquote{ = 'vocals'}}}
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+
+
+\chapter{dataset package}
+\label{\detokenize{docs/source/dataset:dataset-package}}\label{\detokenize{docs/source/dataset::doc}}
+
+\section{Module contents}
+\label{\detokenize{docs/source/dataset:module-dataset}}\label{\detokenize{docs/source/dataset:module-contents}}\index{dataset (module)@\spxentry{dataset}\spxextra{module}}
+This package contains the Dataset class which can be used to lazy load the preprocessed dataset of music tracks.
+\index{Dataset (class in dataset)@\spxentry{Dataset}\spxextra{class in dataset}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/dataset:dataset.Dataset}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{dataset.}}\sphinxbfcode{\sphinxupquote{Dataset}}}{\emph{dir\_path=None}, \emph{sub\_set='train'}, \emph{source\_label='vocals'}, \emph{data\_type='.npy'}, \emph{lazy\_load=True}}{}
+Bases: \sphinxcode{\sphinxupquote{object}}
+
+Class to load the preprocessed dataset
+\begin{quote}\begin{description}
+\item[{Variables}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{\_mixtures}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}) \textendash{} shape(nb\_tracks, nb\_frames, nb\_bins, nb\_channels)
+array of scaled and preprocessed spectrogramic mixture tracks
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{\_labels}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}) \textendash{} shape(nb\_tracks, nb\_frames, nb\_bins, nb\_channels)
+array of scaled and preprocessed spectrogramic label tracks
+
+\end{itemize}
+
+\end{description}\end{quote}
+\index{\_\_getitem\_\_() (dataset.Dataset method)@\spxentry{\_\_getitem\_\_()}\spxextra{dataset.Dataset method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/dataset:dataset.Dataset.__getitem__}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_getitem\_\_}}}{\emph{index}}{}
+Get the music from the dataset
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{index}} (\sphinxstyleliteralemphasis{\sphinxupquote{index of the music file}}) \textendash{} 
+
+\item[{Returns}] \leavevmode
+\begin{itemize}
+\item {} 
+\sphinxstylestrong{mixture} (\sphinxstyleemphasis{ndarray}) \textendash{} shape(nb\_frames, nb\_bins, nb\_channels)
+audio data of mixture file
+
+\item {} 
+\sphinxstylestrong{label} (\sphinxstyleemphasis{ndarray}) \textendash{} shape(nb\_frames, nb\_bins, nb\_channels)
+audio data of mixture file
+
+\end{itemize}
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{\_\_init\_\_() (dataset.Dataset method)@\spxentry{\_\_init\_\_()}\spxextra{dataset.Dataset method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/dataset:dataset.Dataset.__init__}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_init\_\_}}}{\emph{dir\_path=None}, \emph{sub\_set='train'}, \emph{source\_label='vocals'}, \emph{data\_type='.npy'}, \emph{lazy\_load=True}}{}
+Constructor that initialises the Dataset
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{dir\_path}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} path of the dataset
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{sub\_set}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} sub set to load from the dataset
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{source\_label}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} label of the source file to retrieve
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{data\_type}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} data type or extension of files
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{lazy\_load}} (\sphinxstyleliteralemphasis{\sphinxupquote{bool}}) \textendash{} Lazy load the data i.e, load on the fly to reduces the memory limits and loading times
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{\_\_len\_\_() (dataset.Dataset method)@\spxentry{\_\_len\_\_()}\spxextra{dataset.Dataset method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/dataset:dataset.Dataset.__len__}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_len\_\_}}}{}{}
+Length of tracks
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{int}
+
+\item[{Return type}] \leavevmode
+length of tracks in dataset
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{get\_track\_dir\_paths() (dataset.Dataset method)@\spxentry{get\_track\_dir\_paths()}\spxextra{dataset.Dataset method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/dataset:dataset.Dataset.get_track_dir_paths}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_track\_dir\_paths}}}{\emph{sub\_set='train'}}{}
+Gets track dir paths
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{sub\_set}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} sub\_set of the dataset i.e., train or test
+
+\item[{Returns}] \leavevmode
+list of the absolute paths of the track directories.
+
+\item[{Return type}] \leavevmode
+list{[}str{]}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{get\_track\_name() (dataset.Dataset method)@\spxentry{get\_track\_name()}\spxextra{dataset.Dataset method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/dataset:dataset.Dataset.get_track_name}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_track\_name}}}{\emph{index}}{}
+Get name of track sampl
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+Name of the track
+
+\item[{Return type}] \leavevmode
+str
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{labels (dataset.Dataset attribute)@\spxentry{labels}\spxextra{dataset.Dataset attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/dataset:dataset.Dataset.labels}}\pysigline{\sphinxbfcode{\sphinxupquote{labels}}}
+Gets scaled and preprocessed labels for all tracks
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{labels} \textendash{} shape(nb\_tracks, nb\_frames, nb\_bins, nb\_channels)
+array of scaled and preprocessed spectrogramic label tracks
+
+\item[{Return type}] \leavevmode
+ndarray
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{load() (dataset.Dataset method)@\spxentry{load()}\spxextra{dataset.Dataset method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/dataset:dataset.Dataset.load}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{load}}}{\emph{track\_dir}}{}
+Loads scaled and preprocessed mixture and label for a single track from specified track dir.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{track\_dir}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} path of the track directory where the files files are stored
+
+\item[{Returns}] \leavevmode
+\begin{itemize}
+\item {} 
+\sphinxstylestrong{mixture} (\sphinxstyleemphasis{ndarray}) \textendash{} shape(nb\_frames, nb\_bins, nb\_channels)
+scaled and preprocessed spectrogramic mixture track
+
+\item {} 
+\sphinxstylestrong{label} (\sphinxstyleemphasis{ndarray}) \textendash{} shape(nb\_frames, nb\_bins, nb\_channels)
+scaled and preprocessed spectrogramic label track
+
+\end{itemize}
+
+
+\item[{Raises}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{ValueError}} \textendash{} If \sphinxtitleref{track\_dir} doesn’t exist.
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{load\_all\_tracks() (dataset.Dataset method)@\spxentry{load\_all\_tracks()}\spxextra{dataset.Dataset method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/dataset:dataset.Dataset.load_all_tracks}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{load\_all\_tracks}}}{}{}
+Loads scaled and preprocessed mixtures and labels for all tracks
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+\begin{itemize}
+\item {} 
+\sphinxstylestrong{mixtures} (\sphinxstyleemphasis{ndarray}) \textendash{} shape(nb\_tracks, nb\_frames, nb\_bins, nb\_channels)
+array of scaled and preprocessed spectrogramic mixture tracks
+
+\item {} 
+\sphinxstylestrong{labels} (\sphinxstyleemphasis{ndarray}) \textendash{} shape(nb\_tracks, nb\_frames, nb\_bins, nb\_channels)
+array of scaled and preprocessed spectrogramic label tracks
+
+\end{itemize}
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{load\_metadata() (dataset.Dataset method)@\spxentry{load\_metadata()}\spxextra{dataset.Dataset method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/dataset:dataset.Dataset.load_metadata}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{load\_metadata}}}{}{}
+loads the metadata(scalers) related to the subset of the dataset
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+\begin{itemize}
+\item {} 
+\sphinxstylestrong{mixture\_mean} (\sphinxstyleemphasis{ndarray}) \textendash{} mean of mixture sources
+
+\item {} 
+\sphinxstylestrong{mixture\_scale} (\sphinxstyleemphasis{ndarray}) \textendash{} scaled ndarray of mixture sources
+
+\item {} 
+\sphinxstylestrong{label\_mean} (\sphinxstyleemphasis{ndarray}) \textendash{} mean of label sources
+
+\item {} 
+\sphinxstylestrong{label\_scale} (\sphinxstyleemphasis{ndarray}) \textendash{} scaled ndarray of label sources
+
+\end{itemize}
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{mixtures (dataset.Dataset attribute)@\spxentry{mixtures}\spxextra{dataset.Dataset attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/dataset:dataset.Dataset.mixtures}}\pysigline{\sphinxbfcode{\sphinxupquote{mixtures}}}
+Gets scaled and preprocessed mixtures for all tracks
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{mixtures} \textendash{} shape(nb\_tracks, nb\_frames, nb\_bins, nb\_channels)
+array of scaled and preprocessed spectrogramic mixture tracks
+
+\item[{Return type}] \leavevmode
+ndarray
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+
+
+\chapter{preprocess package}
+\label{\detokenize{docs/source/preprocess:preprocess-package}}\label{\detokenize{docs/source/preprocess::doc}}
+
+\section{preprocess.data module}
+\label{\detokenize{docs/source/preprocess:module-preprocess.data}}\label{\detokenize{docs/source/preprocess:preprocess-data-module}}\index{preprocess.data (module)@\spxentry{preprocess.data}\spxextra{module}}
+This module helps to load dataset of .wav files.
+\index{Data (class in preprocess.data)@\spxentry{Data}\spxextra{class in preprocess.data}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.data.Data}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{preprocess.data.}}\sphinxbfcode{\sphinxupquote{Data}}}{\emph{dataset\_path}}{}
+Bases: \sphinxcode{\sphinxupquote{object}}
+
+Data object to load tracks in .wav format
+\index{get\_tracks() (preprocess.data.Data method)@\spxentry{get\_tracks()}\spxextra{preprocess.data.Data method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.data.Data.get_tracks}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_tracks}}}{}{}
+Iterates through the track folders and loads the tracks as “Track” objects
+
+\end{fulllineitems}
+
+\index{\_\_init\_\_() (preprocess.data.Data method)@\spxentry{\_\_init\_\_()}\spxextra{preprocess.data.Data method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.data.Data.__init__}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_init\_\_}}}{\emph{dataset\_path}}{}
+Initialises the Data object
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{dataset\_path}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} Path of the dataset directory
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{get\_tracks() (preprocess.data.Data method)@\spxentry{get\_tracks()}\spxextra{preprocess.data.Data method}}
+
+\begin{fulllineitems}
+\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{get\_tracks}}}{\emph{sub\_set='train'}, \emph{select\_tracks=None}, \emph{labels=\{'vocals'\}}}{}
+loads and returns the tracks from the dataset.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{sub\_set}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} The set to load from the dataset
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{select\_tracks}} (\sphinxstyleliteralemphasis{\sphinxupquote{list}}\sphinxstyleliteralemphasis{\sphinxupquote{{[}}}\sphinxstyleliteralemphasis{\sphinxupquote{str}}\sphinxstyleliteralemphasis{\sphinxupquote{{]}}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{optional}}) \textendash{} Select the tracks to load.
+If none supplied than all tracks in the directory will be loaded.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{labels}} (\sphinxstyleliteralemphasis{\sphinxupquote{dict}}) \textendash{} the labels to load from the dataset.
+“Mixture” will be loaded by default.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+list of tracks where each track is represents by ‘’Track’’ object
+
+\item[{Return type}] \leavevmode
+list{[}{\hyperref[\detokenize{docs/source/application.model:application.model.Track}]{\sphinxcrossref{Track}}}{]}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+
+
+\section{preprocess.pre\_process module}
+\label{\detokenize{docs/source/preprocess:module-preprocess.pre_process}}\label{\detokenize{docs/source/preprocess:preprocess-pre-process-module}}\index{preprocess.pre\_process (module)@\spxentry{preprocess.pre\_process}\spxextra{module}}
+Loads the Data from the .wav music files, preprocesses it and saves it as numpy array.
+Main Pre processing Steps:
+\begin{itemize}
+\item {} 
+Loading the individual track in time domain using \sphinxtitleref{Data} object.
+
+\item {} 
+Converting the loaded track to mono.
+
+\item {} 
+Transforming it to frequency domain using \sphinxtitleref{STFT} object which does Short Time Fourier Transformation.
+
+\item {} 
+Normalises it by scaling it between 0 to 1 giving 0 to lowest values and 1 to highest values.
+
+\item {} 
+Repeats the steps 1 to 3 for sources and than for scaling it scales the sources relative to the mixture.
+
+\end{itemize}
+\index{main() (in module preprocess.pre\_process)@\spxentry{main()}\spxextra{in module preprocess.pre\_process}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.pre_process.main}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{preprocess.pre\_process.}}\sphinxbfcode{\sphinxupquote{main}}}{}{}
+Main method of pre-processing the data and saving it as numpy files
+
+\end{fulllineitems}
+
+
+
+\section{preprocess.preprocess\_tools module}
+\label{\detokenize{docs/source/preprocess:module-preprocess.preprocess_tools}}\label{\detokenize{docs/source/preprocess:preprocess-preprocess-tools-module}}\index{preprocess.preprocess\_tools (module)@\spxentry{preprocess.preprocess\_tools}\spxextra{module}}
+This module contains the tools used for pre-processing music tracks to be feed into the neural network.
+\index{STFT (class in preprocess.preprocess\_tools)@\spxentry{STFT}\spxextra{class in preprocess.preprocess\_tools}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.preprocess_tools.STFT}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{preprocess.preprocess\_tools.}}\sphinxbfcode{\sphinxupquote{STFT}}}{\emph{sr=44100}, \emph{n\_per\_seg=4096}, \emph{n\_overlap=3072}}{}
+Bases: \sphinxcode{\sphinxupquote{object}}
+\begin{description}
+\item[{Short Time Fourier Transform(STFT)}] \leavevmode
+Transforms time series data into frequency domain
+
+\end{description}
+\begin{quote}\begin{description}
+\item[{Variables}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{sr}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} sampling rate
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{n\_per\_seg}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} window size for computing STFT
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{n\_overlap}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} overlap samples for each window shift
+
+\end{itemize}
+
+\end{description}\end{quote}
+\index{\_\_init\_\_() (preprocess.preprocess\_tools.STFT method)@\spxentry{\_\_init\_\_()}\spxextra{preprocess.preprocess\_tools.STFT method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.preprocess_tools.STFT.__init__}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_init\_\_}}}{\emph{sr=44100}, \emph{n\_per\_seg=4096}, \emph{n\_overlap=3072}}{}
+Constructor
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{sr}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} sampling rate
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{n\_per\_seg}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} window size for computing STFT
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{n\_overlap}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} overlap samples for each window shift
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{istft() (preprocess.preprocess\_tools.STFT method)@\spxentry{istft()}\spxextra{preprocess.preprocess\_tools.STFT method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.preprocess_tools.STFT.istft}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{istft}}}{\emph{X}}{}
+Generates the inverse STFT of frequency domain data.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{X}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{shape}}\sphinxstyleliteralemphasis{\sphinxupquote{(}}\sphinxstyleliteralemphasis{\sphinxupquote{nb\_frames}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{nb\_bins}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{nb\_channels}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} audio signal in time domain.
+
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{data} \textendash{} audio signal in time domain.
+
+\item[{Return type}] \leavevmode
+ndarray, shape(nb\_channels, nb\_samples)
+
+\end{description}\end{quote}
+\subsubsection*{Notes}
+
+inverse STFT is given by:
+\begin{equation*}
+\begin{split}x(m) = \frac{ \sum_{t}x_{t}(m)h(h-tH) }{ \sum_{t} h^{2}(m-tH) }\end{split}
+\end{equation*}
+Where the parameters represents following:
+\begin{itemize}
+\item {} 
+\(x(m)\) is retrieved signal
+
+\item {} 
+\(h\) is window
+
+\item {} 
+\(t\) is time of the signal
+
+\item {} 
+\(H\) = \sphinxtitleref{n\_per\_seg} - \sphinxtitleref{n\_overlap} is hop size of the signal
+
+\end{itemize}
+
+
+\sphinxstrong{See also:}
+
+\begin{description}
+\item[{{\hyperref[\detokenize{docs/source/preprocess:preprocess.preprocess_tools.STFT.stft}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{stft()}}}}}}] \leavevmode
+STFT (Short Time Fourier Transformation)
+
+\end{description}
+
+
+
+\end{fulllineitems}
+
+\index{stft() (preprocess.preprocess\_tools.STFT method)@\spxentry{stft()}\spxextra{preprocess.preprocess\_tools.STFT method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.preprocess_tools.STFT.stft}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{stft}}}{\emph{audio\_data}}{}
+Generates the STFT of time series data
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{audio\_data}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}) \textendash{} shape(nb\_channels, nb\_samples)
+audio signal in time domain.
+
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{data} \textendash{} shape(nb\_frames, nb\_bins, nb\_channels)
+STFT of the signal.
+
+\item[{Return type}] \leavevmode
+ndarray
+
+\end{description}\end{quote}
+\subsubsection*{Notes}
+
+STFT of signal \(x(m)\) is given by:
+\begin{equation*}
+\begin{split}x(t) = x(m)h(m - tH)\end{split}
+\end{equation*}
+Where the parameters represents following:
+\begin{itemize}
+\item {} 
+\(x(m)\) is signal
+
+\item {} 
+\(t\) is time
+
+\item {} 
+\(h(m)\) is window
+
+\item {} 
+\(H\) = \sphinxtitleref{n\_per\_seg} - \sphinxtitleref{n\_overlap} is hop size of the signal
+
+\end{itemize}
+
+
+\sphinxstrong{See also:}
+
+\begin{description}
+\item[{{\hyperref[\detokenize{docs/source/preprocess:preprocess.preprocess_tools.STFT.istft}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{istft()}}}}}}] \leavevmode
+inverse STFT (Short Time Fourier Transformation)
+
+\end{description}
+
+
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{Scaler (class in preprocess.preprocess\_tools)@\spxentry{Scaler}\spxextra{class in preprocess.preprocess\_tools}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.preprocess_tools.Scaler}}\pysigline{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{preprocess.preprocess\_tools.}}\sphinxbfcode{\sphinxupquote{Scaler}}}
+Bases: \sphinxcode{\sphinxupquote{object}}
+
+Apply log compression the magnitude of stft and normalize to \sphinxtitleref{\_boundary}
+\begin{quote}\begin{description}
+\item[{Variables}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{\_boundary}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}) \textendash{} Boundary of Log compressed spectrogram
+
+\end{description}\end{quote}
+\index{\_\_\_init\_\_\_() (preprocess.preprocess\_tools.Scaler method)@\spxentry{\_\_\_init\_\_\_()}\spxextra{preprocess.preprocess\_tools.Scaler method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.preprocess_tools.Scaler.___init___}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_\_init\_\_\_}}}{}{}
+initialises Scaler Object
+
+\end{fulllineitems}
+
+\index{boundary (preprocess.preprocess\_tools.Scaler attribute)@\spxentry{boundary}\spxextra{preprocess.preprocess\_tools.Scaler attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.preprocess_tools.Scaler.boundary}}\pysigline{\sphinxbfcode{\sphinxupquote{boundary}}}
+Gets the boundary of spectrogramic data.
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+boundary of spectrogramic data
+
+\item[{Return type}] \leavevmode
+ndarray
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{calc\_boundary() (preprocess.preprocess\_tools.Scaler method)@\spxentry{calc\_boundary()}\spxextra{preprocess.preprocess\_tools.Scaler method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.preprocess_tools.Scaler.calc_boundary}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{calc\_boundary}}}{\emph{X}, \emph{min=40}}{}
+Calculates the percentile based boundary values on an ndarray.
+\subsubsection*{Examples}
+
+Simple example for calculating boundary.
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{ex} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{p}{[}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{,} \PYG{l+m+mi}{8}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{9}\PYG{p}{]}\PYG{p}{,}\PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{6}\PYG{p}{]}\PYG{p}{]}\PYG{p}{)}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{scaler} \PYG{o}{=} \PYG{n}{Scaler}\PYG{p}{(}\PYG{p}{)}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{scaler}\PYG{o}{.}\PYG{n}{calc\PYGZus{}boundary}\PYG{p}{(}\PYG{n}{X}\PYG{o}{=}\PYG{n}{ex}\PYG{p}{,} \PYG{n+nb}{min}\PYG{o}{=}\PYG{l+m+mi}{40}\PYG{p}{)}\PYG{p}{)}
+\PYG{g+go}{[4.2 9. ]}
+\end{sphinxVerbatim}
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{X}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}) \textendash{} input values
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{min}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} min percentile value
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+boundary percentiles of value \sphinxtitleref{min} to 100
+
+\item[{Return type}] \leavevmode
+ndarray
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{scale() (preprocess.preprocess\_tools.Scaler method)@\spxentry{scale()}\spxextra{preprocess.preprocess\_tools.Scaler method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.preprocess_tools.Scaler.scale}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{scale}}}{\emph{X}, \emph{boundary=None}}{}
+Scales the magnitude of STFT(Spectrogram)
+
+Firstly, it clips the spectrogramic data to percentile bounds
+to reduce the impact of noise in order to get unconsistent result.
+
+Lastly, it normalises or scales the clipped data to values between 0 and 1.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{X}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}) \textendash{} magnitude of stft
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{boundary}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}) \textendash{} boundary to which the data needs to be scaled
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{X\_scale} \textendash{} log scaler of magnitude of stft
+
+\item[{Return type}] \leavevmode
+ndarray
+
+\end{description}\end{quote}
+\subsubsection*{Examples}
+
+Simple example for calculating scaling for each values.
+Here values lower than 4.2 is scaled to 0 because it’s percentile
+boundary was {[}4.2 9.{]}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{ex} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{p}{[}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{,} \PYG{l+m+mi}{8}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{9}\PYG{p}{]}\PYG{p}{,}\PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{6}\PYG{p}{]}\PYG{p}{]}\PYG{p}{)}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{scaler} \PYG{o}{=} \PYG{n}{Scaler}\PYG{p}{(}\PYG{p}{)}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{scaler}\PYG{o}{.}\PYG{n}{scale}\PYG{p}{(}\PYG{n}{X}\PYG{o}{=}\PYG{n}{ex}\PYG{p}{)}\PYG{p}{)}
+\PYG{g+go}{[[0.         0.68273064 0.851306   0.25795466 1.        ]}
+\PYG{g+go}{ [0.         0.25795466 0.         0.         0.48812467]]}
+\end{sphinxVerbatim}
+
+
+\sphinxstrong{See also:}
+
+\begin{description}
+\item[{{\hyperref[\detokenize{docs/source/preprocess:preprocess.preprocess_tools.Scaler.unscale}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{unscale()}}}}}}] \leavevmode
+It unscales the scaled spectrogramic mixture i.e. performs reverse process of \sphinxtitleref{scale}.
+
+\end{description}
+
+
+
+\end{fulllineitems}
+
+\index{unscale() (preprocess.preprocess\_tools.Scaler method)@\spxentry{unscale()}\spxextra{preprocess.preprocess\_tools.Scaler method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.preprocess_tools.Scaler.unscale}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{unscale}}}{\emph{X}, \emph{boundary=None}}{}
+It unscales the scaled spectrogramic mixture.
+It performs the reverse process of scaling
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{X}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}) \textendash{} Scaled spectrogramic data
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{boundary}} \textendash{} boundary to which data was scaled.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+unscaled spectrogramic mixture
+
+\item[{Return type}] \leavevmode
+ndarray
+
+\end{description}\end{quote}
+\subsubsection*{Examples}
+
+Simple example for unscaling.
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{ex} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{p}{[}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mf}{0.68273064}\PYG{p}{,} \PYG{l+m+mf}{0.851306}\PYG{p}{,} \PYG{l+m+mf}{0.25795466}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mf}{0.25795466}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mf}{0.48812467}\PYG{p}{]}\PYG{p}{]}\PYG{p}{)}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{scaler} \PYG{o}{=} \PYG{n}{Scaler}\PYG{p}{(}\PYG{p}{)}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{scaler}\PYG{o}{.}\PYG{n}{unscale}\PYG{p}{(}\PYG{n}{X}\PYG{o}{=}\PYG{n}{ex}\PYG{p}{,} \PYG{n}{boundary}\PYG{o}{=}\PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{p}{[}\PYG{l+m+mf}{4.2}\PYG{p}{,} \PYG{l+m+mi}{9}\PYG{p}{]}\PYG{p}{)}\PYG{p}{)}\PYG{p}{)}
+\PYG{g+go}{[[0.         0.68273064 0.851306   0.25795466 1.        ]}
+\PYG{g+go}{ [0.         0.25795466 0.         0.         0.48812467]]}
+\end{sphinxVerbatim}
+
+
+\sphinxstrong{See also:}
+
+\begin{description}
+\item[{{\hyperref[\detokenize{docs/source/preprocess:preprocess.preprocess_tools.Scaler.scale}]{\sphinxcrossref{\sphinxcode{\sphinxupquote{scale()}}}}}}] \leavevmode
+Scales the magnitude of STFT(Spectrogram).
+
+\end{description}
+
+
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+
+
+\section{preprocess.track\_classes module}
+\label{\detokenize{docs/source/preprocess:module-preprocess.track_classes}}\label{\detokenize{docs/source/preprocess:preprocess-track-classes-module}}\index{preprocess.track\_classes (module)@\spxentry{preprocess.track\_classes}\spxextra{module}}
+Contains track classes which represents audio tracks.
+\index{Audio (class in preprocess.track\_classes)@\spxentry{Audio}\spxextra{class in preprocess.track\_classes}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.track_classes.Audio}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{preprocess.track\_classes.}}\sphinxbfcode{\sphinxupquote{Audio}}}{\emph{name}, \emph{path=None}, \emph{ext=None}}{}
+Bases: \sphinxcode{\sphinxupquote{object}}
+
+Represents an audio i.e, either mixture or sources
+\begin{quote}\begin{description}
+\item[{Variables}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{name}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} Audio file name
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{path}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} Absolute path audio file
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{\_data}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}) \textendash{} shape(nb\_samples, nb\_channels)
+Data of the audio files in time domain.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{\_sr}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} sampling rate of the audio
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{ext}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} extension of the audio
+
+\end{itemize}
+
+\end{description}\end{quote}
+\index{\_\_init\_\_() (preprocess.track\_classes.Audio method)@\spxentry{\_\_init\_\_()}\spxextra{preprocess.track\_classes.Audio method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.track_classes.Audio.__init__}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_init\_\_}}}{\emph{name}, \emph{path=None}, \emph{ext=None}}{}
+Initialising the Audio Object
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{name}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} 
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{path}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} Absolute path audio file
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{ext}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} extension of the audio
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{\_\_repr\_\_() (preprocess.track\_classes.Audio method)@\spxentry{\_\_repr\_\_()}\spxextra{preprocess.track\_classes.Audio method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.track_classes.Audio.__repr__}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_repr\_\_}}}{}{}
+Returns string representation of \sphinxtitleref{Audio}
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+String representation of \sphinxtitleref{Audio}
+
+\item[{Return type}] \leavevmode
+str
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{\_\_str\_\_() (preprocess.track\_classes.Audio method)@\spxentry{\_\_str\_\_()}\spxextra{preprocess.track\_classes.Audio method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.track_classes.Audio.__str__}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_str\_\_}}}{}{}
+Returns string representation of \sphinxtitleref{Audio}
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+String representation of \sphinxtitleref{Audio}
+
+\item[{Return type}] \leavevmode
+str
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{data (preprocess.track\_classes.Audio attribute)@\spxentry{data}\spxextra{preprocess.track\_classes.Audio attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.track_classes.Audio.data}}\pysigline{\sphinxbfcode{\sphinxupquote{data}}}
+Time series data samples of the audio file.
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+shape(nb\_samples, nb\_channels)
+Data of the audio files in time series.
+
+\item[{Return type}] \leavevmode
+ndarray
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{duration (preprocess.track\_classes.Audio attribute)@\spxentry{duration}\spxextra{preprocess.track\_classes.Audio attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.track_classes.Audio.duration}}\pysigline{\sphinxbfcode{\sphinxupquote{duration}}}
+Get duration of the audio file.
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+track duration in seconds
+
+\item[{Return type}] \leavevmode
+int
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{sr (preprocess.track\_classes.Audio attribute)@\spxentry{sr}\spxextra{preprocess.track\_classes.Audio attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.track_classes.Audio.sr}}\pysigline{\sphinxbfcode{\sphinxupquote{sr}}}
+Get sample rate of the Audio
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+sampling rate of audio in Hertz (Hz)
+
+\item[{Return type}] \leavevmode
+int
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+\index{Track (class in preprocess.track\_classes)@\spxentry{Track}\spxextra{class in preprocess.track\_classes}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.track_classes.Track}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{preprocess.track\_classes.}}\sphinxbfcode{\sphinxupquote{Track}}}{\emph{title=None}, \emph{dir\_path=None}, \emph{labels=\{'vocals'\}}}{}
+Bases: \sphinxcode{\sphinxupquote{object}}
+
+Represents an audio track sample i.e., a composition of mixture and its sources
+\begin{quote}\begin{description}
+\item[{Variables}] \leavevmode\begin{itemize}
+\item {} 
+{\hyperref[\detokenize{docs/source/application.model:application.model.Track.title}]{\sphinxcrossref{\sphinxstyleliteralstrong{\sphinxupquote{title}}}}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} Track title
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{dir\_path}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} Track directory path
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{\_mixture}} ({\hyperref[\detokenize{docs/source/preprocess:preprocess.track_classes.Audio}]{\sphinxcrossref{\sphinxstyleliteralemphasis{\sphinxupquote{Audio}}}}}) \textendash{} Mixture audio of the track
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{\_sources}} (\sphinxstyleliteralemphasis{\sphinxupquote{dict}}\sphinxstyleliteralemphasis{\sphinxupquote{{[}}}{\hyperref[\detokenize{docs/source/preprocess:preprocess.track_classes.Audio}]{\sphinxcrossref{\sphinxstyleliteralemphasis{\sphinxupquote{Audio}}}}}\sphinxstyleliteralemphasis{\sphinxupquote{{]}}}) \textendash{} Sources of the track
+
+\end{itemize}
+
+\end{description}\end{quote}
+\index{\_\_init\_\_() (preprocess.track\_classes.Track method)@\spxentry{\_\_init\_\_()}\spxextra{preprocess.track\_classes.Track method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.track_classes.Track.__init__}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_init\_\_}}}{\emph{title=None}, \emph{dir\_path=None}, \emph{labels=\{'vocals'\}}}{}
+Constructor of the Track object
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{title}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} title of track
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{dir\_path}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} track directory path
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{labels}} (\sphinxstyleliteralemphasis{\sphinxupquote{dict}}) \textendash{} labels to retrieve from the track
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{\_\_repr\_\_() (preprocess.track\_classes.Track method)@\spxentry{\_\_repr\_\_()}\spxextra{preprocess.track\_classes.Track method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.track_classes.Track.__repr__}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_repr\_\_}}}{}{}
+Returns string representation of Track
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+String representation of Track
+
+\item[{Return type}] \leavevmode
+str
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{\_\_str\_\_() (preprocess.track\_classes.Track method)@\spxentry{\_\_str\_\_()}\spxextra{preprocess.track\_classes.Track method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.track_classes.Track.__str__}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{\_\_str\_\_}}}{}{}
+Returns string representation of Track
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+String representation of Track
+
+\item[{Return type}] \leavevmode
+str
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{mixture (preprocess.track\_classes.Track attribute)@\spxentry{mixture}\spxextra{preprocess.track\_classes.Track attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.track_classes.Track.mixture}}\pysigline{\sphinxbfcode{\sphinxupquote{mixture}}}
+Returns the mixture of the track
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{mixture} \textendash{} mixture of audio of track
+
+\item[{Return type}] \leavevmode
+{\hyperref[\detokenize{docs/source/preprocess:preprocess.track_classes.Audio}]{\sphinxcrossref{Audio}}}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{sources (preprocess.track\_classes.Track attribute)@\spxentry{sources}\spxextra{preprocess.track\_classes.Track attribute}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.track_classes.Track.sources}}\pysigline{\sphinxbfcode{\sphinxupquote{sources}}}
+Generates the sources of the track
+\begin{quote}\begin{description}
+\item[{Returns}] \leavevmode
+\sphinxstylestrong{sources} \textendash{} list of audio sources
+
+\item[{Return type}] \leavevmode
+dict{[}{\hyperref[\detokenize{docs/source/preprocess:preprocess.track_classes.Audio}]{\sphinxcrossref{Audio}}}{]}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+
+
+\section{preprocess.utility module}
+\label{\detokenize{docs/source/preprocess:module-preprocess.utility}}\label{\detokenize{docs/source/preprocess:preprocess-utility-module}}\index{preprocess.utility (module)@\spxentry{preprocess.utility}\spxextra{module}}\index{read() (in module preprocess.utility)@\spxentry{read()}\spxextra{in module preprocess.utility}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.utility.read}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{preprocess.utility.}}\sphinxbfcode{\sphinxupquote{read}}}{\emph{path=None}, \emph{is\_wav=True}, \emph{stereo=True}}{}
+Reads an audio file in time series
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{path}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} Path of the audio file
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{is\_wav}} (\sphinxstyleliteralemphasis{\sphinxupquote{bool}}) \textendash{} File format of the file is wav.
+True by default.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{stereo}} (\sphinxstyleliteralemphasis{\sphinxupquote{bool}}) \textendash{} Read file as stereo. True by default.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+shape(nb\_samples, nb\_channels)
+
+\item[{Return type}] \leavevmode
+ndarray
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{to\_mono() (in module preprocess.utility)@\spxentry{to\_mono()}\spxextra{in module preprocess.utility}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.utility.to_mono}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{preprocess.utility.}}\sphinxbfcode{\sphinxupquote{to\_mono}}}{\emph{data}}{}
+Transforms a stereo track into mono track.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{data}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndArray}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{shape}}\sphinxstyleliteralemphasis{\sphinxupquote{ (}}\sphinxstyleliteralemphasis{\sphinxupquote{nb\_samples}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{nb\_channels}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} audio signal of \sphinxtitleref{ndim = 2}
+
+\item[{Returns}] \leavevmode
+shape=(nb\_samples, nb\_channels)
+audio signal of \sphinxtitleref{ndim = 1}
+
+\item[{Return type}] \leavevmode
+ndarray
+
+\end{description}\end{quote}
+\subsubsection*{Examples}
+
+Basic example on how stereo track array is converted to mono
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n}{x} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{array}\PYG{p}{(}\PYG{p}{[}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{]}\PYG{p}{,}\PYG{p}{[}\PYG{l+m+mi}{8}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mi}{9}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{,} \PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{6}\PYG{p}{]}\PYG{p}{]}\PYG{p}{)}
+\PYG{g+gp}{\PYGZgt{}\PYGZgt{}\PYGZgt{} }\PYG{n+nb}{print}\PYG{p}{(}\PYG{n}{to\PYGZus{}mono}\PYG{p}{(}\PYG{n}{data}\PYG{o}{=}\PYG{n}{x}\PYG{p}{)}\PYG{p}{)}
+\PYG{g+go}{[[4.5]}
+\PYG{g+go}{ [6.5]}
+\PYG{g+go}{ [6. ]}
+\PYG{g+go}{ [3. ]}
+\PYG{g+go}{ [4. ]]}
+\end{sphinxVerbatim}
+
+\end{fulllineitems}
+
+\index{write() (in module preprocess.utility)@\spxentry{write()}\spxextra{in module preprocess.utility}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/preprocess:preprocess.utility.write}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{preprocess.utility.}}\sphinxbfcode{\sphinxupquote{write}}}{\emph{path=None}, \emph{data=None}, \emph{sr=None}}{}
+Writes the music file.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{path}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} path to the file.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{data}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{shape}}\sphinxstyleliteralemphasis{\sphinxupquote{(}}\sphinxstyleliteralemphasis{\sphinxupquote{nb\_samples}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{nb\_channels}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} time series data.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{sr}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} sampling rate
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+
+\chapter{train package}
+\label{\detokenize{docs/source/train:train-package}}\label{\detokenize{docs/source/train::doc}}
+
+\section{train.model module}
+\label{\detokenize{docs/source/train:module-train.model}}\label{\detokenize{docs/source/train:train-model-module}}\index{train.model (module)@\spxentry{train.model}\spxextra{module}}\index{Generalised\_Recurrent\_Model (class in train.model)@\spxentry{Generalised\_Recurrent\_Model}\spxextra{class in train.model}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/train:train.model.Generalised_Recurrent_Model}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{class }}\sphinxcode{\sphinxupquote{train.model.}}\sphinxbfcode{\sphinxupquote{Generalised\_Recurrent\_Model}}}{\emph{nb\_features}, \emph{nb\_frames}, \emph{nb\_layers}, \emph{hidden\_size}, \emph{bidirectional=False}, \emph{mixture\_mean=None}, \emph{mixture\_scale=None}, \emph{label\_mean=None}, \emph{activation\_function='relu'}, \emph{recurrent\_layer='lstm'}}{}
+Bases: \sphinxcode{\sphinxupquote{torch.nn.modules.module.Module}}
+
+Generalised Model for neural networks with recurrent layers.
+
+The structure of the Model is:
+\begin{itemize}
+\item {} 
+\sphinxstylestrong{Fully Connected Layer} Dimensionality Reduction layer used for reducing the dimensionality of the input features. If recurrent layer features are too many it can have problems with long term dependencies (RNN will suffer from it the most).
+
+\item {} 
+\sphinxstylestrong{Recurrent Layer} It learns the time dependencies over the sample frames. LSTMs and GRUs will provide the best output, however RNN can be efficient and could provide good result over
+
+\item {} 
+\sphinxstylestrong{Fully Connected Layer} Dimensionality Expansion layer used for transforming the learned features to original shape.
+
+\end{itemize}
+\begin{quote}\begin{description}
+\item[{Variables}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{nb\_features}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} number of features(nb of bins) of input data.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{nb\_frames}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} number of frames or samples in each batch.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{nb\_layers}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} number of layers for recurrent layer.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{hidden\_size}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} number of hidden cells in the recurrent layer.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{mixture\_mean}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{shape}}\sphinxstyleliteralemphasis{\sphinxupquote{(}}\sphinxstyleliteralemphasis{\sphinxupquote{nb\_features}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} mean of mixture data.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{mixture\_scale}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{shape}}\sphinxstyleliteralemphasis{\sphinxupquote{(}}\sphinxstyleliteralemphasis{\sphinxupquote{nb\_features}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} scaled data of mixture.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{label\_mean}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{shape}}\sphinxstyleliteralemphasis{\sphinxupquote{(}}\sphinxstyleliteralemphasis{\sphinxupquote{nb\_features}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} mean of label data.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{activation\_function}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} activation function to use. “relu” by default, if “tanh” than tanh is used/
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{recurrent\_layer}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} recurrent layer to use. “lstm” by defalt, use “rnn” for RNN and “gru” for GRU.
+
+\end{itemize}
+
+\end{description}\end{quote}
+\index{forward() (train.model.Generalised\_Recurrent\_Model method)@\spxentry{forward()}\spxextra{train.model.Generalised\_Recurrent\_Model method}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/train:train.model.Generalised_Recurrent_Model.forward}}\pysiglinewithargsret{\sphinxbfcode{\sphinxupquote{forward}}}{\emph{x}}{}
+Every call of the forward pass.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode
+\sphinxstyleliteralstrong{\sphinxupquote{x}} (\sphinxstyleliteralemphasis{\sphinxupquote{input data to the model}}) \textendash{} 
+
+\item[{Returns}] \leavevmode
+output data from forward pass.
+
+\item[{Return type}] \leavevmode
+tensor (Tensor)
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+\end{fulllineitems}
+
+
+
+\section{train.train\_model module}
+\label{\detokenize{docs/source/train:module-train.train_model}}\label{\detokenize{docs/source/train:train-train-model-module}}\index{train.train\_model (module)@\spxentry{train.train\_model}\spxextra{module}}\index{evaluation() (in module train.train\_model)@\spxentry{evaluation()}\spxextra{in module train.train\_model}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/train:train.train_model.evaluation}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{train.train\_model.}}\sphinxbfcode{\sphinxupquote{evaluation}}}{\emph{dnn\_model}, \emph{device}, \emph{test\_tracks}, \emph{writer}, \emph{full\_evaluation=True}, \emph{trained\_on='vocals'}}{}
+This function performs the evaluation on the provided tracks and saves the logs the tensorboard summarywriter events.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{dnn\_model}} ({\hyperref[\detokenize{docs/source/train:train.model.Generalised_Recurrent_Model}]{\sphinxcrossref{\sphinxstyleliteralemphasis{\sphinxupquote{Generalised\_Recurrent\_Model}}}}}) \textendash{} Model to use for prediction
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{test\_tracks}} (\sphinxstyleliteralemphasis{\sphinxupquote{list}}\sphinxstyleliteralemphasis{\sphinxupquote{{[}}}{\hyperref[\detokenize{docs/source/application.model:application.model.Track}]{\sphinxcrossref{\sphinxstyleliteralemphasis{\sphinxupquote{Track}}}}}\sphinxstyleliteralemphasis{\sphinxupquote{{]}}}) \textendash{} list of tracks to be evaluated.
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{device}} (\sphinxstyleliteralemphasis{\sphinxupquote{torch.device}}) \textendash{} device to use
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{writer}} (\sphinxstyleliteralemphasis{\sphinxupquote{SummaryWriter}}) \textendash{} summary writer for writing TensorBoard summaries
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{full\_evaluation}} (\sphinxstyleliteralemphasis{\sphinxupquote{bool}}) \textendash{} True if full evaluation is to be performed, False if only one track needs to be evaluated
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{trained\_on}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} Labels of the trained model “vocals” or “accompaniment”
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{main() (in module train.train\_model)@\spxentry{main()}\spxextra{in module train.train\_model}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/train:train.train_model.main}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{train.train\_model.}}\sphinxbfcode{\sphinxupquote{main}}}{}{}
+\end{fulllineitems}
+
+\index{predict() (in module train.train\_model)@\spxentry{predict()}\spxextra{in module train.train\_model}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/train:train.train_model.predict}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{train.train\_model.}}\sphinxbfcode{\sphinxupquote{predict}}}{\emph{dnn\_model}, \emph{device}, \emph{data}, \emph{sr}, \emph{trained\_on='vocals'}}{}
+Predicts the estimates of vocals and accompaniment using the model provided.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{dnn\_model}} ({\hyperref[\detokenize{docs/source/train:train.model.Generalised_Recurrent_Model}]{\sphinxcrossref{\sphinxstyleliteralemphasis{\sphinxupquote{Generalised\_Recurrent\_Model}}}}}) \textendash{} model to use for prediction
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{device}} (\sphinxstyleliteralemphasis{\sphinxupquote{torch.device}}) \textendash{} device to use
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{data}} (\sphinxstyleliteralemphasis{\sphinxupquote{ndarray}}\sphinxstyleliteralemphasis{\sphinxupquote{(}}\sphinxstyleliteralemphasis{\sphinxupquote{nb\_samples}}\sphinxstyleliteralemphasis{\sphinxupquote{, }}\sphinxstyleliteralemphasis{\sphinxupquote{nb\_channels}}\sphinxstyleliteralemphasis{\sphinxupquote{)}}) \textendash{} data of mixture track in time series
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{sr}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} sampling rate of the mixture track
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{trained\_on}} (\sphinxstyleliteralemphasis{\sphinxupquote{str}}) \textendash{} Labels of the trained model “vocals” or “accompaniment”
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+\begin{itemize}
+\item {} 
+\sphinxstylestrong{acc\_estimate} (\sphinxstyleemphasis{ndarray, shape(nb\_samples, nb\_channels)}) \textendash{} Accompaniment estimates in time series
+
+\item {} 
+\sphinxstylestrong{vocals\_estimate} (\sphinxstyleemphasis{ndarray, shape(nb\_samples, nb\_channels)}) \textendash{} Vocals estimates in time series
+
+\end{itemize}
+
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{random\_batch\_sampler() (in module train.train\_model)@\spxentry{random\_batch\_sampler()}\spxextra{in module train.train\_model}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/train:train.train_model.random_batch_sampler}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{train.train\_model.}}\sphinxbfcode{\sphinxupquote{random\_batch\_sampler}}}{\emph{dataset}, \emph{nb\_frames=128}}{}
+Random batch sampler.
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{dataset}} ({\hyperref[\detokenize{docs/source/dataset:dataset.Dataset}]{\sphinxcrossref{\sphinxstyleliteralemphasis{\sphinxupquote{Dataset}}}}}) \textendash{} Dataset object
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{nb\_frames}} (\sphinxstyleliteralemphasis{\sphinxupquote{int}}) \textendash{} number of samples or frames per batch.
+
+\end{itemize}
+
+\item[{Returns}] \leavevmode
+dictionary with mixture and label
+
+\item[{Return type}] \leavevmode
+dict
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+\index{train() (in module train.train\_model)@\spxentry{train()}\spxextra{in module train.train\_model}}
+
+\begin{fulllineitems}
+\phantomsection\label{\detokenize{docs/source/train:train.train_model.train}}\pysiglinewithargsret{\sphinxcode{\sphinxupquote{train.train\_model.}}\sphinxbfcode{\sphinxupquote{train}}}{\emph{dnn\_model}, \emph{device}, \emph{dataset\_loader}, \emph{loss\_function}, \emph{optimizer}, \emph{writer}}{}
+trains the \sphinxtitleref{dnn\_model}
+\begin{quote}\begin{description}
+\item[{Parameters}] \leavevmode\begin{itemize}
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{dnn\_model}} ({\hyperref[\detokenize{docs/source/train:train.model.Generalised_Recurrent_Model}]{\sphinxcrossref{\sphinxstyleliteralemphasis{\sphinxupquote{Generalised\_Recurrent\_Model}}}}}) \textendash{} Model to Train
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{device}} (\sphinxstyleliteralemphasis{\sphinxupquote{torch.device}}) \textendash{} device to use
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{dataset\_loader}} (\sphinxstyleliteralemphasis{\sphinxupquote{object}}) \textendash{} Dataset batch generator
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{loss\_function}} (\sphinxstyleliteralemphasis{\sphinxupquote{object}}) \textendash{} loss function either relu or tanh from PyTorch
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{optimizer}} (\sphinxstyleliteralemphasis{\sphinxupquote{object}}) \textendash{} optimizer to use for example, Adam or RMSProp
+
+\item {} 
+\sphinxstyleliteralstrong{\sphinxupquote{writer}} (\sphinxstyleliteralemphasis{\sphinxupquote{SummaryWriter}}) \textendash{} summary writer for writing TensorBoard summaries
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+\end{fulllineitems}
+
+
+
+\renewcommand{\indexname}{Python Module Index}
+\begin{sphinxtheindex}
+\let\bigletter\sphinxstyleindexlettergroup
+\bigletter{a}
+\item\relax\sphinxstyleindexentry{application.config}\sphinxstyleindexpageref{docs/source/application:\detokenize{module-application.config}}
+\item\relax\sphinxstyleindexentry{application.controllers.file\_actions}\sphinxstyleindexpageref{docs/source/application.controllers:\detokenize{module-application.controllers.file_actions}}
+\item\relax\sphinxstyleindexentry{application.controllers.predict}\sphinxstyleindexpageref{docs/source/application.controllers:\detokenize{module-application.controllers.predict}}
+\item\relax\sphinxstyleindexentry{application.model}\sphinxstyleindexpageref{docs/source/application.model:\detokenize{module-application.model}}
+\indexspace
+\bigletter{c}
+\item\relax\sphinxstyleindexentry{common.input\_handler}\sphinxstyleindexpageref{docs/source/common:\detokenize{module-common.input_handler}}
+\item\relax\sphinxstyleindexentry{config}\sphinxstyleindexpageref{docs/source/config:\detokenize{module-config}}
+\indexspace
+\bigletter{d}
+\item\relax\sphinxstyleindexentry{dataset}\sphinxstyleindexpageref{docs/source/dataset:\detokenize{module-dataset}}
+\indexspace
+\bigletter{p}
+\item\relax\sphinxstyleindexentry{preprocess.data}\sphinxstyleindexpageref{docs/source/preprocess:\detokenize{module-preprocess.data}}
+\item\relax\sphinxstyleindexentry{preprocess.pre\_process}\sphinxstyleindexpageref{docs/source/preprocess:\detokenize{module-preprocess.pre_process}}
+\item\relax\sphinxstyleindexentry{preprocess.preprocess\_tools}\sphinxstyleindexpageref{docs/source/preprocess:\detokenize{module-preprocess.preprocess_tools}}
+\item\relax\sphinxstyleindexentry{preprocess.track\_classes}\sphinxstyleindexpageref{docs/source/preprocess:\detokenize{module-preprocess.track_classes}}
+\item\relax\sphinxstyleindexentry{preprocess.utility}\sphinxstyleindexpageref{docs/source/preprocess:\detokenize{module-preprocess.utility}}
+\indexspace
+\bigletter{t}
+\item\relax\sphinxstyleindexentry{train.model}\sphinxstyleindexpageref{docs/source/train:\detokenize{module-train.model}}
+\item\relax\sphinxstyleindexentry{train.train\_model}\sphinxstyleindexpageref{docs/source/train:\detokenize{module-train.train_model}}
+\end{sphinxtheindex}
 
 \renewcommand{\indexname}{Index}
 \printindex

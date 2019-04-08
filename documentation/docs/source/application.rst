@@ -7,23 +7,12 @@ Subpackages
 .. toctree::
 
     application.controllers
-
-Submodules
-----------
+    application.model
 
 application.config module
 -------------------------
 
 .. automodule:: application.config
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
-Module contents
----------------
-
-.. automodule:: application
     :members:
     :undoc-members:
     :show-inheritance:

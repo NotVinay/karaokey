@@ -1,9 +1,6 @@
 application.controllers package
 ===============================
 
-Submodules
-----------
-
 application.controllers.file\_actions module
 --------------------------------------------
 
@@ -20,11 +17,3 @@ application.controllers.predict module
     :undoc-members:
     :show-inheritance:
 
-
-Module contents
----------------
-
-.. automodule:: application.controllers
-    :members:
-    :undoc-members:
-    :show-inheritance:

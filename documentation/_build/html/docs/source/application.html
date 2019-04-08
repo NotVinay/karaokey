@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>application package &mdash; Karaokey alpha documentation</title>
+  <title>application package &mdash; Karaokey beta documentation</title>
   
 
   
@@ -90,19 +90,16 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">application package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="application.controllers.html">application.controllers package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="application.model.html">application.model package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-application.config">application.config module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-application">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="common.html">common package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">config package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dataset.html">dataset package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="preprocess.html">preprocess package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="t_model.html">t_model module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tests.html">tests package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="train.html">train package</a></li>
 </ul>
 
@@ -175,96 +172,20 @@
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="application.controllers.html">application.controllers package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="application.controllers.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="application.controllers.html#module-application.controllers.file_actions">application.controllers.file_actions module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="application.controllers.html#module-application.controllers.predict">application.controllers.predict module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="application.controllers.html#module-application.controllers">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="application.model.html">application.model package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="application.model.html#module-application.model">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
 <div class="section" id="module-application.config">
 <span id="application-config-module"></span><h2>application.config module<a class="headerlink" href="#module-application.config" title="Permalink to this headline">¶</a></h2>
 <p>Contains the configuration of the Flask app and other constants</p>
-</div>
-<div class="section" id="module-application">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-application" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="application.about_page">
-<code class="descclassname">application.</code><code class="descname">about_page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.about_page" title="Permalink to this definition">¶</a></dt>
-<dd><p>Renders about page</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="application.clearSession">
-<code class="descclassname">application.</code><code class="descname">clearSession</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.clearSession" title="Permalink to this definition">¶</a></dt>
-<dd><p>Clears the session</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="application.download">
-<code class="descclassname">application.</code><code class="descname">download</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.download" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sends requested file for the <cite>token</cite> in <cite>session</cite>.
-Token authentication ensures that file is only accessed by the user which it belongs to.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="application.error_404">
-<code class="descclassname">application.</code><code class="descname">error_404</code><span class="sig-paren">(</span><em>error</em><span class="sig-paren">)</span><a class="headerlink" href="#application.error_404" title="Permalink to this definition">¶</a></dt>
-<dd><p>Renders 404 - Page not found error page</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="application.error_405">
-<code class="descclassname">application.</code><code class="descname">error_405</code><span class="sig-paren">(</span><em>error</em><span class="sig-paren">)</span><a class="headerlink" href="#application.error_405" title="Permalink to this definition">¶</a></dt>
-<dd><p>Renders 405 - Method Not Allowed Error page</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="application.error_500">
-<code class="descclassname">application.</code><code class="descname">error_500</code><span class="sig-paren">(</span><em>error</em><span class="sig-paren">)</span><a class="headerlink" href="#application.error_500" title="Permalink to this definition">¶</a></dt>
-<dd><p>Renders 500 - Internal Server Error page</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="application.help_page">
-<code class="descclassname">application.</code><code class="descname">help_page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.help_page" title="Permalink to this definition">¶</a></dt>
-<dd><p>Renders faq page</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="application.home_page">
-<code class="descclassname">application.</code><code class="descname">home_page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.home_page" title="Permalink to this definition">¶</a></dt>
-<dd><p>Renders home page</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="application.reults_page">
-<code class="descclassname">application.</code><code class="descname">reults_page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.reults_page" title="Permalink to this definition">¶</a></dt>
-<dd><p>Renders Results of Process page</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="application.separate">
-<code class="descclassname">application.</code><code class="descname">separate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.separate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Handles the separation http request from user.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">containing <cite>token</cite> for separation if separation is successful.
-or containing <cite>error</cite> if separation fails.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">dict</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 </div>
 </div>
 

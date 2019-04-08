@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>application.controllers package &mdash; Karaokey alpha documentation</title>
+  <title>application.controllers package &mdash; Karaokey beta documentation</title>
   
 
   
@@ -36,7 +36,7 @@
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="common package" href="common.html" />
+    <link rel="next" title="application.model package" href="application.model.html" />
     <link rel="prev" title="application package" href="application.html" /> 
 </head>
 
@@ -90,25 +90,20 @@
 <li class="toctree-l1 current"><a class="reference internal" href="application.html">application package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="application.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l3 current"><a class="current reference internal" href="#">application.controllers package</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-application.controllers.file_actions">application.controllers.file_actions module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#module-application.controllers.predict">application.controllers.predict module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#module-application.controllers">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="application.model.html">application.model package</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="application.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="application.html#module-application.config">application.config module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="application.html#module-application">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="common.html">common package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">config package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dataset.html">dataset package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="preprocess.html">preprocess package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="t_model.html">t_model module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tests.html">tests package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="train.html">train package</a></li>
 </ul>
 
@@ -178,9 +173,6 @@
             
   <div class="section" id="application-controllers-package">
 <h1>application.controllers package<a class="headerlink" href="#application-controllers-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
 <div class="section" id="module-application.controllers.file_actions">
 <span id="application-controllers-file-actions-module"></span><h2>application.controllers.file_actions module<a class="headerlink" href="#module-application.controllers.file_actions" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
@@ -195,20 +187,18 @@
 <dt id="application.controllers.file_actions.get_audio_file_path">
 <code class="descclassname">application.controllers.file_actions.</code><code class="descname">get_audio_file_path</code><span class="sig-paren">(</span><em>file_name</em><span class="sig-paren">)</span><a class="headerlink" href="#application.controllers.file_actions.get_audio_file_path" title="Permalink to this definition">¶</a></dt>
 <dd><p>gets the absolute file path of the file by checking the available session token.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>file_name</strong> (<em>str</em>) – name of the file to retrieve</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><ul class="simple">
-<li><em>str</em> – if file_path is valid and available for the user</li>
-<li><em>bool</em> – False if file_path is not valid</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file_name</strong> (<em>str</em>) – name of the file to retrieve</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>str</em> – if file_path is valid and available for the user</p></li>
+<li><p><em>bool</em> – False if file_path is not valid</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -216,50 +206,45 @@
 <code class="descclassname">application.controllers.file_actions.</code><code class="descname">remove_session_token</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.controllers.file_actions.remove_session_token" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes the <cite>token</cite> from the <cite>session</cite>
 and also removes the directory associated with this session.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if successfully removed and False otherwise</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True if successfully removed and False otherwise</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="application.controllers.file_actions.save_file">
 <code class="descclassname">application.controllers.file_actions.</code><code class="descname">save_file</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#application.controllers.file_actions.save_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Saves the uploaded music file on the server so that it can be processed by the model.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if successfully saved, False otherwise</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>True if successfully saved, False otherwise</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="application.controllers.file_actions.supported_file">
 <code class="descclassname">application.controllers.file_actions.</code><code class="descname">supported_file</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="headerlink" href="#application.controllers.file_actions.supported_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if the file is supported by the application is not or not.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<em>str</em>) – file name of the file</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if supported by application and False otherwise</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – file name of the file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if supported by application and False otherwise</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -269,19 +254,13 @@ and also removes the directory associated with this session.</p>
 <dt id="application.controllers.predict.separate_file">
 <code class="descclassname">application.controllers.predict.</code><code class="descname">separate_file</code><span class="sig-paren">(</span><em>dir_path</em><span class="sig-paren">)</span><a class="headerlink" href="#application.controllers.predict.separate_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Separates and saves the music file into vocals and accompaniment.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dir_path</strong> (<em>str</em>) – directory path</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dir_path</strong> (<em>str</em>) – directory path</p>
+</dd>
+</dl>
 </dd></dl>
 
-</div>
-<div class="section" id="module-application.controllers">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-application.controllers" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -293,7 +272,7 @@ and also removes the directory associated with this session.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="common.html" class="btn btn-neutral float-right" title="common package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="application.model.html" class="btn btn-neutral float-right" title="application.model package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="application.html" class="btn btn-neutral float-left" title="application package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

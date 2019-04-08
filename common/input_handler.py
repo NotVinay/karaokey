@@ -1,12 +1,6 @@
 """
-Module to handle the user inputs through console.s
-
-
-Notes
------
-
+Module to handle the user inputs through console.
 """
-
 
 def get_input_str(msg="Please enter",
                   only_accept=None,
@@ -41,9 +35,9 @@ def get_input_str(msg="Please enter",
     return user_input
 
 
-def get_input_int(msg = "Please enter",
-                  only_accept = None,
-                  error_msg = "Please enter valid") -> int:
+def get_input_int(msg="Please enter",
+                  only_accept=None,
+                  error_msg="Please enter valid") -> int:
     """
     Function to handle integer inputs from consoles.
 
@@ -79,7 +73,7 @@ def get_input_int(msg = "Please enter",
 
 
 def get_confirmation(msg="Confirm",
-                    error_msg="Please select y or n"):
+                     error_msg="Please select y or n"):
     """
     Function to get confirmation from user through consoles.
 

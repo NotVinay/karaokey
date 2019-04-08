@@ -12,6 +12,4 @@ Karaokey Documentation
    docs/source/config
    docs/source/dataset
    docs/source/preprocess
-   docs/source/t_model
-   docs/source/tests
    docs/source/train
