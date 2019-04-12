@@ -1,4 +1,7 @@
 numpy
+matplotlib
+scikit-learn
+scipy
 msgpack
 stempeg
 tqdm
@@ -6,11 +9,11 @@ soundfile
 librosa
 git+https://github.com/sigsep/norbert@0.1.0c#egg=norbert
 flask
+flask_sqlalchemy
+pymysql
 ipdb
 tensorboard
 tensorboardX
-sphinx
-sphinx-rtd-theme
 
 # pytorch for gpu (CUDA10 and python 3.7)
 https://download.pytorch.org/whl/cu100/torch-1.0.1-cp37-cp37m-win_amd64.whl
@@ -18,5 +21,7 @@ torchvision
 
 # museval
 # notebook==5.7.5
-# flask_sqlalchemy
-# pymysql
+
+# for generation of documentation only
+# sphinx
+# sphinx-rtd-theme
