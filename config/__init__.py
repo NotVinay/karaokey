@@ -22,7 +22,7 @@ class DATASET_CONFIG:
 
 
 class TRAIN_CONFIG:
-    TRAINED_ON = 'vocals'
+    TRAINED_ON = 'accompaniment'
     NB_SAMPLES = 256
     NB_BINS = 2049
     NB_BATCHES = 16
