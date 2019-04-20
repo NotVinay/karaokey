@@ -39,6 +39,17 @@ def random_batch_sampler(dataset, nb_frames=128):
     -------
     dict
         dictionary with mixture and label
+
+    Notes
+    -----
+    The random batch generator code is adapted from the source:
+    https://colab.research.google.com/drive/1kZC0nsFShgXT-cQLs-DfPNovO_iykFbK
+
+    References
+    ----------
+    .. [1] Liutkus, A. and Stöter, F. (2018). "Music separation with DNNs: making it work. 
+       Music separation with DNNs: making it work." 
+       Available from: https://sigsep.github.io/ismir2018_tutorial/index.html#/cover [Accessed 30 November 2018].
     """
     while True:
         while True:

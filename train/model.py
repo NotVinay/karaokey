@@ -41,6 +41,20 @@ class Generalised_Recurrent_Model(Module):
         activation function to use. "relu" by default, if "tanh" than tanh is used/
     recurrent_layer: str
         recurrent layer to use. "lstm" by defalt, use "rnn" for RNN and "gru" for GRU.
+
+    Notes
+    -----
+    The model architecture is adapted from the source:
+    https://colab.research.google.com/drive/1kZC0nsFShgXT-cQLs-DfPNovO_iykFbK
+
+    This model is generalised version and incorporates many additional options for activation functions, RNNs and GRUs.
+    This makes the architecture completely different from the source provided above.
+
+    References
+    ----------
+    .. [1] Liutkus, A. and Stöter, F. (2018). "Music separation with DNNs: making it work. 
+       Music separation with DNNs: making it work." 
+       Available from: https://sigsep.github.io/ismir2018_tutorial/index.html#/cover [Accessed 30 November 2018].
     """
     def __init__(self,
                  nb_features,
