@@ -1,0 +1,39 @@
+{% extends 'index.html' %}
+
+{% block body %}
+<div class="container mb-4">
+    <div class="row mt-4">
+        <div class="col-12">
+            <h3 class="font-weight-bold mt-2 text-center">
+                Qualitative Analysis Sample results
+            </h3>
+        </div>
+    </div>
+    {% for track_dir in track_dirs %}
+        <div class="mt-3 card shadow">
+            <h5 class="card-header text-center text-light bg-info">{{ track_dir }} </h5>
+            <div class="card-body">
+                <div class="row mb-2 justify-content-center">
+                    <div class="col-12 font-weight-bold text-center mb-1 mr-md-4">Mixture</div>
+                    <audio controls class="col-md-12 col-lg-8 align-self-center mb-2 mb-md-0" preload="metadata">
+                        <source src="{{ url_for('static', filename='qualitative_analysis_results/'+track_dir+'/mixture.wav') }}" type="audio/wav">
+                    </audio>
+                </div>
+                <div class="row mb-2 justify-content-center">
+                    <div class="col-12 font-weight-bold text-center mb-1 mr-md-4">Vocal</div>
+                    <audio controls class="col-md-12 col-lg-8 align-self-center mb-2 mb-md-0" preload="metadata">
+                        <source src="{{ url_for('static', filename='qualitative_analysis_results/'+track_dir+'/vocals.wav') }}" type="audio/wav">
+                    </audio>
+                </div>
+                <div class="row mb-2 justify-content-center">
+                    <div class="col-12 font-weight-bold text-center mb-1 mr-md-4">Predicted Instrumental</div>
+                    <audio controls class="col-md-12 col-lg-8 align-self-center mb-2 mb-md-0" preload="metadata">
+                        <source src="{{ url_for('static', filename='qualitative_analysis_results/'+track_dir+'/accompaniment.wav') }}" type="audio/wav">
+                    </audio>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
+

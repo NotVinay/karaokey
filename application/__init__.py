@@ -60,6 +60,17 @@ def research_study_page():
     _, folders, _ = next(os.walk(dir_path))
     return render_template('research.html', track_dirs=folders)
 
+
+@app.route('/samples')
+def samples_page():
+    """
+        Shows the results of qualitative samples
+    """
+    page = 'samples'
+    dir_path = os.path.join(app.config['ROOT'], 'static/qualitative_analysis_results')
+    _, folders, _ = next(os.walk(dir_path))
+    return render_template('samples.html', track_dirs=sorted(folders))
+
 """
     ------------------------------
             GETS AND POSTS
