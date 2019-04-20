@@ -24,7 +24,7 @@ ROOT = os.path.dirname(os.path.realpath(__file__))
 AUDIO_DIR = os.path.join(ROOT, 'audio/')
 MODEL_PATH = os.path.join(ROOT, 'controllers/models/30_2019-04-07_11-49_Generalised_Recurrent_Model_relu_accompaniment_B16_H512_S5000_adam.pt')
 SUPPORTED_EXTENSIONS = [".aac",
-                        ".aif",
+                        ".aiff",
                         ".au",
                         ".flac",
                         ".gsm",
@@ -34,4 +34,8 @@ SUPPORTED_EXTENSIONS = [".aac",
                         ".wav",
                         ".wma",
                         ".wav",
-                        ".m4a"]
+                        ".m4a",
+                        ".opus",
+                        ".ac3",
+                        ".amr",
+                        ".mka"]
