@@ -1,6 +1,13 @@
 from application import db
 import datetime
 
+__author__ = "Vinay Patel"
+__version__ = "0.1.0"
+__maintainer__ = "Vinay Patel"
+__email__ = "w1572032@my.westminster.ac.uk"
+__status__ = "Production"
+
+
 class Track(db.Model):
     """
     Model for track table.

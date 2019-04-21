@@ -4,6 +4,13 @@ Static configurations for packages.
 
 import numpy as np
 
+__author__ = "Vinay Patel"
+__version__ = "0.1.0"
+__maintainer__ = "Vinay Patel"
+__email__ = "w1572032@my.westminster.ac.uk"
+__status__ = "Production"
+
+
 #   smallest possible positive float value
 #   usefull for avoiding "0" values such is in case of division by zero
 EPS = np.finfo(np.float).eps

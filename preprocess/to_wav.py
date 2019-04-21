@@ -13,6 +13,12 @@ import os
 import numpy as np
 import preprocess.utility as sp
 
+__author__ = "Vinay Patel"
+__version__ = "0.1.0"
+__maintainer__ = "Vinay Patel"
+__email__ = "w1572032@my.westminster.ac.uk"
+__status__ = "Production"
+
 
 def convert_to_wav(dir_path,
                    wav_dir_path):

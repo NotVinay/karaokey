@@ -5,8 +5,8 @@ import os
 from datetime import timedelta
 
 # Only for Development Stage
-DEBUG = True
-TESTING = True
+# DEBUG = True
+# TESTING = True
 
 # setting session
 SESSION_COOKIE_NAME = 'session'

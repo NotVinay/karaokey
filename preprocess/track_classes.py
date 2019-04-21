@@ -6,6 +6,12 @@ Contains track classes which represents audio tracks.
 import os
 import preprocess.utility as sp
 
+__author__ = "Vinay Patel"
+__version__ = "0.1.0"
+__maintainer__ = "Vinay Patel"
+__email__ = "w1572032@my.westminster.ac.uk"
+__status__ = "Production"
+
 
 class Audio:
     """

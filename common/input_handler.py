@@ -2,6 +2,13 @@
 Module to handle the user inputs through console.
 """
 
+__author__ = "Vinay Patel"
+__version__ = "0.1.0"
+__maintainer__ = "Vinay Patel"
+__email__ = "w1572032@my.westminster.ac.uk"
+__status__ = "Production"
+
+
 def get_input_str(msg="Please enter",
                   only_accept=None,
                   error_msg="Please enter valid"):

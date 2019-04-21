@@ -4,6 +4,12 @@ from train.train_model import predict
 import preprocess.utility as sp
 from flask import current_app as app
 
+__author__ = "Vinay Patel"
+__version__ = "0.1.0"
+__maintainer__ = "Vinay Patel"
+__email__ = "w1572032@my.westminster.ac.uk"
+__status__ = "Production"
+
 
 def separate_file(dir_path):
     """
