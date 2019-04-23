@@ -174,7 +174,7 @@ def evaluation(dnn_model,
                                        np.copy(track.sources["accompaniment"].data)])
 
             # evaluating the metrics
-            SDR, SIR, ISR, SAR = museval.evaluate(reference_list, estimates_list)
+            SDR, ISR, SIR, SAR = museval.evaluate(reference_list, estimates_list)
 
             # getting mean of the metrics
             SDR_mean = np.mean(SDR, axis=1)
