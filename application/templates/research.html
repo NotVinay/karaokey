@@ -70,19 +70,19 @@
                 <div class="card-body">
                     <div class="row mb-2 justify-content-center">
                         <div class="col-12 font-weight-bold text-center mb-1 mr-md-4">Mixture</div>
-                        <audio controls class="col-md-12 col-lg-8 align-self-center mb-2 mb-md-0" preload="auto">
+                        <audio controls class="col-md-12 col-lg-8 align-self-center mb-2 mb-md-0" preload="none">
                             <source src="{{ url_for('static', filename='cognitive_research/'+track_dir+'/mixture.wav') }}" type="audio/wav">
                         </audio>
                     </div>
                     <div class="row mb-2 justify-content-center">
                         <div class="col-12 font-weight-bold text-center mb-1 mr-md-4">Original Instrumental</div>
-                        <audio controls class="col-md-12 col-lg-8 align-self-center mb-2 mb-md-0" preload="auto">
+                        <audio controls class="col-md-12 col-lg-8 align-self-center mb-2 mb-md-0" preload="none">
                             <source src="{{ url_for('static', filename='cognitive_research/'+track_dir+'/accompaniment.wav') }}" type="audio/wav">
                         </audio>
                     </div>
                     <div class="row mb-2 justify-content-center">
                         <div class="col-12 font-weight-bold text-center mb-1 mr-md-4">Predicted Instrumental</div>
-                        <audio controls class="col-md-12 col-lg-8 align-self-center mb-2 mb-md-0" preload="auto">
+                        <audio controls class="col-md-12 col-lg-8 align-self-center mb-2 mb-md-0" preload="none">
                             <source src="{{ url_for('static', filename='cognitive_research/'+track_dir+'/predicted_accompaniment.wav') }}" type="audio/wav">
                         </audio>
                     </div>

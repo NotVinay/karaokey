@@ -69,3 +69,29 @@ input[type=checkbox]
 .text-break {
     word-break: break-word
 }
+
+h1{
+	font-size: 2rem;
+}
+
+h4{
+  font-size: 1rem;
+}
+
+legend{
+  font-size: 1.25rem;
+}
+
+@media screen and (min-width:768px){
+	h1{
+		font-size: 2.5rem;
+	}
+
+  h4{
+    font-size: 1.5rem;
+  }
+
+  legend{
+    font-size: 1.5rem;
+  }
+}
