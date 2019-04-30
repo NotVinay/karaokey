@@ -15,8 +15,10 @@ ipdb
 tensorboard
 tensorboardX
 
-# pytorch for gpu (CUDA10 and python 3.7)
+# pytorch for gpu (CUDA10 and python 3.7) on windows machine
 https://download.pytorch.org/whl/cu100/torch-1.0.1-cp37-cp37m-win_amd64.whl
+# for linux machine
+# https://download.pytorch.org/whl/cu100/torch-1.0.1.post2-cp37-cp37m-linux_x86_64.whl
 torchvision
 
 # museval
