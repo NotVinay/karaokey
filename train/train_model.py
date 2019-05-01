@@ -9,7 +9,7 @@ from train.model import Generalised_Recurrent_Model
 from tensorboardX import SummaryWriter
 import museval
 import norbert
-from config import TRAIN_CONFIG, DATASET_CONFIG
+from config import TRAIN_CONFIG, DATASET_CONFIG, PREPROCESS_CONFIG
 from dataset import Dataset
 import preprocess.utility as sp
 from preprocess.preprocess_tools import Scaler, STFT
@@ -385,7 +385,7 @@ def main():
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     torch.manual_seed(42)
-    dataset = Dataset(dir_path=r"C:\Users\w1572032.INTRANET.001\Desktop\pro_dataset",
+    dataset = Dataset(dir_path=PREPROCESS_CONFIG.PATH,
                       sub_set="train",
                       source_label=TRAIN_CONFIG.TRAINED_ON,
                       lazy_load=True)
