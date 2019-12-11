@@ -55,7 +55,3 @@ Run flask app
 ```bash
 flask run
 ```
-
-## Deployment
-
-The app is deployed at https://karaokey.co.uk.
