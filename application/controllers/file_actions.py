@@ -4,6 +4,7 @@ import librosa as lib
 import secrets
 from flask import request, session
 from flask import current_app as app
+from werkzeug.utils import safe_join
 
 
 __author__ = "Vinay Patel"
@@ -136,7 +137,7 @@ def get_audio_file_path(file_name):
         if session['token'] and session['token'] is not None:
             # build file path
             dir_path = os.path.join(app.config['AUDIO_DIR'], session['token'])
-            file_path = os.path.join(dir_path, file_name)
+            file_path = safe_join(dir_path, file_name)
             if os.path.isdir(dir_path) and os.path.isfile(file_path):
                 # file exists
                 return file_path
