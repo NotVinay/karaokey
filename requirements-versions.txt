@@ -1,7 +1,7 @@
 numpy==1.16.1
 matplotlib==3.0.2
 scikit-learn==0.20.3
-scipy==1.2.1
+scipy==1.10.0
 msgpack==0.6.1
 stempeg==0.1.6
 tqdm==4.31.1
